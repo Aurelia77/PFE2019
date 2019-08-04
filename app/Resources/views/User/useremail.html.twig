@@ -1,0 +1,11 @@
+{% extends "/layout.html.twig" %}
+
+{% block title %}AppBundle:User:userEmail{% endblock title %}
+
+{% block content %}
+
+  {% include "Includes/usermenu.html.twig" %}
+
+  {{form(changeEmailForm)}}
+
+{% endblock content %}

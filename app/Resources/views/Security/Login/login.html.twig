@@ -1,0 +1,28 @@
+{% extends "/layout.html.twig" %}
+
+{% block content %}
+    <h1 class="mt-5 mb-5">Login</h1>
+    {% if error %}
+        {% if error.code == 0 %}
+            <div class="alert alert-danger">Mauvais identifiants</div>
+        {% endif %}
+    {% endif %}
+
+    <form action="{{ path('login') }}" method="post">
+        <p>
+            <label for="username">Email:</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+        </p>
+
+        <p>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="_password"/>
+        </p>
+
+        <p>
+            <button type="submit" class="btn btn-info">Se connecter</button>
+        </p>
+    </form>
+    <a href="{{ path('lostpassword') }}">Mot de passe perdu</a><br>
+    <a href="{{ path('register') }}">Créer un compte</a>
+{% endblock content %}

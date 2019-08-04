@@ -1,0 +1,81 @@
+{#<a {% if app.request.get('_route') == 'users_register' %}class="active"{% endif %} href="{{ path('users_register') }}">Inscription</a>#}
+{#<a {% if app.request.get('_route') == 'users_list' %}class="active"{% endif %}  href="{{ path('users_list') }}">Liste d'utilisateurs</a>#}
+
+
+<nav>
+    <a {% if app.request.get('_route') == 'home' %} class="active"{% endif %} href="{{ path('home') }}">
+        <img src="../images/logoDieseBemol.png" alt="Logo Entre Dièses et Bémol" height="50px" class="border_img">
+    </a>
+
+    <a {% if app.request.get('_route') == 'faq' %}class="active"{% endif %} href="{{ path('faq') }}">
+        FAQ
+    </a>
+
+    {#<a {% if app.request.get('_route') == 'faq' %}class="active"{% endif %} href="{{ path('faq') }}">#}
+        {#Droits d'auteurs#}
+    {#</a>#}
+
+
+
+
+    {#<a {% if app.request.get('_route') == 'musique' %} class="active"{% endif %} href="{{ path('musique') }}">#}
+    {#Musique#}
+    {#</a>#}
+    {#<a {% if app.request.get('_route') == 'partager' %} class="active"{% endif %} href="{{ path('partager') }}">#}
+    {#Partager#}
+    {#</a>#}
+    {#<a {% if app.request.get('_route') == 'membres' %} class="active"{% endif %} href="{{ path('membres') }}">#}
+    {#Membres#}
+    {#</a>#}
+
+    <a {% if app.request.get('_route') == 'administrination' %}class="active"{% endif %} href="{{ path('administration') }}">
+        Administration
+    </a>
+
+
+
+    <a {% if app.request.get('_route') == 'dashboard' %}class="active"{% endif %} href="{{ path('dashboard') }}">
+        Dashboard
+    </a>
+
+    {# Prénom du membre connecté (pas besoin de mettre des chose ds le controleur !!!) #}
+    <b class="ml-10">
+        {#You only have this if you’ve actually logged in during this session. If you’re logged in because of a remember me cookie, you won’t have this :#}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+            {# On affiche le nom et le prénom de l'utilisateur dans la base de données, si ils existent #}
+            {#{% if app.user.lastName is defined %}#}
+                {#{{ app.user.lastName }}#}
+            {#{% endif %}#}
+            {% if app.user.firstName is defined %}
+                {{ app.user.firstName }}
+            {% endif %}
+
+        {% endif %}
+    </b>
+
+    <li class="float-right">
+        <ul class="">
+            {# Non Connecté #}
+            <a {% if is_granted('IS_AUTHENTICATED_FULLY') %} class="cache"{% endif %} {% if app.request.get('_route') == 'register' %} class="active"{% endif %}
+                    href="{{ path('register') }}">
+                M'inscrire
+            </a>
+            <a {% if is_granted('IS_AUTHENTICATED_FULLY') %} class="cache"{% endif %} {% if app.request.get('_route') == 'login' %} class="active"{% endif %}
+                    href="{{ path('login') }}">
+                Me connecter
+            </a>
+
+            {# Connecté #}
+            <a {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="cache"{% endif %} {% if app.request.get('_route') == 'user' %} class="active"{% endif %}
+                    href="{{ path('user') }}">
+                Mon Compte
+            </a>
+
+            <a {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="cache"{% endif %} href="{{ path('logout') }}">
+                Se déconnecter
+            </a>
+        </ul>
+    </li>
+</nav>
+

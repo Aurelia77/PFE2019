@@ -1,0 +1,11 @@
+<div>
+    <a {% if app.request.get('_route') == 'user' %}class="active"{% endif %} href="{{ path('user') }}">
+        Infos
+    </a>
+    <a {% if app.request.get('_route') == 'userpassword' %}class="active"{% endif %} href="{{ path('userpassword') }}">
+        Mot de passe
+    </a>
+    <a {% if app.request.get('_route') == 'useremail' %}class="active"{% endif %} href="{{ path('useremail') }}">
+        Email
+    </a>
+</div>

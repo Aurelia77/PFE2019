@@ -1,0 +1,42 @@
+{% extends "/layout.html.twig" %}
+
+{% block title %}Entre Dièses et Bémols - Accueil{% endblock %}
+
+{% block content %}
+
+    <h1 class="text-center mt-5 mb-4">Ecoutez cette musique et ajoutez votre son !</h1>
+
+    <a href="{{ path('newtrack') }}" class="clear_both">
+        <button class="w_50 btn btn-info ml_30">Importer ma création ajoutée à celle-ci</button>
+    </a>
+
+
+    {#<p>{{ id }}</p>#}
+    {#<p>{{ nametrack }}</p>#}
+    {#<p>{{ pdfPath }}</p>#}
+
+    <div class="mt-5 mb-5">
+        <div class="w_50 float-left mb-5">
+            <h2 class="mt-5 mb-5">{{ title }}</h2>
+
+            <audio controls>
+                <source src="../../audio/{{ nametrack }}.mp3"/>
+                {#String $tpsTrack = {{ track.track }}#}
+            </audio>
+            <a href="{{ path('download', {'id' : id}) }}">
+                <button>
+                    <img src="../images/download.png" height="50px"
+                         alt="Bouton télécharger track de musique">
+                </button>
+            </a>
+        </div>
+        <div class="w_50 float-left">
+            <h2>Liste des pistes avec son ajouté</h2>
+            <audio controls>
+                <source src="../../audio/it_never_mind_2(solo).mp3"/>
+                {#String $tpsTrack = {{ track.track }}#}
+            </audio>
+        </div>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends "/layout.html.twig" %}
+
+
+{% block title %}AppBundle:Administration:administration{% endblock title %}
+
+{% block content %}
+
+  {#{% block adminusers %}#}
+  {% include "Includes/adminusersmenu.html.twig" %}
+  {#{% endblock adminusers %}#}
+
+  <div>
+      Si vous êtes ici, c'est que vous êtes un Admin !
+  </div>
+{% endblock content %}

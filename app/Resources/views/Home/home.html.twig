@@ -1,0 +1,127 @@
+{% extends "/layout.html.twig" %}
+
+{% block title %}Entre Dièses et Bémols - Accueil{% endblock %}
+
+{% block content %}
+
+    <a href="{{ path('newtrack') }}" class="clear_both">
+        <button class="w_50 btn-info ml_30">Importer ma création</button>
+    </a>
+
+
+    <h1 class="text-center mt-5 mb-4">Ecoutez ces musiques ajoutées par les membres ! xx</h1>
+    {# Tous les nav lisent le MP3 donc ça suffit pas ??? #}
+
+    {#<h1>Démo HTML5 : AUDIO</h1>#}
+    {#<audio controls autoplay>#}
+    {#<source src="audio/Sing-Street-Drive-It-Like-You-Stole-It.mp3" />#}
+    {#<source src="audio/Sing-Street-Drive-It-Like-You-Stole-It.ogg" />#}
+    {#<source src="audio/Sing-Street-Drive-It-Like-You-Stole-It.webm" />#}
+    {#</audio>#}
+
+
+    {#<audio controls autoplay>#}
+    {#<source src="../audio/549e03a0c111abf7e2e4b5ac7e5761a9.mp3" />#}
+    {#</audio>#}
+
+    {#<audio controls>#}
+    {#<source src="../audio/{{ conversionPapi }}" />#}
+    {#</audio>#}
+
+    {#<audio controls>#}
+    {#<source src="../audio/{{ conversionPapi2 }}" />#}
+    {#</audio>#}
+
+    {#<audio controls>#}
+    {#<source src="../audio/papi" type="audio/wma"/>#}
+    {#</audio>#}
+
+
+    {# On affiche ici la liste de tous les utilisateurs du site - et si une recherche est lancée la liste des résultats #}
+    {#<p>{{ pagination.getTotalitemCount }}</p>#}
+    {% if pagination.getTotalitemCount > 0 %}
+        <table class="width100 text-center">
+            <tr>
+                <th class="col-sm-3">Titre</th>
+                <th class="col-sm-3">Membre</th>
+                <th class="col-sm-3">Track</th>
+                <th class="col-sm-3">Télécharger/voir le track</th>
+            </tr>
+            {% for track in pagination %}
+                {#on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur#}
+                <tr {% if loop.index is odd %} class="color" {% endif %}>
+                    {# title et idUser = nom des variables de l'entité Track #}
+                    <td>{{ track.title }}</td>
+                    {# On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le prénom #}
+                    <td>{{ track.user.firstName }}</td>
+                    <td>
+                        <audio controls>
+                            <source src="../audio/{{ track.track }}.mp3"/>
+                            {#String $tpsTrack = {{ track.track }}#}
+                        </audio>
+                    </td>
+                    {#<td><a href="{{ asset('audio/grand_mere.mp3') }}"><button><img src="../images/download.png" height="50px" alt="Bouton télécharger track de musique"></button></a></td>#}
+                    <td>
+                        {#<a href="{{ asset('audio/'~ track.track ~'.mp3') }}">     ==> Fonctionne mais ne télécharge pas : ouvre la musique ds une nouvelle page #}
+                        <a href="{{ path('download', {'id' : track.id}) }}">
+                            <button>
+                                <img src="../images/download.png" height="50px"
+                                     alt="Bouton télécharger track de musique">
+                            </button>
+                        </a>
+                        <a href="{{ path('seetrack', {'id' : track.id}) }}">
+                        {#<a href="#">#}
+                            <button>
+                                <img src="../images/eye.png" height="50px"
+                                     alt="Bouton voir track de musique">
+                            </button>
+                        </a>
+                    </td>
+
+
+                    {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
+
+
+
+                    {#<td><a href="{{ asset('images/bemol.png') }}"><button><img src="../images/download.png" height="50px" alt="Bouton télécharger track de musique"></button></a></td>#}
+                    {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
+                    {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="navigation ml_30">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    {% else %}
+        <p>Aucun résultat</p>
+    {% endif %}
+
+
+
+    {#// Sans pagination#}
+    {#<table>#}
+    {#<tr>#}
+    {#<th>Nom</th>#}
+    {#<th>Prénom</th>#}
+    {#<th>Email</th>#}
+    {#</tr>#}
+    {#{% for user in users %}#}
+    {#<tr {% if loop.index is odd %} class="color" {% endif %}> #}{# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
+    {#<td>{{ user.lastName }}</td>#}
+    {#<td>{{ user.firstName }}</td>#}
+    {#<td>{{ user.email }}</td>#}
+    {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
+    {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
+    {#</tr>#}
+    {#{% endfor %}#}
+    {#</table>#}
+
+    {# ESSAI Ajout dans BDD (ici table Message) #}
+    {#{% form_theme formBook 'bootstrap_4_layout.html.twig' %}        #}{# Donner du style au form #}
+    {#{{ form_start(formBook) }}      #}{# form_start va afficher la balise <form>  -  Pr ajouter une classe : {{ form_start(formBook, {'attr': {'class': 'user-form'}}) }}#}
+    {#{{ form_widget(formBook) }}#}
+    {#{{ form_end(formBook) }}        #}{# ferme la balise <form> #}
+
+
+{% endblock content %}

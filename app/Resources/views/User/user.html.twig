@@ -1,0 +1,16 @@
+{% extends "/layout.html.twig" %}
+
+{% block title %}AppBundle:User:user{% endblock title %}
+
+{% block content %}
+
+  {% include "Includes/usermenu.html.twig" %}
+
+  {{ form_start(userInfoForm) }}
+  {{ form_row(userInfoForm.firstName) }}
+  {{ form_row(userInfoForm.lastName) }}
+  {{ form_row(userInfoForm.favoriteBook) }}
+  <button type="submit" class="btn-default">Enregistrer</button>
+  {{ form_end(userInfoForm) }}  
+
+{% endblock content %}

@@ -1,0 +1,13 @@
+<footer>
+    <a {% if app.request.get('_route') == 'poldeconf' %} class="active mr-5" {% else %} class="mr-5"{% endif %} href="{{ path('poldeconf') }}">
+        Politique de Confidentialité
+    </a>
+
+    <a {% if app.request.get('_route') == 'rgpd' %}class="active mr-5"{% else %} class="mr-5"{% endif %} href="{{ path('rgpd') }}">
+        RGPD
+    </a>
+
+    <a {% if app.request.get('_route') == 'mentionsleg' %}class="active mr-5"{% else %} class="mr-5"{% endif %} href="{{ path('mentionsleg') }}">
+        Mentions légales
+    </a>
+</footer>

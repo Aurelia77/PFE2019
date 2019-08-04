@@ -1,0 +1,9 @@
+<div>
+    <a {% if app.request.get('_route') == 'administrationusers' %}class="active"{% endif %} href="{{ path('administrationusers') }}">
+        Liste des utilisateurs
+    </a>
+    {#<a {% if app.request.get('_route') == 'administration' %}class="active"{% endif %} href="{{path('administration')}}">#}
+    <a href="#">
+        Liste des pistes
+    </a>
+</div>
