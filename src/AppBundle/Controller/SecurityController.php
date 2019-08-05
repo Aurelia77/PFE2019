@@ -53,6 +53,7 @@ class SecurityController extends Controller
 
         // 2) Hydrater l'objet User
         $registerForm->handleRequest($request);
+
         if ($registerForm->isSubmitted() && $registerForm->isValid()) {
 
             // 3) Encoder le mdp
@@ -61,6 +62,7 @@ class SecurityController extends Controller
 
             // 4) Faut-il valider l'email ? (boolean dans le fichier parameters.yml)
             $needEmailValidation = $this->getParameter('verify_email_after_registration');
+
             if ($needEmailValidation) {
                 $emailToken = md5(uniqid());
                 $user->setRoles(array('ROLE_USER_PENDING'))->setEmailTemp($user->getEmail())->setEmailToken($emailToken);
@@ -71,11 +73,10 @@ class SecurityController extends Controller
             $em->persist($user);
             $em->flush();
 
-            // 6) On authentifie l'utilisateur directement
-            // afin de lui éviter de saisir à nouveau ses identifiants
-            $this->authenticateUser($user);
+            // 6) On authentifie l'utilisateur directement afin de lui éviter de saisir à nouveau ses identifiants
+            // $this->authenticateUser($user);
 
-            return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render(

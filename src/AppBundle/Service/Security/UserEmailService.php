@@ -36,7 +36,8 @@ class UserEmailService
             
             return false;
         }
-        
+
+        // On créé le message
         $message = (new \Swift_Message('Validation email'))
             ->setFrom($this->mailerUser)
             ->setTo($user->getEmailTemp())
@@ -46,7 +47,8 @@ class UserEmailService
             ), 'text/html'
             )
         ;
-        
+
+        // Et on envoie le mail qui contient le message créé ci-dessus
         return (bool) $this->mailer->send($message);
     }
 }
