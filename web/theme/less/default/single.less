@@ -1,0 +1,119 @@
+.post_details{
+    .post_title_n_view{
+        position: relative;
+        h2{
+            font-weight: 600;
+            color: @baseColor2;
+            line-height: 38px;
+            margin: 25px 0 28px;
+            &.post_title{
+
+            }
+            &.view_count{
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                text-align: right;
+                small{
+                    font-weight: 400;
+                    font-size: 12px;
+                }
+            }
+        }        
+    }
+    .bio_section{
+        margin-bottom: 0;
+    }
+    .author_section.widget.widget_recommended_to_follow .media .media-body .btn-group a{
+        padding: 0 15px;
+    }
+}
+
+.comment_form{
+    h5{
+        margin: 0;
+        padding: 25px 0;
+        text-transform: uppercase;
+        color: @baseColor2;
+        font-weight: 600;
+    }
+    textarea{
+        resize: none;
+        height: 200px;
+        border-color: #e8ebec;
+    }
+    .btn{
+        height: 42px;
+        line-height: 42px;
+        padding: 0 55px;
+        border-radius: 2px;
+        background: @baseColor;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-top: 30px;
+    }
+}
+
+.comments{
+    border-bottom: 1px solid  #e8ebec;
+    .comment_count{
+        font-weight: 600;
+        text-transform: uppercase;
+        color: @baseColor2;
+        line-height: 1;
+        margin: 25px 0 0;
+    }
+    .comment{
+        padding: 25px 0 0;
+        & + .comment{
+            border-top: 1px solid  #e8ebec;
+            margin: 0;
+        }
+        &.no-reply{
+            padding-bottom: 25px;
+        }
+        .media-left{
+            padding-right: 20px;
+            a{
+                width: 70px;
+                height: 70px;
+                img{
+                }
+            }
+        }
+        .media-body{
+            .comment_header{
+                h5{
+                    margin: 0 0 15px;
+                    a{
+                        color: @baseColor2;
+                        font-weight: 600;
+                    }
+                    .author_name{                        
+                    }
+                    .time_ago{
+                        color: @baseColor5;
+                        margin: 0 20px;
+                    }
+                    .reply_link{
+                        text-decoration: underline;
+                        text-transform: uppercase;
+                    }
+                }
+            }
+            p{
+                color: @baseColor2;
+                margin: 0;
+                line-height: 22px;
+                & + p{
+                    margin-top: 15px;
+                }
+            }
+        }
+        &.comment_reply{
+            border-top: 1px solid  #e8ebec;
+            padding-bottom: 25px;
+        }
+    }
+}

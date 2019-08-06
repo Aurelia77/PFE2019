@@ -1,8 +1,557 @@
-{% extends "/layout.html.twig" %}
+{% extends "layout.html.twig" %}
 
-{% block title %}Entre Dièses et Bémols - Accueil{% endblock %}
+{% block title %}
+    Entre Dièses et Bémols - Accueil
+{% endblock %}
 
 {% block content %}
+
+    <section class="row upload_media">
+        <div class="container">
+            <div class="row">
+                <h2>Upload Media Files &amp; Share Online</h2>
+                <h3>Share your momments online easily</h3>
+                <div class="upload_media_row">
+                    <form action="#" id="upload_media" class="videos_from">
+                        <div class="inner row m0">
+                            <h2>Sync Videos From</h2>
+                            <a href="#"><img src="{{ asset('theme/images/btn/youtube.png') }}" alt=""></a>
+                            <a class="vimeo" href="#"><img src="{{ asset('theme/images/btn/vimeo.png') }}" alt=""></a>
+                            <a class="dailymotion" href="#"><img src="{{ asset('theme/images/btn/dailymotion.png') }}" alt=""></a>
+                        </div>
+                    </form>
+                    <a class="or_btn" href="#">or</a>
+                    <form action="#" id="upload_media_2">
+                        <div class="inner row m0">
+                            <h2>Upload From PC</h2>
+                            <h6>Via Frontend Uploader</h6>
+                            <img src="{{ asset('theme/images/btn/upload-1.png') }}" alt="">
+                            <h4>Select files to upload</h4>
+                            <h5>or drag &amp; drop files</h5>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section> <!--Upload Form-->
+
+    <section class="row">
+        <ul class="nav nav-justified ribbon">
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+        </ul>
+    </section> <!--Ribbon-->
+
+    <section class="row search_filter">
+        <div class="container">
+            <div class="row m0">
+                <!--Category Filter-->
+                <div class="btn-group category_filter fleft">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="filter-option pull-left">All Category</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#"><span class="filter_text">All Categories</span><span class="badge"></span></a></li>
+                        <li><a href="#"><span class="filter_text">Art</span><span class="badge">1200</span></a></li>
+                        <li><a href="#"><span class="filter_text">astrology</span><span class="badge">650</span></a></li>
+                        <li><a href="#"><span class="filter_text">biography</span><span class="badge">1200</span></a></li>
+                        <li><a href="#"><span class="filter_text">comedy</span><span class="badge">650</span></a></li>
+                        <li><a href="#"><span class="filter_text">entertainment</span><span class="badge">1200</span></a></li>
+                        <li><a href="#"><span class="filter_text">photoshop</span><span class="badge">650</span></a></li>
+                        <li><a href="#"><span class="filter_text">philosophy</span><span class="badge">1200</span></a></li>
+                        <li><a href="#"><span class="filter_text">nano tube</span><span class="badge">650</span></a></li>
+                    </ul>
+                </div>
+                <!--Post Type Filter-->
+                <div class="btn-group postTypeFilter fleft" data-toggle="buttons">
+                    <label class="btn btn-primary postType1 active">
+                        <input type="radio" name="postType" id="postType1" checked> All
+                    </label>
+                    <label class="btn btn-primary postType2">
+                        <input type="radio" name="postType" id="postType2" > Videos
+                    </label>
+                    <label class="btn btn-primary postType3">
+                        <input type="radio" name="postType" id="postType3" > Images
+                    </label>
+                    <label class="btn btn-primary postType4">
+                        <input type="radio" name="postType" id="postType4" > Audios
+                    </label>
+                </div>
+                <!--Search Form-->
+                <form action="#" role="search" class="search_form fright">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search Here" >
+                        <span class="input-group-addon"><button type="submit"><img src="{{ asset('theme/images/icons/search.png') }}" alt=""></button></span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="row recent_uploads">
+        <div class="container">
+            <div class="row title_row">
+                <h3>recent uploads</h3>
+            </div>
+            <div class="row media-grid content_video_posts">
+                <article class="col-sm-3 video_post postType3">
+                    <div class="inner row m0">
+                        <a href="{{ asset('theme/single-video.html') }}"><div class="row screencast m0">
+                                <img src="{{ asset('theme/images/media/1.jpg') }}" alt="" class="cast img-responsive">
+                                <div class="play_btn"></div>
+                                <div class="media-length">17:30</div>
+                            </div></a>
+                        <div class="row m0 post_data">
+                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Art</a></div>
+                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
+                            <div class="fleft date">Published: 3 August, 2015</div>
+                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-sm-3 video_post postType4">
+                    <div class="inner row m0">
+                        <a href="{{ asset('theme/single-video.html') }}"><div class="row screencast m0">
+                                <img src="{{ asset('theme/images/media/2.jpg') }}" alt="" class="cast img-responsive">
+                                <div class="play_btn"></div>
+                                <div class="media-length">17:30</div>
+                            </div></a>
+                        <div class="row m0 post_data">
+                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Philosophy</a></div>
+                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
+                            <div class="fleft date">Published: 3 August, 2015</div>
+                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-sm-3 video_post postType2">
+                    <div class="inner row m0">
+                        <a href="{{ asset('theme/single-video.html') }}"><div class="row screencast m0">
+                                <img src="{{ asset('theme/images/media/3.jpg') }}" alt="" class="cast img-responsive">
+                                <div class="play_btn"></div>
+                                <div class="media-length">17:30</div>
+                            </div></a>
+                        <div class="row m0 post_data">
+                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Comedy</a></div>
+                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
+                            <div class="fleft date">Published: 3 August, 2015</div>
+                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </article>
+                <div class="col-sm-3 video_post advertise_betweeen_uploads">
+                    <div class="inner row m0">
+                        <h3>Advertise<br>Here</h3>
+                    </div>
+                </div>
+                <article class="col-sm-3 video_post postType3">
+                    <div class="inner row m0">
+                        <a href="{{ asset('theme/single-video.html') }}"><div class="row screencast m0">
+                                <img src="{{ asset('theme/images/media/4.jpg') }}" alt="" class="cast img-responsive">
+                                <div class="play_btn"></div>
+                                <div class="media-length">17:30</div>
+                            </div></a>
+                        <div class="row m0 post_data">
+                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Science</a></div>
+                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
+                            <div class="fleft date">Published: 3 August, 2015</div>
+                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-sm-3 video_post postType4">
+                    <div class="inner row m0">
+                        <a href="{{ asset('theme/single-video.html') }}"><div class="row screencast m0">
+                                <img src="{{ asset('theme/images/media/5.jpg') }}" alt="" class="cast img-responsive">
+                                <div class="play_btn"></div>
+                                <div class="media-length">17:30</div>
+                            </div></a>
+                        <div class="row m0 post_data">
+                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Youtube</a></div>
+                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
+                            <div class="fleft date">Published: 3 August, 2015</div>
+                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-sm-3 video_post postType2">
+                    <div class="inner row m0">
+                        <a href="{{ asset('theme/single-video.html') }}"><div class="row screencast m0">
+                                <img src="{{ asset('theme/images/media/6.jpg') }}" alt="" class="cast img-responsive">
+                                <div class="play_btn"></div>
+                                <div class="media-length">17:30</div>
+                            </div></a>
+                        <div class="row m0 post_data">
+                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">People</a></div>
+                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
+                            <div class="fleft date">Published: 3 August, 2015</div>
+                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-sm-3 video_post postType3">
+                    <div class="inner row m0">
+                        <a href="{{ asset('theme/single-video.html') }}"><div class="row screencast m0">
+                                <img src="{{ asset('theme/images/media/7.jpg') }}" alt="" class="cast img-responsive">
+                                <div class="play_btn"></div>
+                                <div class="media-length">17:30</div>
+                            </div></a>
+                        <div class="row m0 post_data">
+                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Space Tech</a></div>
+                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
+                            <div class="fleft date">Published: 3 August, 2015</div>
+                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-sm-3 video_post postType4">
+                    <div class="inner row m0">
+                        <a href="{{ asset('theme/single-video.html') }}"><div class="row screencast m0">
+                                <img src="{{ asset('theme/images/media/8.jpg') }}" alt="" class="cast img-responsive">
+                                <div class="play_btn"></div>
+                                <div class="media-length">17:30</div>
+                            </div></a>
+                        <div class="row m0 post_data">
+                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Nature &amp; Beauty</a></div>
+                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
+                            <div class="fleft date">Published: 3 August, 2015</div>
+                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-sm-3 video_post postType2">
+                    <div class="inner row m0">
+                        <a href="{{ asset('theme/single-video.html') }}"><div class="row screencast m0">
+                                <img src="{{ asset('theme/images/media/9.jpg') }}" alt="" class="cast img-responsive">
+                                <div class="play_btn"></div>
+                                <div class="media-length">17:30</div>
+                            </div></a>
+                        <div class="row m0 post_data">
+                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Entertainment</a></div>
+                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
+                            <div class="fleft date">Published: 3 August, 2015</div>
+                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-sm-3 video_post postType3">
+                    <div class="inner row m0">
+                        <a href="{{ asset('theme/single-video.html') }}"><div class="row screencast m0">
+                                <img src="{{ asset('theme/images/media/10.jpg') }}" alt="" class="cast img-responsive">
+                                <div class="play_btn"></div>
+                                <div class="media-length">17:30</div>
+                            </div></a>
+                        <div class="row m0 post_data">
+                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Relationship</a></div>
+                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
+                            <div class="fleft date">Published: 3 August, 2015</div>
+                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </article>
+                <article class="col-sm-3 video_post postType4">
+                    <div class="inner row m0">
+                        <a href="{{ asset('theme/single-video.html') }}"><div class="row screencast m0">
+                                <img src="{{ asset('theme/images/media/11.jpg') }}" alt="" class="cast img-responsive">
+                                <div class="play_btn"></div>
+                                <div class="media-length">17:30</div>
+                            </div></a>
+                        <div class="row m0 post_data">
+                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Business</a></div>
+                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
+                            <div class="fleft date">Published: 3 August, 2015</div>
+                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </article>
+                <div class="row m0">
+                    <div class="clearfix"></div>
+                    <a href="{{ asset('theme/inc/more-uploads-1.html') }}" class="load_more_videos">Load more videos</a>
+                </div>
+            </div>
+        </div>
+    </section> <!--Recent Upload-->
+
+    <section class="science_technology">
+        <div class="container">
+            <div class="row science_tec_row">
+                <div class="col-sm-8">
+                    <div class="science_img">
+                        <img src="{{ asset('theme/images/media/large-video.jpg') }}" alt="" class="big_img">
+                        <div class="video-content">
+                            <a href="{{ asset('theme/single-video.html') }}">Methode Technology Hall Intro</a>
+                            <h5><a href="{{ asset('theme/page-author.html') }}">Emran Khan</a> / OCTOER 2017</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 small_img">
+                    <div class="science_img">
+                        <img src="{{ asset('theme/images/media/small-video.jpg') }}" alt="">
+                        <div class="video-content">
+                            <a href="{{ asset('theme/single-video.html') }}">Methode Technology Hall Intro</a>
+                            <h5><a href="{{ asset('theme/page-author.html') }}">Emran Khan</a> / OCTOER 2017</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 small_img">
+                    <div class="science_img">
+                        <img src="{{ asset('theme/images/media/small-video-2.jpg') }}" alt="">
+                        <div class="video-content">
+                            <a href="{{ asset('theme/single-video.html') }}">Methode Technology Hall Intro</a>
+                            <h5><a href="{{ asset('theme/page-author.html') }}">Emran Khan</a> / OCTOER 2017</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row author_interview author_interview_2">
+        <div class="container">
+            <div class="row title_row">
+                <h3>Authors Interview</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-7 feature_post">
+                    <div class="media feature_post_inner">
+                        <div class="media-left feature_img"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/media/large-video-2.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                        <div class="media-body feature_body">
+                            <a href="{{ asset('theme/single-video.html') }}">
+                                <h4>Duis aute irure dolor in adipsicing Ut enim. Lorem ipsum dolor sit amet</h4>
+                            </a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et</p>
+                            <div class="row m0 meta_info posted">1 year ago</div>
+                            <div class="row m0 meta_info posted">by <a href="{{ asset('theme/page-author.html') }}">Masum Rana</a></div>
+                            <div class="views row m0"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5 other_posts widget widget_popular_videos">
+                    <div class="media">
+                        <div class="media-left"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/popular/1.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                        <div class="media-body">
+                            <a href="{{ asset('theme/single-video.html') }}">
+                                <h5>Nulla auctor lacinia lorem nec ornare donec accumsan venenatis dolor tristique</h5>
+                            </a>
+                            <div class="row m0 meta_info views">34,000 views</div>
+                            <div class="row m0 meta_info posted">1 year ago</div>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <div class="media-left"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/popular/2.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                        <div class="media-body">
+                            <a href="{{ asset('theme/single-video.html') }}">
+                                <h5>Vestibulum ante ipsum primis in faucibus pellentesque et ultrices posuere cubilia</h5>
+                            </a>
+                            <div class="row m0 meta_info views">34,000 views</div>
+                            <div class="row m0 meta_info posted">1 year ago</div>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <div class="media-left"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/popular/3.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                        <div class="media-body">
+                            <a href="{{ asset('theme/single-video.html') }}">
+                                <h5>Aliquam sagittis placerat netus tincidunt lorem sodales sapien ipsum commodo</h5>
+                            </a>
+                            <div class="row m0 meta_info views">34,000 views</div>
+                            <div class="row m0 meta_info posted">1 year ago</div>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <div class="media-left"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/popular/4.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                        <div class="media-body">
+                            <a href="{{ asset('theme/single-video.html') }}">
+                                <h5>Integer iaculis malesuada ipsum, non convallis massa consequat interdum</h5>
+                            </a>
+                            <div class="row m0 meta_info views">34,000 views</div>
+                            <div class="row m0 meta_info posted">1 year ago</div>
+                        </div>
+                    </div>
+                    <div class="media">
+                        <div class="media-left"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/popular/5.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                        <div class="media-body">
+                            <a href="{{ asset('theme/single-video.html') }}">
+                                <h5>Cras ut diam volutpat, tincidunt odio a, dapibus purus</h5>
+                            </a>
+                            <div class="row m0 meta_info views">34,000 views</div>
+                            <div class="row m0 meta_info posted">1 year ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row advertise_area">
+        <div class="container">
+            <div class="row advertise_row">
+                <a href="#"><img src="{{ asset('theme/images/home-2-add.jpg') }}" alt=""></a>
+            </div>
+        </div>
+    </section> <!--Advertise Row-->
+
+    <section class="row author_interview">
+        <div class="container">
+            <div class="row title_row">
+                <h3>Authors Interview</h3>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 feature_post">
+                    <div class="media feature_post_inner">
+                        <div class="media-left feature_img"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/author/feature_interview.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                        <div class="media-body feature_body">
+                            <a href="{{ asset('theme/single-video.html') }}">
+                                <h4>Duis aute irure dolor in adipsicing Ut enim</h4>
+                            </a>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et</p>
+                            <div class="row m0 meta_info posted">1 year ago</div>
+                            <div class="row m0 meta_info posted">by <a href="{{ asset('theme/page-author.html') }}">Masum Rana</a></div>
+                            <div class="views row m0"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}" alt="">3,45,346</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 other_posts widget widget_popular_videos">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="media">
+                                <div class="media-left"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/popular/1.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                                <div class="media-body">
+                                    <a href="{{ asset('theme/single-video.html') }}">
+                                        <h5>Lorem ipsum dolor si amet etur adipis</h5>
+                                    </a>
+                                    <div class="row m0 meta_info views">34,000 views</div>
+                                    <div class="row m0 meta_info posted">1 year ago</div>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="media-left"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/popular/2.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                                <div class="media-body">
+                                    <a href="{{ asset('theme/single-video.html') }}">
+                                        <h5>Lorem ipsum dolor si amet etur adipis</h5>
+                                    </a>
+                                    <div class="row m0 meta_info views">34,000 views</div>
+                                    <div class="row m0 meta_info posted">1 year ago</div>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="media-left"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/popular/3.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                                <div class="media-body">
+                                    <a href="{{ asset('theme/single-video.html') }}">
+                                        <h5>Lorem ipsum dolor si amet etur adipis</h5>
+                                    </a>
+                                    <div class="row m0 meta_info views">34,000 views</div>
+                                    <div class="row m0 meta_info posted">1 year ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="media">
+                                <div class="media-left"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/popular/1.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                                <div class="media-body">
+                                    <a href="{{ asset('theme/single-video.html') }}">
+                                        <h5>Lorem ipsum dolor si amet etur adipis</h5>
+                                    </a>
+                                    <div class="row m0 meta_info views">34,000 views</div>
+                                    <div class="row m0 meta_info posted">1 year ago</div>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="media-left"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/popular/2.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                                <div class="media-body">
+                                    <a href="{{ asset('theme/single-video.html') }}">
+                                        <h5>Lorem ipsum dolor si amet etur adipis</h5>
+                                    </a>
+                                    <div class="row m0 meta_info views">34,000 views</div>
+                                    <div class="row m0 meta_info posted">1 year ago</div>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <div class="media-left"><a href="{{ asset('theme/single-video.html') }}"><img src="{{ asset('theme/images/popular/3.jpg') }}" alt=""><span class="duration">17:30</span></a></div>
+                                <div class="media-body">
+                                    <a href="{{ asset('theme/single-video.html') }}">
+                                        <h5>Lorem ipsum dolor si amet etur adipis</h5>
+                                    </a>
+                                    <div class="row m0 meta_info views">34,000 views</div>
+                                    <div class="row m0 meta_info posted">1 year ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row">
+        <ul class="nav nav-justified ribbon">
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+        </ul>
+    </section> <!--Ribbon-->
+
+    <footer class="row">
+        <div class="container">
+            <div class="row sidebar sidebar_footer">
+                <div class="col-sm-3 widget widget1 w_in_footer widget_about">
+                    <h5 class="widget_title">About Video Cafe</h5>
+                    <div class="row m0 inner">
+                        <a href="{{ asset('theme/index.html') }}"><img src="{{ asset('theme/images/logo.png') }}" alt=""></a><br>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit</p>
+                    </div>
+                </div>
+                <div class="col-sm-3 widget widget2 w_in_footer widget_subscribe">
+                    <h5 class="widget_title">subscribe to our newsletter</h5>
+                    <div class="row m0 inner">
+                        <form action="#" class="row m0" method="post">
+                            <input type="email" class="form-control" placeholder="Enter Email Address">
+                            <input type="submit" value="Submit Now" class="form-control btn btn-default">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-3 widget widget3 w_in_footer widget_tags">
+                    <h5 class="widget_title">popular tags</h5>
+                    <div class="row m0 inner">
+                        <a href="#" class="tag">business</a>
+                        <a href="#" class="tag">osx</a>
+                        <a href="#" class="tag">windows 10</a>
+                        <a href="#" class="tag">osx yosemite</a>
+                        <a href="#" class="tag">photoshop</a>
+                        <a href="#" class="tag">css</a>
+                        <a href="#" class="tag">business</a>
+                        <a href="#" class="tag">osx</a>
+                        <a href="#" class="tag">windows 10</a>
+                        <a href="#" class="tag">osx yosemite</a>
+                        <a href="#" class="tag">photoshop</a>
+                        <a href="#" class="tag">css</a>
+                    </div>
+                </div>
+                <div class="col-sm-3 widget widget4 w_in_footer widget_twitter">
+                    <h5 class="widget_title">twitter feed</h5>
+                    <div class="row m0 inner">
+                        <div class="row m0 tweet"><a href="#">@masum_rana:</a>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat</div>
+                        <div class="row m0 tweet"><a href="#">@masum_rana:</a>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat</div>
+                        <div class="row m0 tweet"><a href="#">@masum_rana:</a>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div id="status">&nbsp;</div>
+    </div>
+
+
 
     <a href="{{ path('newtrack') }}" class="clear_both">
         <button class="w_50 btn-info ml_30">Importer ma création</button>

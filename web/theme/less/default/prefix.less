@@ -1,0 +1,48 @@
+/*Prefix Styles*/
+.m0{margin: 0;}
+.p0{padding: 0;}
+
+body{
+    position: relative;
+    
+    /*Global Font*/
+    *{
+        font-family: @baseFont;
+    }
+    /*Floating*/
+    .fleft{ float: left; }
+    .fright{ float: right; }
+    .flefti{ float: left !important; }
+    .frighti{ float: right !important; }
+
+    /*Section Fix*/
+    section, header, footer{
+        &.row{
+            margin: 0;
+            position: relative;
+        }
+    }
+    
+    .mfp-container{
+        width: 100vw;
+        padding: 0;
+    }
+    
+    /*Container Prefix*/
+    @media (min-width:1261px){
+        .container{
+            width: 1260px;
+        }
+    }
+}
+
+/*Ancore*/
+a,.btn,button{
+    outline: none;
+    .transition();
+    &:focus,&:hover{
+        outline: none;
+        text-decoration: none;
+        .transition();
+    }
+}

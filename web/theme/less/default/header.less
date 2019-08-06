@@ -1,0 +1,312 @@
+.navbar{
+    margin-bottom: 0;
+    border: none;
+    .transition();
+    .container{
+        position: relative;
+        .navbar-header{
+            width: 365px;
+            .navbar-toggle{
+                span{
+                    background: @baseColor2;
+                }
+            }
+            .navbar-brand{
+                display: block;
+                margin-left: 0;
+                padding:24px 0;
+                height: auto;
+                line-height: 110px;
+            }
+        }
+
+        /*default menu styles*/
+        .navbar-nav{
+            li{
+                padding: 0 25px;
+                a{
+                    line-height: 80px;
+                    padding: 0;
+                    font-family: @baseFont;
+                    text-transform: uppercase;
+                    font-weight: 600;
+                    color: @baseColor2;
+                    position: relative;
+                    &:before{
+                        content: '';
+                        width: 100%;
+                        position: absolute;
+                        height: 0;
+                        top: 0;
+                        left: 0;
+                        background: @baseColor;
+                        .transition();
+                    }
+                    span{
+                        width: 32px;
+                        height: 80px;
+                        float: left;
+                        background: no-repeat scroll left center;                    
+                        &.home_variation_icon{
+                            background-image: url(../../images/icons/home-variation.png);
+                        }
+                        &.video_menu_icon{
+                            background-image: url(../../images/icons/video-menu.png);
+                        }
+                        &.extra_pages_icon{
+                            background-image: url(../../images/icons/extra-pages.png);
+                        }
+                        &.login_icon{
+                            background-image: url(../../images/icons/login.png);
+                        }
+                    }
+                    &:hover,&:focus{
+                        color: @baseColor;
+                        background: none;
+                        &:before{
+                            height: 5px;
+                        }
+                        span{
+                            &.home_variation_icon{
+                                background-image: url(../../images/icons/home-variation-hover.png);
+                            }
+                            &.video_menu_icon{
+                                background-image: url(../../images/icons/video-menu-hover.png);
+                            }
+                            &.extra_pages_icon{
+                                background-image: url(../../images/icons/extra-pages-hover.png);
+                            }
+                            &.login_icon{
+                                background-image: url(../../images/icons/login-hover.png);
+                            }
+                        }
+                    }
+                    &:focus{
+                        color: @baseColor2;
+                        background: none;
+                        box-shadow: none;
+                    }
+                }
+                &.active{
+                    a{                    
+                        span{
+                            &.home_variation_icon{
+                                background-image: url(../../images/icons/home-variation-hover.png);
+                            }
+                            &.video_menu_icon{
+                                background-image: url(../../images/icons/video-menu-hover.png);
+                            }
+                            &.extra_pages_icon{
+                                background-image: url(../../images/icons/extra-pages-hover.png);
+                            }
+                            &.login_icon{
+                                background-image: url(../../images/icons/login-hover.png);
+                            }
+                        }
+                    }
+                }
+                &.dropdown{                
+                    a{
+                        &:after{
+                            width: 9px;
+                            height: 80px;
+                            content: '';
+                            float: right;
+                            margin-left: 5px;
+                            background: url(../../images/icons/dropdown-arrow.png) no-repeat scroll left center;
+                        }
+                        &:hover{
+                            &:after{
+                                background-image: url(../../images/icons/dropdown-arrow-hover.png);
+                            }
+                        }
+                    }
+                    .dropdown-menu{
+                        width: 285px;
+                        right: 0;
+                        left: auto;
+                        display: block;
+                        transform: scale(1,0);
+                        transform-origin: top;
+                        border-radius: 0;
+                        border: none;
+                        padding: 0;
+                        .transition();
+                        li{
+                            border-top: 1px solid  #f1f4f5;
+                            .transition();                        
+                            a{
+                                line-height: 50px;
+                                &:after,&:before{
+                                    display: none;
+                                }
+                            }
+                        }
+                    }
+                    &:hover{
+                        .dropdown-menu{
+                            transform: scale(1,1);
+                            li{
+                            }
+                        }
+                    }
+                    &.mega-drop{
+                        position: inherit;
+                        a{
+                        }
+                        .mega-menu{
+                            left: 0;
+                            width: 100%;
+                            li{
+                                &.row_title{
+                                    padding: 0 30px;
+                                    font-size: 18px;
+                                    font-family: @baseFont;
+                                    font-weight: 700;
+                                    line-height: 63px;
+                                    text-transform: uppercase;
+                                }
+                                &.videos{
+                                    border: none;
+                                    padding: 0;
+                                    .container{
+                                        .col-sm-3{
+                                            .inner{
+                                                .preview_img{
+                                                    position: relative;
+                                                    .preview{
+                                                        width: 100%;
+                                                    }
+                                                    .play-btn{
+                                                        position: absolute;
+                                                        width: 48px;
+                                                        height: 33px;
+                                                        background: url(../../images/play-btn.png) no-repeat scroll 0 0;
+                                                        top: ~"calc(50% - 16.5px)";
+                                                        left: ~"calc(50% - 24px)";
+                                                        &:hover{
+                                                            background-image: url(../../images/play-btn-hover.png);
+                                                        }
+                                                    }
+                                                }
+                                                .title_row{
+                                                    padding: 15px 0;
+                                                    a{
+                                                        line-height: 1;
+                                                        text-transform: none;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }    
+        #middle-menu{
+            float: left;
+        }
+        .login_drop{
+        }
+    }
+    
+    &.navbar-fixed-top{
+        .container{
+            .navbar-header{
+                .navbar-toggle{
+                    span{
+                    }
+                }
+                .navbar-brand{
+                    padding:19px 0;
+                    height: auto;
+                    line-height: 70px;
+                }
+            }
+
+            /*default menu styles*/
+            .navbar-nav{
+                li{
+                    a{
+                        line-height: 70px;
+                        &:before{
+                        }
+                        span{
+                            height: 70px;
+                        }
+                        &:hover,&:focus{
+                        }
+                        &:focus{
+                        }
+                    }
+                    &.active{
+                        a{                    
+                            span{
+                            }
+                        }
+                    }
+                    &.dropdown{                
+                        a{
+                            &:after{
+                                height: 70px;
+                            }
+                            &:hover{
+                            }
+                        }
+                        .dropdown-menu{
+                            li{
+                                a{
+                                    &:after,&:before{
+                                    }
+                                }
+                            }
+                        }
+                        &:hover{
+                            .dropdown-menu{
+                                li{
+                                }
+                            }
+                        }
+                        &.mega-drop{
+                            a{
+                            }
+                            .mega-menu{
+                                li{
+                                    &.row_title{
+                                    }
+                                    &.videos{
+                                        .container{
+                                            .col-sm-3{
+                                                .inner{
+                                                    .preview_img{
+                                                        .preview{
+                                                        }
+                                                        .play-btn{
+                                                            &:hover{
+                                                            }
+                                                        }
+                                                    }
+                                                    .title_row{
+                                                        a{
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }    
+            #middle-menu{
+            }
+            .login_drop{
+            }
+        }
+    }
+}

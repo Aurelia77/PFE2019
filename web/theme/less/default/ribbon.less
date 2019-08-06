@@ -1,0 +1,18 @@
+.ribbon{
+    li{
+        height: 8px;
+        a{
+            padding: 4px 15px;
+            transform: scaleY(1) scaleX(1);
+            position: relative;
+            z-index: 1;
+            cursor: default;
+        }
+        &:nth-child(1) a{background: @ribbon_c1;}
+        &:nth-child(2) a{background: @ribbon_c2;}
+        &:nth-child(3) a{background: @ribbon_c3;}
+        &:nth-child(4) a{background: @ribbon_c4;}
+        &:nth-child(5) a{background: @ribbon_c5;}
+        &:nth-child(6) a{background: @ribbon_c6;}
+    }
+}
