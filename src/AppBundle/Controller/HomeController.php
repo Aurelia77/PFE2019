@@ -20,14 +20,14 @@ use AppBundle\Repository\UserRepository;
 class HomeController extends Controller
 {
     /**
-     * Page d'accueil avec liste des tracks mis par les membres
-     * Accessible à tout le monde
-     * @Route("/", name="home")
-     */
+ * Page d'accueil avec liste des tracks mis par les membres
+ * Accessible à tout le monde
+ * @Route("/", name="home")
+ */
     public function homeAction(Request $request, PaginatorInterface $paginator)
     {
 
-                //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
+        //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
         $trackRepository = $this->getDoctrine()->getRepository(Track::class);
 
         $pagination = $paginator->paginate(
@@ -44,4 +44,30 @@ class HomeController extends Controller
 //        return $this->file($pdfPath);
 
     }
+
+//    /**
+//     * ESSAI Audio Player
+//     * @Route("/audioplayer", name="audioplayer")
+//     */
+//    public function audioplayerAction(Request $request, PaginatorInterface $paginator)
+//    {
+//
+//        //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
+//        $trackRepository = $this->getDoctrine()->getRepository(Track::class);
+//
+//        $pagination = $paginator->paginate(
+//            $trackRepository->findAll(),                        // La query que l'on veut paginer
+//            $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
+//            3                                             // Nombre d'éléments affichés par page
+//        );
+//
+//        return $this->render('/Home/essaiaudioplayer.html.twig', [
+//            'pagination' => $pagination,
+//        ]);
+//
+//
+////        return $this->file($pdfPath);
+//
+//    }
+
 }
