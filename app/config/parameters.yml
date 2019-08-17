@@ -1,28 +1,26 @@
 # This file is auto-generated during the composer install
 # Toutes ces constantes peuvent être réutilisées dans les fichiers .yml du dossier config à l'aide des % (ex: config.yml : translator: { fallbacks: ['%locale%'] } )
 parameters:
-#        database_host: db5000117944.hosting-data.io
-#        database_port: 3306
-#        database_name: dbs112515
-#        database_user: dbu202489
-#        database_password: Pfe20191*
-        database_host: 127.0.0.1
-        database_port: null
-        database_name: pfe2019
-        database_user: root
-        database_password: null
-        mailer_transport: smtp
-        mailer_host: smtp.gmail.com
-        mailer_user: cdw2k18@gmail.com
-        mailer_password: plusdecafe
-        mailer_port: 587
-        mailer_encryption: tls
-        secret: ThisTokenIsNotSoSecretChangeIt
-        locale: fr
-        verify_email_after_registration: true
-#       dir.downloads: audio
-#       copyright: '© PFE 2019 - Aurélia Heymann'
-        track_directory: audio
-
-
-
+    #        database_host: db5000117944.hosting-data.io
+    #        database_port: 3306
+    #        database_name: dbs112515
+    #        database_user: dbu202489
+    #        database_password: Pfe20191*
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: pfe2019
+    database_user: root
+    database_password: null
+    mailer_transport: smtp
+    mailer_host: smtp.gmail.com
+    mailer_user: cdw2k18@gmail.com
+    mailer_password: plusdecafe
+    mailer_port: 587
+    mailer_encryption: tls
+    secret: ThisTokenIsNotSoSecretChangeIt
+    locale: fr
+    verify_email_after_registration: true
+    #       dir.downloads: audio
+    #       copyright: '© PFE 2019 - Aurélia Heymann'
+    track_directory: audio
+    img_directory: images/img_track

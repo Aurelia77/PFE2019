@@ -23,6 +23,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface, \Serializable
 {
+//      Si non spécifié, le type sera String et le nom de la colonne le même que le champ (ici id)
+//      @ORM\Id = Clef primaire
+//      @ORM\GeneratedValue(strategy="AUTO") = s'auto-incrémente
+
     /**
      * @ORM\Id
      * @ORM\Column(type="integer", options={"unsigned":true})
@@ -51,14 +55,14 @@ class User implements UserInterface, \Serializable
     private $plainPassword;    
     
     /**
-     * @ORM\Column(name="`password`", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      */
     protected $password;
 
     /**
      * DC2Type:array
      *
-     * @ORM\Column(name="roles", type="array")
+     * @ORM\Column(type="array")
      */
     protected $roles;
 
@@ -104,7 +108,7 @@ class User implements UserInterface, \Serializable
 
 
     /**
-     * Un utilisateur est lié à 0, 1, ou plusieurs Track(s)
+     * Un utilisateur est lié à (= a mis sur le site) 0, 1, ou plusieurs Track(s)
      *
      * @ORM\OneToMany(targetEntity="Track", mappedBy="user")
      */
@@ -115,24 +119,24 @@ class User implements UserInterface, \Serializable
 
 
 
-
+// On créé le Constructeur avec une valeur par défaut pour le champ roles : ROLE_USER
     public function __construct()
     {
         $this->setRoles(['ROLE_USER']);
     }
 
-    /**
-     * Set the value of id.
-     *
-     * @param integer $id
-     * @return \AppBundle\Entity\User
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
-    }
+//    /**
+//     * Set the value of id.
+//     *
+//     * @param integer $id
+//     * @return \AppBundle\Entity\User
+//     */
+//    public function setId($id)
+//    {
+//        $this->id = $id;
+//
+//        return $this;
+//    }
 
     /**
      * Get the value of id.
@@ -215,7 +219,7 @@ class User implements UserInterface, \Serializable
     /**
      * Set the value of roles.
      *
-     * @param string $roles
+     * @param array $roles
      * @return \AppBundle\Entity\User
      */
     public function setRoles($roles)
@@ -237,8 +241,9 @@ class User implements UserInterface, \Serializable
 
     /**
      * Add a role
-     * 
+     *
      * @param string $role
+     * @return User
      */
     public function addRole($role){
         $roles = $this->getRoles();
@@ -251,8 +256,9 @@ class User implements UserInterface, \Serializable
 
     /**
      * Remove a role
-     * 
+     *
      * @param string $role
+     * @return User
      */
     public function removeRole($role){
         $roles = $this->getRoles();

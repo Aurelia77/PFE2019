@@ -1,28 +1,68 @@
 {% extends "/layout.html.twig" %}
 
+{% block title %}
+    {{ parent() }} | Connexion
+{% endblock %}
+
 {% block content %}
-    <h1 class="mt-5 mb-5">Login</h1>
-    {% if error %}
-        {% if error.code == 0 %}
-            <div class="alert alert-danger">Mauvais identifiants</div>
-        {% endif %}
-    {% endif %}
+    <div class="container">
+        <div class="row">
 
-    <form action="{{ path('login') }}" method="post">
-        <p>
-            <label for="username">Email:</label>
-            <input type="text" id="username" name="_username" value="{{ last_username }}"/>
-        </p>
+            <h1 class="mt-5 mb-5">Connexion</h1>
 
-        <p>
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="_password"/>
-        </p>
+            <form class="container-fluid login_form auth_form" action="{{ path('login') }}" method="post" role="form">
+                <div class="form-inner row">
+                    <div class="login_options row m0">
+                        <div class="options_header row m0">
+                            <a href="index.html"><img src="../images/logoDieseBemol.png" alt=""></a>
+                            <h4><a href="{{ path('register') }}">Créer un compte</a></h4>
+                            <h4><a href="{{ path('lostpassword') }}">Mot de passe perdu</a></h4>
+                        </div>
+                    </div>
+                    {% if error %}
+                        {% if error.code == 0 %}
+                            <div class="alert alert-danger">Mauvais identifiants</div>
+                        {% endif %}
+                    {% endif %}
+                    <div class="form-body row m0">
+                        <input type="email" class="form-control" placeholder="Addresse Email" name="_username"
+                               value="{{ last_username }}">
+                        <input type="password" class="form-control" placeholder="Mot de passe" name="_password">
+                        <input type="submit" value="Se connecter" class="btn btn-default form-control">
+                    </div>
+                </div>
+            </form>
 
-        <p>
-            <button type="submit" class="btn btn-info">Se connecter</button>
-        </p>
-    </form>
-    <a href="{{ path('lostpassword') }}">Mot de passe perdu</a><br>
-    <a href="{{ path('register') }}">Créer un compte</a>
+        </div>
+    </div>
+
+    {#<form class="container-fluid login_form auth_form" action="#" method="post" role="form">#}
+    {#<div class="form-inner row">#}
+    {#<div class="login_options row m0">#}
+    {#<div class="options_header row m0">#}
+    {#<a href="index.html"><img src="images/logo.png" alt=""></a>#}
+    {#<h4>Sign in to Meta Video using social profiles of <a href="signup.html">create an account</a></h4>#}
+    {#</div>#}
+    {#<div class="row m0 login_with_social_media">#}
+    {#<a href="#"><img src="images/btn/twitter-login.png" alt=""></a>#}
+    {#<a href="#"><img src="images/btn/facebook-login.png" alt=""></a>#}
+    {#<a href="#"><img src="images/btn/gmail-login.png" alt=""></a>#}
+    {#</div>#}
+    {#</div>#}
+    {#<div class="form-header row m0">#}
+    {#<h4>or Sign in using email address</h4>#}
+    {#</div>#}
+    {#<div class="form-body row m0">#}
+    {#<input type="text" class="form-control" placeholder="Full Name">#}
+    {#<input type="email" class="form-control" placeholder="Email Address">#}
+    {#<input type="password" class="form-control" placeholder="Password">#}
+    {#<input type="submit" value="Sign In" class="btn btn-default form-control">#}
+    {#</div>#}
+    {#<div class="form-footer row m0">#}
+    {#<button title="Close (Esc)" type="button" class="mfp-close"></button>#}
+    {#</div>#}
+    {#</div>#}
+    {#</form>#}
+
+
 {% endblock content %}

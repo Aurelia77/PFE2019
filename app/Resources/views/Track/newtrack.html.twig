@@ -1,0 +1,30 @@
+{% extends "/layout.html.twig" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+
+            <h1>Télécharger votre musique</h1>
+
+            {{ form_start(newTrackForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
+            <div class="form-inner row">
+                <div class="form-body row m0">
+                    {{ form_errors(newTrackForm) }}
+
+                    {# On choisi l'odre des éléments (sinon si on ajoute un bouton il se mettra avant les champs) #}
+                    {#{{ form_row(newTrackForm.title) }} ==> Va afficher aussi le label #}
+                    {{ form_widget(newTrackForm.title, {'attr': {'class': 'form-control', 'placeholder':'Titre de ma création'}}) }}
+
+                    {#{{ form_label(newTrackForm.track, 'Votre création (taille max : 2048 KiB)') }} ne sert à rien car déjà dans NewTrackType.php #}
+                    {{ form_row(newTrackForm.track, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_row(newTrackForm.image, {'attr': {'class': 'form-control'}}) }}
+
+                    <input type="submit" value="Ajouter" class="btn btn-default form-control">
+                    {#<button type="submit" class="btn btn-info">S'enregistrer !</button>#}
+                </div>
+            </div>
+            {{ form_end(newTrackForm) }}
+
+        </div>
+    </div>
+{% endblock content %}

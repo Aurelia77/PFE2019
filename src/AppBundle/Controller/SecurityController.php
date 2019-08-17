@@ -49,9 +49,13 @@ class SecurityController extends Controller
     {
         // 1) Construire le form User
         $user = new User();
+
+
+        // $registerForm = $this->get('form.factory')->create(RegisterUserType::class,$user); (idem ligne en dessous, avec le helper createForm)
+
         $registerForm = $this->createForm(RegisterUserType::class, $user);
 
-        // 2) Hydrater l'objet User
+        // 2) Hydrater l'objet User (on soumet le formulaire avec la méthode handleRequest())
         $registerForm->handleRequest($request);
 
         if ($registerForm->isSubmitted() && $registerForm->isValid()) {
@@ -66,12 +70,17 @@ class SecurityController extends Controller
             if ($needEmailValidation) {
                 $emailToken = md5(uniqid());
                 $user->setRoles(array('ROLE_USER_PENDING'))->setEmailTemp($user->getEmail())->setEmailToken($emailToken);
+            //  On utilise le service qu'on a créé dans UserEmailService.php : sendValidationEmail
                 $userEmailService->sendValidationEmail($user);
             }
 
             // 5) Sauvegarder l'utilisateur
             $em->persist($user);
             $em->flush();
+            $this->addFlash('success', 'Votre inscription a bien été prise en compte. 
+            Il ne vous reste plus qu\'à cliquer sur le lien dans le mail qui vient de vous être envoyé 
+            (vérifiez vos spams !) pour pouvoir vous connecter.');
+
 
             // 6) On authentifie l'utilisateur directement afin de lui éviter de saisir à nouveau ses identifiants
             // $this->authenticateUser($user);

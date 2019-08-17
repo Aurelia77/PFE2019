@@ -447,8 +447,17 @@ button:hover {
   height: 100%;
   width: 100%;
   content: '';
-  background: url(../../images/even-slider-2.jpg) no-repeat scroll center top;
+  /*background: url(../../images/even-slider-2.jpg) no-repeat scroll center top;*/
+  /*background: #040044;*/
+
+  background: #040044;
+  background-image: url("../images/jazz.png");      /* AJOUTE */
   background-size: cover;
+  /*opacity: 0.33;*/
+
+  /*background-position: top center;*/
+  /*background-repeat: no-repeat;*/
+
   z-index: -1;
 }
 .upload_media h2 {
@@ -620,6 +629,14 @@ button:hover {
 /*----------------------------------------------------------------*/
 .recent_uploads {
   padding: 95px 0 60px;
+
+  /*background: #040044;*/
+  /*background-image: url("../images/jazz.png");      !* AJOUTE *!*/
+  /*background-size: cover;*/
+  /*opacity: 0.33;*/
+  /*background-position: top center;*/
+  /*background-repeat: no-repeat;*/
+
 }
 .author_interview {
   padding-bottom: 30px;
@@ -652,7 +669,7 @@ button:hover {
   position: absolute;
   width: 48px;
   height: 33px;
-  background: url(../../images/play-btn.png) no-repeat scroll 0 0;
+  background: url(../images/play-btn.png) no-repeat scroll 0 0;
   top: calc(50% - 16.5px);
   left: calc(50% - 24px);
 }
@@ -740,7 +757,7 @@ button:hover {
   margin-right: 5px;
 }
 .video_post .inner:hover .screencast .play_btn {
-  background-image: url(../../images/play-btn-hover.png);
+  background-image: url(../images/play-btn-hover.png);
 }
 .video_post .inner:hover .post_data .post_title {
   color: #4aa3df;

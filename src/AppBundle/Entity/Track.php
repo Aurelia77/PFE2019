@@ -33,7 +33,7 @@ class Track
 // user est le propriétaire du track. C'est un objet !!!
     /**
      * Plusieurs tracks peuvent être liées à Un même utilisateur : Relation ManyToOne bidirectionnelle
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="$userTracks")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="$userTracks", cascade={"persist"})
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     protected $user;
@@ -47,6 +47,16 @@ class Track
      * @ORM\Column(name="track", type="string", length=255)
      */
     private $track;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255)
+     */
+    private $image;
+
+
 
 //    /**
 //     * @var string
@@ -146,5 +156,32 @@ class Track
     {
         return $this->track;
     }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Track
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+
+
 }
 

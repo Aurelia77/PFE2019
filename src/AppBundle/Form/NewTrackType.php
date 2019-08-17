@@ -19,7 +19,8 @@ class NewTrackType extends AbstractType
         $builder
             ->add('title', TextType::class, ['label' => 'Titre de ma création'])
             // Type : FilType pour
-            ->add('track', FileType::class, ['label' => 'Votre création (taille max : 2048 KiB) : ']);
+            ->add('track', FileType::class, ['label' => 'Votre création (taille max : 2048 KiB)'])
+            ->add('image', FileType::class, ['label' => 'Choisissez une image']);
     }
 
 

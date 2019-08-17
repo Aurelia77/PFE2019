@@ -23,13 +23,16 @@ class UserEmailService
         $this->urlGenerator = $urlGenerator;
         $this->twig = $twig;
     }
-    
+
     /**
-     * This method is used to send an email to verify that the user email is correct
-     * 
+     * Envoie un email à l'utilisateur pour vérifier son adresse mail
+     *
      * @param User $user
-     * 
+     *
      * @return boolean
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
      */
     public function sendValidationEmail(User $user){
         if(!$user->getEmailTemp()){
@@ -43,8 +46,13 @@ class UserEmailService
             ->setTo($user->getEmailTemp())
             ->setBody(
             $this->twig->render(
-                '/Security/Email/emailvalidation-email.html.twig', array('link' => $this->urlGenerator->generate('validateemail', ['emailToken' => $user->getEmailToken(), 'emailTemp' => $user->getEmailTemp()], UrlGeneratorInterface::ABSOLUTE_URL))
-            ), 'text/html'
+                '/Security/Email/emailvalidation-email.html.twig',
+                array('link' => $this->urlGenerator->generate('validateemail',
+                                                                    ['emailToken' => $user->getEmailToken(),
+                                                                    'emailTemp' => $user->getEmailTemp()],
+                                                                    UrlGeneratorInterface::ABSOLUTE_URL))
+                ),
+                'text/html'
             )
         ;
 

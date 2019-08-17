@@ -2,25 +2,27 @@
 
 {% block stylesheets %}
     <!--Bootstrap and Other Vendors-->
-    <link rel="stylesheet" href="{{ asset('theme/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('theme/css/bootstrap-theme.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('theme/css/magnific-popup.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-theme.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/theme-magnific-popup.css') }}">
+
     <link rel="stylesheet" href="{{ asset('theme/vendors/font-awesome/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('theme/vendors/bootstrap-select/css/bootstrap-select.min.css') }}" media="screen">
+    <link rel="stylesheet" type="text/css" href="{{ asset('theme/vendors/bootstrap-select/css/bootstrap-select.min.css') }}" media="screen">
 
     <!--Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
           rel='stylesheet' type='text/css'>
 
-    <!--Theme Styles-->
-    <link rel="stylesheet" href="{{ asset('theme/css/default/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('theme/css/responsive/responsive.css') }}">
+    <!-- Feuilles de Styles du THEME -->
+    <link rel="stylesheet" href="{{ asset('css/theme-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/theme-responsive.css') }}">
 
     {# BOOTSTRAP #}
     {#<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">#}
 
     {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">#}
+
+    {# MA Feuille de Styles #}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}"/>
 {% endblock %}
 
@@ -34,7 +36,7 @@
     {# Le header, vide ici, sera remplacer dans les différentes pages #}
     <header>
         {% block header %}
-            {% include "Includes/header.html.twig" %}
+            {#{% include "Includes/header.html.twig" %}#}
         {% endblock header %}
     </header>
 
@@ -107,254 +109,20 @@
     <script src="{{ asset('theme/js/theme.js') }}"></script>
     {# FIN : Dans le Thème acheté #}
 
+      <script>
+          const audioPlayer = document.querySelector('.audio-player');
+          const player = audioPlayer.querySelector('audio');
+          const totalTime = audioPlayer.querySelector('.total-time');
 
-    {# Pour le Audio player (https://521dimensions.com/open-source/amplitudejs/docs/examples/dynamic-playlist-player.html) #}
-    <!-- JS -->
-    <script type="text/javascript" src="../js/amplitude.js"></script>
-    {# Même chose en script externe #}
-    {#<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/amplitudejs@v5.0.2/dist/amplitude.js"></script>#}
+          function formatTime(time) {
+              const min = Math.floor(time / 60);
+              const sec = Math.floor(time % 60);
+              return min + ':' + ((sec < 10) ? ('0' + sec) : sec);
+          }
 
-    {#https://numa-bord.com/miniblog/javascript-mettre-place-lecteur-audio-amplitudejs/#}
-    {#<script>#}
-        {#Amplitude.init({#}
-            {#"songs": [#}
-                {#{#}
-                    {#"name": "Le bal masqué",#}
-                    {#"artist": "Opium du peuple",#}
-                    {#"album": "La révolte des opiumettes",#}
-                    {#"url": "./audio/grand_mere.mp3",#}
-                {#},#}
-                {#{#}
-                    {#"name": "Poupée de cire, poupée de son",#}
-                    {#"artist": "Opium du peuple",#}
-                    {#"album": "La révolte des opiumettes",#}
-                    {#"url": "./audio/piano.mp3",#}
-                {#}#}
-            {#],#}
-            {#callbacks: {#}
-                {#//pour démarrer la lecture à cuaque fois que l'on passe au morceau suivant ou préc#}
-                {#song_change: function () {#}
-                    {#Amplitude.play();#}
-                {#}#}
-            {#}#}
-        {#});#}
-    {#</script>#}
+          player.addEventListener('loadedmetadata', () => {
+              totalTime.textContent = formatTime(player.duration);
+          });
 
-    <script>
-        {# Musique qui se trouvait dans la colonne de droite, si on clic dessus s'ajoutent à la Playliste #}
-        // var songsToAdd = [
-        //     {
-        //         "name": "Terrain",
-        //         "artist": "pg.lost",
-        //         "album": "Key",
-        //         "url": "https://521dimensions.com/song/Terrain-pglost.mp3",
-        //         "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/key.jpg"
-        //     },
-        //     {
-        //         "name": "Vorel",
-        //         "artist": "Russian Circles",
-        //         "album": "Guidance",
-        //         "url": "https://521dimensions.com/song/Vorel-RussianCircles.mp3",
-        //         "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/guidance.jpg"
-        //     },
-        //     {
-        //         "name": "Intro / Sweet Glory",
-        //         "artist": "Jimkata",
-        //         "album": "Die Digital",
-        //         "url": "https://521dimensions.com/song/IntroSweetGlory-Jimkata.mp3",
-        //         "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/die-digital.jpg"
-        //     },
-        //     {
-        //         "name": "Offcut #6",
-        //         "artist": "Little People",
-        //         "album": "We Are But Hunks of Wood Remixes",
-        //         "url": "https://521dimensions.com/song/Offcut6-LittlePeople.mp3",
-        //         "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/we-are-but-hunks-of-wood.jpg"
-        //     },
-        //     {
-        //         "name": "Dusk To Dawn",
-        //         "artist": "Emancipator",
-        //         "album": "Dusk To Dawn",
-        //         "url": "https://521dimensions.com/song/DuskToDawn-Emancipator.mp3",
-        //         "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/from-dusk-to-dawn.jpg"
-        //     },
-        //     {
-        //         "name": "Anthem",
-        //         "artist": "Emancipator",
-        //         "album": "Soon It Will Be Cold Enough",
-        //         "url": "https://521dimensions.com/song/Anthem-Emancipator.mp3",
-        //         "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/soon-it-will-be-cold-enough.jpg"
-        //     }
-        // ];
-
-        Amplitude.init({
-            "songs": [
-                {
-                    "name": "Grand mère",
-                    "artist": "Yoan",
-                    "album": "La révolte des opiumettes",
-                    "url": "../audio/grand_mere.mp3",
-                },
-                {
-                    "name": "Piano",
-                    "artist": "Yoan",
-                    "album": "La révolte des opiumettes",
-                    "url": "../audio/piano.mp3",
-                },
-                {
-                    "name": "Böréalis",
-                    "artist": "Yoan",
-                    "album": "La révolte des opiumettes",
-                    "url": "../audio/borealis.m4a",
-                },
-                {
-                    "name": "Papi",
-                    "artist": "Ludo",
-                    "album": "La révolte des opiumettes",
-                    "url": "../audio/papi.wma",
-                },
-
-
-
-                {
-                    "name": "The Gun",
-                    "artist": "Lorn",
-                    "album": "Ask The Dust",
-                    "url": "https://521dimensions.com/song/08 The Gun.mp3",
-                    "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/ask-the-dust.jpg"
-                },
-                {
-                    "name": "Anvil",
-                    "artist": "Lorn",
-                    "album": "Anvil",
-                    "url": "https://521dimensions.com/song/LORN - ANVIL.mp3",
-                    "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/anvil.jpg"
-                },
-                {
-                    "name": "I Came Running",
-                    "artist": "Ancient Astronauts",
-                    "album": "We Are to Answer",
-                    "url": "https://521dimensions.com/song/ICameRunning-AncientAstronauts.mp3",
-                    "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/we-are-to-answer.jpg"
-                },
-                {
-                    "name": "First Snow",
-                    "artist": "Emancipator",
-                    "album": "Soon It Will Be Cold Enough",
-                    "url": "https://521dimensions.com/song/FirstSnow-Emancipator.mp3",
-                    "cover_art_url": "https://521dimensions.com/img/open-source/amplitudejs/album-art/soon-it-will-be-cold-enough.jpg"
-                }
-            ]
-        });
-
-
-        /*
-          Shows the playlist
-        */
-        // document.getElementsByClassName('show-playlist')[0].addEventListener('click', function(){
-        //     document.getElementById('white-player-playlist-container').classList.remove('slide-out-top');
-        //     document.getElementById('white-player-playlist-container').classList.add('slide-in-top');
-        //     document.getElementById('white-player-playlist-container').style.display = "block";
-        // });
-        //
-        // /*
-        //   Hides the playlist
-        // */
-        // document.getElementsByClassName('close-playlist')[0].addEventListener('click', function(){
-        //     document.getElementById('white-player-playlist-container').classList.remove('slide-in-top');
-        //     document.getElementById('white-player-playlist-container').classList.add('slide-out-top');
-        //     document.getElementById('white-player-playlist-container').style.display = "none";
-        // });
-
-        /*
-          Gets all of the add to playlist buttons so we can
-          add some event listeners to actually add to playlist.
-        */
-        // var addToPlaylistButtons = document.getElementsByClassName('add-to-playlist-button');
-        //
-        // for( var i = 0; i < addToPlaylistButtons.length; i++ ){
-        //     /*
-        //       Add an event listener to the add to playlist button.
-        //     */
-        //     addToPlaylistButtons[i].addEventListener('click', function(){
-        //         var songToAddIndex = this.getAttribute('song-to-add');
-        //
-        //         /*
-        //           Adds the song to Amplitude, appends the song to the display,
-        //           then rebinds all of the AmplitudeJS elements.
-        //         */
-        //         var newIndex = Amplitude.addSong( songsToAdd[ songToAddIndex ] );
-        //         appendToSongDisplay( songsToAdd[ songToAddIndex ], newIndex );
-        //         Amplitude.bindNewElements();
-        //
-        //         /*
-        //           Removes the container that contained the add to playlist button.
-        //         */
-        //         var songToAddRemove = document.querySelector('.song-to-add[song-to-add="'+songToAddIndex+'"]');
-        //         songToAddRemove.parentNode.removeChild( songToAddRemove );
-        //     });
-        // }
-
-        /*
-          Appends the song to the display.
-        */
-        // function appendToSongDisplay( song, index ){
-        //     /*
-        //       Grabs the playlist element we will be appending to.
-        //     */
-        //     var playlistElement = document.querySelector('.white-player-playlist');
-        //
-        //     /*
-        //       Creates the playlist song element
-        //     */
-        //     var playlistSong = document.createElement('div');
-        //     playlistSong.setAttribute('class', 'white-player-playlist-song amplitude-song-container amplitude-play-pause');
-        //     playlistSong.setAttribute('data-amplitude-song-index', index);
-        //
-        //     /*
-        //       Creates the playlist song image element
-        //     */
-        //     var playlistSongImg = document.createElement('img');
-        //     playlistSongImg.setAttribute('src', song.cover_art_url);
-        //
-        //     /*
-        //       Creates the playlist song meta element
-        //     */
-        //     var playlistSongMeta = document.createElement('div');
-        //     playlistSongMeta.setAttribute('class', 'playlist-song-meta');
-        //
-        //     /*
-        //       Creates the playlist song name element
-        //     */
-        //     var playlistSongName = document.createElement('span');
-        //     playlistSongName.setAttribute('class', 'playlist-song-name');
-        //     playlistSongName.innerHTML = song.name;
-        //
-        //     /*
-        //       Creates the playlist song artist album element
-        //     */
-        //     var playlistSongArtistAlbum = document.createElement('span');
-        //     playlistSongArtistAlbum.setAttribute('class', 'playlist-song-artist');
-        //     playlistSongArtistAlbum.innerHTML = song.artist+' &bull; '+song.album;
-        //
-        //     /*
-        //       Appends the name and artist album to the playlist song meta.
-        //     */
-        //     playlistSongMeta.appendChild( playlistSongName );
-        //     playlistSongMeta.appendChild( playlistSongArtistAlbum );
-        //
-        //     /*
-        //       Appends the song image and meta to the song element
-        //     */
-        //     playlistSong.appendChild( playlistSongImg );
-        //     playlistSong.appendChild( playlistSongMeta );
-        //
-        //     /*
-        //       Appends the song element to the playlist
-        //     */
-        //     playlistElement.appendChild( playlistSong );
-        // }
-    </script>
-
-
-{% endblock javascripts %}
+      </script>
+  {% endblock %}

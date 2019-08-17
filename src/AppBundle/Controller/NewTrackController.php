@@ -32,8 +32,7 @@ class NewTrackController extends Controller
         // $newTrackForm = $this->get('form.factory')->create(NewTrackType::class, $track);      // Ok mais mieux avec le helper ci-dessous :
         $newTrackForm = $this->createForm(NewTrackType::class, $track);
 
-        // 2) Hydrater l'objet Track
-        // Avec ce qui est rentré dans le formulaire
+        // 2) Hydrater l'objet Track (avec ce qui est rentré dans le formulaire)
         $newTrackForm->handleRequest($request);
         // Et on ajoute le User qui est authentifié
         $track->setUser($this->getUser());
@@ -41,27 +40,51 @@ class NewTrackController extends Controller
         // 3) Validation du Form
         if ($newTrackForm->isSubmitted() && $newTrackForm->isValid()) {
 
-            $profileImage = $newTrackForm->getData();
+            $trackDatas = $newTrackForm->getData();
 
-            // $file contient le fichier uploadé (stocké de manière temporaire)
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
-            $file = $profileImage->getTrack();
+            // FICHIER MUSIQUE : $fileSong contient la musique uploadée (stockée de manière temporaire)
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $fileSong */
+            $fileSong = $trackDatas->getTrack();
 
-            // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé, ou si il s'agit d'un fichier déjà stocké auparavant, qu'il ne faut donc pas modifier
-            if ($file && $file instanceof UploadedFile) {
+            // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé, ou si il s'agit d'un fichier déjà stocké auparavant, qu'il ne faut donc pas modifier (si modif de track)
+            if ($fileSong && $fileSong instanceof UploadedFile) {
                 // Generer un nom unique pour le fichier
                 //$fileName = md5(uniqid()) . '.' . $file->guessExtension();
 //                $fileName = md5(uniqid()) . '.mp3';
                 $fileName = md5(uniqid());
 
                 // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de profile
-                $file->move(
+                $fileSong->move(
 //                    'audio/'.$fileName
                     $this->getParameter('track_directory'), $fileName.'.mp3'
                 );
                 // Mettre à jour l'attribut fileName de l'entité Track avec le nouveau nom du fichier
-                $profileImage->setTrack($fileName);
+                $trackDatas->setTrack($fileName);
             }
+
+
+            // FICHIER IMAGE : fileImg contient l'image uploadée (stockée de manière temporaire)
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $fileImg */
+            $fileImg = $trackDatas->getImage();
+
+            // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé, ou si il s'agit d'un fichier déjà stocké auparavant, qu'il ne faut donc pas modifier (si modif de track)
+            if ($fileImg && $fileImg instanceof UploadedFile) {
+                // Generer un nom unique pour le fichier
+                //$fileName = md5(uniqid()) . '.' . $file->guessExtension();
+//                $fileName = md5(uniqid()) . '.mp3';
+                $fileName = md5(uniqid());
+
+                // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de profile
+                $fileImg->move(
+//                    'audio/'.$fileName
+                    $this->getParameter('img_directory'), $fileName.'.jpg'
+                );
+                // Mettre à jour l'attribut fileName de l'entité Track avec le nouveau nom du fichier
+                $trackDatas->setImage($fileName);
+            }
+
+
+
             // Si l'entité est nouvelle et que $file est vide, on supprime l'entité de la collection et on ajoute un message d'erreur
 //            elseif ($profileImage->getId() === null) {
 //                $user->removeProfileImage($profileImage);
@@ -86,7 +109,7 @@ class NewTrackController extends Controller
 
 
         return $this->render(
-            '/User/newtrack.html.twig', array('newTrackForm' => $newTrackForm->createView(),
+            '/Track/newtrack.html.twig', array('newTrackForm' => $newTrackForm->createView(),
                 'request' => $request)
         );
 

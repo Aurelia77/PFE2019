@@ -31,13 +31,18 @@ class RegisterUserType extends AbstractType
                     new Length(array('max' => 4096))
                 ),                
             ))
-            ->add('firstName', TextType::class, ['label' => 'Prénom'])
-            ->add('lastName', TextType::class, ['label' => 'Nom'])
+            ->add('firstName', TextType::class)
+            ->add('lastName', TextType::class)
 
 //            ->add('rgpd', CheckboxType::class, [
 //                'label'    => 'Show this entry publicly?',
 //                'required' => true,
 //            ]);
+
+            //            'class' => "form-control"]
+
+
+
         ;
     }
 
