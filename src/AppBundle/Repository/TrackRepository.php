@@ -2,6 +2,9 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\Query;
+
+
 /**
  * TrackRepository
  *
@@ -10,4 +13,19 @@ namespace AppBundle\Repository;
  */
 class TrackRepository extends \Doctrine\ORM\EntityRepository
 {
+//    /**
+//     * Nous donne le nombre de son(s) reliés au son visualisé
+//     *
+//     * @return mixed float | null
+//     */
+//    public function getNumberTracks()    // int $id)
+//    {
+//        $qb = $this->createQueryBuilder('t');
+//
+//        return $qb
+//            ->select('COUNT(*) FROM `track`  WHERE `id1` = 42')
+//            ->getQuery()
+////            ->getSingleScalarResult()
+//            ;
+//    }
 }

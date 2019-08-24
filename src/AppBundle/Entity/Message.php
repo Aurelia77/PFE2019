@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Message
  *
- * @ORM\Table(name="book")
+ * @ORM\Table(name="message")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MessageRepository")
  */
 class Message
@@ -26,7 +26,7 @@ class Message
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotNull
      */
     private $title;
@@ -34,10 +34,39 @@ class Message
     /**
      * @var string
      *
-     * @ORM\Column(name="author", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $author;
+    private $corps;
 
+    // user est le propriétaire du message. C'est un objet !!!
+    /**
+     * Plusieurs messages peuvent être liées à Un même utilisateur : Relation ManyToOne bidirectionnelle
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="$userTracks", cascade={"persist"})
+     * @ORM\JoinColumn(name="user", referencedColumnName="id", nullable=false)
+     */
+    protected $user;
+
+    // track est le son dont parle le message. C'est un objet !!!
+    /**
+     * Plusieurs messages peuvent être liées à Un même track : Relation ManyToOne bidirectionnelle
+     * @ORM\ManyToOne(targetEntity="Track", inversedBy="$userMessages", cascade={"persist"})
+     * @ORM\JoinColumn(name="track", referencedColumnName="id", nullable=false)
+     */
+    protected $track;
+
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="creationDate", type="datetime", nullable=true)
+     */
+    private $creationDate;
+
+    // On créé le Constructeur avec la date de création = date + heure du jour
+    public function __construct()
+    {
+        $this->setCreationDate(new \DateTime());
+    }
 
     /**
      * Get id
@@ -73,28 +102,6 @@ class Message
         return $this->title;
     }
 
-    /**
-     * Set author
-     *
-     * @param string $author
-     *
-     * @return Message
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
 
-        return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return string
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
 }
 

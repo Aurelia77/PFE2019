@@ -13,8 +13,8 @@
     <section class="row upload_media">
         <div class="container">
             <div class="row">
-                <h2>Entre Dièses et Bémols</h2>
-                <h3>Partager vos créations !</h3>
+                <h1>Entre Dièses et Bémols</h1>
+                <h2>Partager vos créations !</h2>
                 <div class="upload_media_row">
                     {#<form action="#" id="upload_media" class="videos_from">#}
                     {#<div class="inner row m0">#}
@@ -26,477 +26,155 @@
                     {#</div>#}
                     {#</form>#}
                     {#<a class="or_btn" href="#">or</a>#}
-                    {#<form action="#" id="upload_media_2">#}
-                    <a href="{{ path('newtrack') }}">
-                        <div class="inner row m0">
-                            {#<h2>Upload From PC</h2>#}
-                            {#<h6>Via Frontend Uploader</h6>#}
-                            <img src="{{ asset('theme/images/btn/upload-1.png') }}" alt="Lien uploader une musique">
-                            <h4>Select files to upload</h4>
-                            <h5>or drag &amp; drop files</h5>
-                        </div>
-                    </a>
-                    {#</form>#}
+                    <div id="upload_media_2">
+                        <a href="{{ path('newtrack', {'num' : 1, 'id1' : 0}) }}">
+                            <div class="inner row m0">
+                                {#<h2>Upload From PC</h2>#}
+                                {#<h6>Via Frontend Uploader</h6>#}
+                                <img src="{{ asset('theme/images/btn/upload-1.png') }}" alt="Lien uploader une musique">
+                                <h4>Choisissez votre compo à partager !</h4>
+                                {#<h5>or drag &amp; drop files</h5>#}
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section> <!--Upload Form-->
 
+    <section class="row">
+        <ul class="nav nav-justified ribbon">
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+            <li><a href="#"></a></li>
+        </ul>
+    </section> <!--Ribbon-->
+
     <section class="row recent_uploads">
         <div class="container">
             <div class="row title_row">
-                <h3>Dernières pistes de musique partagées</h3>
+                <h2>Dernières pistes de musique partagées</h2>
             </div>
             {#<audio>#}
             {#<source src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/355309/Swing_Jazz_Drum.mp3" type="audio/mpeg">#}
             {#<source src="../audio/revalite.mp3">#}
             {#</audio>#}
 
-
             <div class="row media-grid content_video_posts">
 
-                <article class="col-sm-4 video_post postType3">
-                    <div class="inner row m0">
-                        <a href="{{ asset('theme/single-video.html') }}">
-                            <div class="row screencast m0">
-                                <img src="{{ asset('theme/images/media/1.jpg') }}" alt="" class="cast img-responsive">
-                                <div class="play_btn"></div>
-                                <div class="media-length">17:30</div>
-                            </div>
-                        </a>
-                        <div class="row m0 post_data">
-                            <div class="category">
-                                <a href="{{ asset('theme/category.html') }}">
-                                    <img src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Art
-                                </a>
-                            </div>
-                            <div class="row m0">
-                                <a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis aute irure
-                                    dolor in adipsicing elit</a>
-                            </div>
-                            <div class="fleft date">Published: 3 August, 2015</div>
-                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"
-                                                                       alt="">3,45,346</a></div>
-                        </div>
-                    </div>
-                </article>
+                {# Avec PAGINATION #}
 
-                {% for track in tracks %}
-                    <article class="col-sm-4 video_post postType3">
-                        <div class="inner row m0 audio-player">
-                            {#<a href="{{ asset('theme/single-video.html') }}">#}
-                            {#<a href="{{ asset('track/seetrack.html/', {'id' : track.id}) }}">  Marche PAS !!! Pk on utilise path et non asset ci-dessous ??? #}
-                            <a href="{{ path('seetrack', {'id' : track.id}) }}" title="Voir le track dans un onglet">
-                                <div class="row screencast m0">
-                                    <img src="../images/img_track/{{ track.image }}.jpg" alt=""
-                                         class="cast img-responsive img_track">
-                                    <div class="play_btn"></div>
-                                    <div class="media-length total-time">17:30</div>
+                <h3>{{ pagination.getTotalitemCount }} sons à écouter !</h3>
+
+                {% if pagination.getTotalitemCount > 0 %}
+
+                        {% for track in pagination %}
+                            <article class="col-sm-4 video_post postType3">
+                                {#{% include "Includes/viewTrack1.html.twig" %}#}
+
+                                <div class="inner row m0 audio-player">
+                                    {#<a href="{{ asset('theme/single-video.html') }}">#}
+                                    {#<a href="{{ asset('track/seetrack.html/', {'id' : track.id}) }}">  Marche PAS !!! Pk on utilise path et non asset ci-dessous ???#}
+                                    <a href="{{ path('seetrack', {'id' : track.id}) }}" title="Voir le track dans un onglet">
+                                        <div class="row screencast m0">
+                                            <img src="../images/img_track/{{ track.image }}.jpg" alt="Image de la musique"
+                                                 class="cast img-responsive img_track">
+                                            <div class="play_btn"></div>
+                                            <div class="media-length total-time">17:30</div>
+                                        </div>
+                                        <h3 class="row m0">
+                                            {{ track.title }}
+                                        </h3>
+                                    </a>
+
+                                    <div class="row m0 post_data">
+                                        {#title et track = noms des variables de l'entité Track#}
+
+                                        {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le prénom#}
+                                        <h4>{{ track.user.firstName }}</h4>
+
+                                        <div class="date">Publié le : {{ track.creationDate|date("d/m/Y") }}</div>
+                                        {#<div class="fright views"><a href="#"><img#}
+                                        {#src="{{ asset('theme/images/icons/views.png') }}"#}
+                                        {#alt="">3,45,346</a></div>#}
+                                        <audio controls>
+                                            Votre navigateur ne supporte pas l'élément <code>audio</code>
+                                            <source src="../audio/{{ track.track }}.mp3"/>
+                                            String $tpsTrack = {{ track.track }}
+                                        </audio>
+
+                                        <a href="{{ path('download', {'id' : track.id}) }}">
+                                            <img src="../images/download.png" height="50px"
+                                                 alt="Lien télécharger track de musique">
+                                        </a>
+                                    </div>
+
                                 </div>
-                            </a>
+                            </article>
+                        {% endfor %}
 
-                            <div class="row m0 post_data">
-                                {#title et track = noms des variables de l'entité Track#}
-
-                                <div class="row m0">
-                                    <a href="{{ path('seetrack', {'id' : track.id}) }}" title="Voir le track dans un onglet" class="post_title">{{ track.title }}</a>
-                                </div>
-
-                                {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le prénom#}
-                                <p>{{ track.user.firstName }}</p>
-
-                                <div class="fleft date">Published: 3 August, 2015</div>
-                                <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"
-                                                                           alt="">3,45,346</a></div>
-                                <audio controls>
-                                    Votre navigateur ne supporte pas l'élément <code>audio</code>
-                                    <source src="../audio/{{ track.track }}.mp3"/>
-                                    {#String $tpsTrack = {{ track.track }}#}
-                                </audio>
-
-                                <a href="{{ path('download', {'id' : track.id}) }}">
-                                    <img src="../images/download.png" height="50px" alt="Lien télécharger track de musique">
-                                </a>
-                            </div>
-
-                        </div>
-                    </article>
-                {% endfor %}
-
-
-                <article class="col-sm-4 video_post postType3">
-                    <div class="inner row m0">
-                        <a href="{{ asset('theme/single-video.html') }}">
-                            <div class="row screencast m0">
-                                <img src="{{ asset('theme/images/media/1.jpg') }}" alt="" class="cast img-responsive">
-                                <div class="play_btn"></div>
-                                <div class="media-length">17:30</div>
-                            </div>
-                        </a>
-                        <div class="row m0 post_data">
-                            <div class="category"><a href="{{ asset('theme/category.html') }}"><img
-                                            src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Art</a></div>
-                            <div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis
-                                    aute irure dolor in adipsicing elit</a></div>
-                            <div class="fleft date">Published: 3 August, 2015</div>
-                            <div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"
-                                                                       alt="">3,45,346</a></div>
-                        </div>
+                    <div class="navigation ml_30">
+                        {{ knp_pagination_render(pagination) }}
                     </div>
-                </article>
+
+                {% else %}
+                    <p>Aucun résultat</p>
+                {% endif %}
 
 
-                {#<table class="width100 text-center">#}
-                {#<tr>#}
-                {#<th class="col-sm-3">Titre</th>#}
-                {#<th class="col-sm-3">Membre</th>#}
-                {#<th class="col-sm-3">Track</th>#}
-                {#<th class="col-sm-3">Télécharger/voir le track</th>#}
-                {#</tr>#}
+
+
 
                 {#{% for track in tracks %}#}
-                {#on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur#}
-                {#<tr {% if loop.index is odd %} class="color" {% endif %}>#}
+                    {#<article class="col-sm-4 video_post postType3">#}
+                        {#{% include "Includes/viewTrack1.html.twig" %}#}
 
-                {#title et track = noms des variables de l'entité Track#}
-                {#<td>{{ track.title }}</td>#}
+                        {#<div class="inner row m0 audio-player">#}
+                            {#<a href="{{ asset('theme/single-video.html') }}">#}
+                            {#<a href="{{ asset('track/seetrack.html/', {'id' : track.id}) }}">  Marche PAS !!! Pk on utilise path et non asset ci-dessous ???#}
+                            {#<a href="{{ path('seetrack', {'id' : track.id}) }}" title="Voir le track dans un onglet">#}
+                                {#<div class="row screencast m0">#}
+                                    {#<img src="../images/img_track/{{ track.image }}.jpg" alt="Image de la musique"#}
+                                         {#class="cast img-responsive img_track">#}
+                                    {#<div class="play_btn"></div>#}
+                                    {#<div class="media-length total-time">17:30</div>#}
+                                {#</div>#}
+                                {#<h3 class="row m0">#}
+                                    {#{{ track.title }}#}
+                                {#</h3>#}
+                            {#</a>#}
 
-                {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le prénom#}
-                {#<td>{{ track.user.firstName }}</td>#}
+                            {#<div class="row m0 post_data">#}
+                                {#title et track = noms des variables de l'entité Track#}
 
-                {#<td>#}
-                {#<audio controls>#}
-                {#<source src="../audio/{{ track.track }}.mp3"/>#}
-                {#String $tpsTrack = {{ track.track }}#}
-                {#</audio>#}
-                {#</td>#}
+                                {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le prénom#}
+                                {#<h4>{{ track.user.firstName }}</h4>#}
 
-                {#<a href="{{ asset('audio/'~ track.track ~'.mp3') }}">   ==> Fonctionne mais ne télécharge pas : ouvre la musique ds une nouvelle page#}
+                                {#<div class="date">Publié le : {{ track.creationDate|date("d/m/Y") }}</div>#}
+                                {#<div class="fright views"><a href="#"><img#}
+                                                {#src="{{ asset('theme/images/icons/views.png') }}"#}
+                                                {#alt="">3,45,346</a></div>#}
+                                {#<audio controls>#}
+                                    {#Votre navigateur ne supporte pas l'élément <code>audio</code>#}
+                                    {#<source src="../audio/{{ track.track }}.mp3"/>#}
+                                    {#String $tpsTrack = {{ track.track }}#}
+                                {#</audio>#}
 
-                {#<td>#}
-                {#<a href="{{ path('download', {'id' : track.id}) }}">#}
-                {#<img src="../images/download.png" height="50px" alt="Bouton télécharger track de musique">#}
-                {#</a>#}
-                {#<a href="{{ path('seetrack', {'id' : track.id}) }}">#}
-                {#<img src="../images/eye.png" height="50px" alt="Bouton voir track de musique">#}
-                {#</a>#}
-                {#</td>#}
-                {#</tr>#}
+                                {#<a href="{{ path('download', {'id' : track.id}) }}">#}
+                                    {#<img src="../images/download.png" height="50px"#}
+                                         {#alt="Lien télécharger track de musique">#}
+                                {#</a>#}
+                            {#</div>#}
+
+                        {#</div>#}
+                    {#</article>#}
                 {#{% endfor %}#}
-                {#</table>#}
 
-
-
-
-
-
-
-
-
-
-                {#<article class="col-sm-4 video_post postType3">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ path('seetrack', {'id' : 1}) }}">#}
-                {#<audio controls>#}
-                {#<source src="../audio/grand_mere.mp3"/>#}
-                {#</audio>#}
-                {#</a>#}
-                {#</div>#}
-                {#</article>#}
-
-
-                {#<article class="col-sm-3 video_post postType3">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                {#<div class="row screencast m0">#}
-                {#<img src="{{ asset('theme/images/media/1.jpg') }}" alt="" class="cast img-responsive">#}
-                {#<div class="play_btn"></div>#}
-                {#<div class="media-length">17:30</div>#}
-                {#</div>#}
-                {#</a>#}
-                {#<div class="row m0 post_data">#}
-                {#<div class="category"><a href="{{ asset('theme/category.html') }}"><img#}
-                {#src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Art</a></div>#}
-                {#<div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis#}
-                {#aute irure dolor in adipsicing elit</a></div>#}
-                {#<div class="fleft date">Published: 3 August, 2015</div>#}
-                {#<div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"#}
-                {#alt="">3,45,346</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</article>#}
-                {#<article class="col-sm-3 video_post postType4">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                {#<div class="row screencast m0">#}
-                {#<img src="{{ asset('theme/images/media/2.jpg') }}" alt="" class="cast img-responsive">#}
-                {#<div class="play_btn"></div>#}
-                {#<div class="media-length">17:30</div>#}
-                {#</div>#}
-                {#</a>#}
-                {#<div class="row m0 post_data">#}
-                {#<div class="category"><a href="{{ asset('theme/category.html') }}"><img#}
-                {#src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Philosophy</a>#}
-                {#</div>#}
-                {#<div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis#}
-                {#aute irure dolor in adipsicing elit</a></div>#}
-                {#<div class="fleft date">Published: 3 August, 2015</div>#}
-                {#<div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"#}
-                {#alt="">3,45,346</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</article>#}
-                {#<article class="col-sm-3 video_post postType2">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                {#<div class="row screencast m0">#}
-                {#<img src="{{ asset('theme/images/media/3.jpg') }}" alt="" class="cast img-responsive">#}
-                {#<div class="play_btn"></div>#}
-                {#<div class="media-length">17:30</div>#}
-                {#</div>#}
-                {#</a>#}
-                {#<div class="row m0 post_data">#}
-                {#<div class="category"><a href="{{ asset('theme/category.html') }}"><img#}
-                {#src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Comedy</a></div>#}
-                {#<div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis#}
-                {#aute irure dolor in adipsicing elit</a></div>#}
-                {#<div class="fleft date">Published: 3 August, 2015</div>#}
-                {#<div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"#}
-                {#alt="">3,45,346</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</article>#}
-                {#<div class="col-sm-3 video_post advertise_betweeen_uploads">#}
-                {#<div class="inner row m0">#}
-                {#<h3>Advertise<br>Here</h3>#}
-                {#</div>#}
-                {#</div>#}
-                {#<article class="col-sm-3 video_post postType3">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                {#<div class="row screencast m0">#}
-                {#<img src="{{ asset('theme/images/media/4.jpg') }}" alt="" class="cast img-responsive">#}
-                {#<div class="play_btn"></div>#}
-                {#<div class="media-length">17:30</div>#}
-                {#</div>#}
-                {#</a>#}
-                {#<div class="row m0 post_data">#}
-                {#<div class="category"><a href="{{ asset('theme/category.html') }}"><img#}
-                {#src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Science</a>#}
-                {#</div>#}
-                {#<div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis#}
-                {#aute irure dolor in adipsicing elit</a></div>#}
-                {#<div class="fleft date">Published: 3 August, 2015</div>#}
-                {#<div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"#}
-                {#alt="">3,45,346</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</article>#}
-                {#<article class="col-sm-3 video_post postType4">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                {#<div class="row screencast m0">#}
-                {#<img src="{{ asset('theme/images/media/5.jpg') }}" alt="" class="cast img-responsive">#}
-                {#<div class="play_btn"></div>#}
-                {#<div class="media-length">17:30</div>#}
-                {#</div>#}
-                {#</a>#}
-                {#<div class="row m0 post_data">#}
-                {#<div class="category"><a href="{{ asset('theme/category.html') }}"><img#}
-                {#src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Youtube</a>#}
-                {#</div>#}
-                {#<div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis#}
-                {#aute irure dolor in adipsicing elit</a></div>#}
-                {#<div class="fleft date">Published: 3 August, 2015</div>#}
-                {#<div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"#}
-                {#alt="">3,45,346</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</article>#}
-                {#<article class="col-sm-3 video_post postType2">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                {#<div class="row screencast m0">#}
-                {#<img src="{{ asset('theme/images/media/6.jpg') }}" alt="" class="cast img-responsive">#}
-                {#<div class="play_btn"></div>#}
-                {#<div class="media-length">17:30</div>#}
-                {#</div>#}
-                {#</a>#}
-                {#<div class="row m0 post_data">#}
-                {#<div class="category"><a href="{{ asset('theme/category.html') }}"><img#}
-                {#src="{{ asset('theme/images/icons/catagory.png') }}" alt="">People</a></div>#}
-                {#<div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis#}
-                {#aute irure dolor in adipsicing elit</a></div>#}
-                {#<div class="fleft date">Published: 3 August, 2015</div>#}
-                {#<div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"#}
-                {#alt="">3,45,346</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</article>#}
-                {#<article class="col-sm-3 video_post postType3">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                {#<div class="row screencast m0">#}
-                {#<img src="{{ asset('theme/images/media/7.jpg') }}" alt="" class="cast img-responsive">#}
-                {#<div class="play_btn"></div>#}
-                {#<div class="media-length">17:30</div>#}
-                {#</div>#}
-                {#</a>#}
-                {#<div class="row m0 post_data">#}
-                {#<div class="category"><a href="{{ asset('theme/category.html') }}"><img#}
-                {#src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Space Tech</a>#}
-                {#</div>#}
-                {#<div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis#}
-                {#aute irure dolor in adipsicing elit</a></div>#}
-                {#<div class="fleft date">Published: 3 August, 2015</div>#}
-                {#<div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"#}
-                {#alt="">3,45,346</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</article>#}
-                {#<article class="col-sm-3 video_post postType4">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                {#<div class="row screencast m0">#}
-                {#<img src="{{ asset('theme/images/media/8.jpg') }}" alt="" class="cast img-responsive">#}
-                {#<div class="play_btn"></div>#}
-                {#<div class="media-length">17:30</div>#}
-                {#</div>#}
-                {#</a>#}
-                {#<div class="row m0 post_data">#}
-                {#<div class="category"><a href="{{ asset('theme/category.html') }}"><img#}
-                {#src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Nature &amp;#}
-                {#Beauty</a></div>#}
-                {#<div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis#}
-                {#aute irure dolor in adipsicing elit</a></div>#}
-                {#<div class="fleft date">Published: 3 August, 2015</div>#}
-                {#<div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"#}
-                {#alt="">3,45,346</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</article>#}
-                {#<article class="col-sm-3 video_post postType2">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                {#<div class="row screencast m0">#}
-                {#<img src="{{ asset('theme/images/media/9.jpg') }}" alt="" class="cast img-responsive">#}
-                {#<div class="play_btn"></div>#}
-                {#<div class="media-length">17:30</div>#}
-                {#</div>#}
-                {#</a>#}
-                {#<div class="row m0 post_data">#}
-                {#<div class="category"><a href="{{ asset('theme/category.html') }}"><img#}
-                {#src="{{ asset('theme/images/icons/catagory.png') }}"#}
-                {#alt="">Entertainment</a></div>#}
-                {#<div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis#}
-                {#aute irure dolor in adipsicing elit</a></div>#}
-                {#<div class="fleft date">Published: 3 August, 2015</div>#}
-                {#<div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"#}
-                {#alt="">3,45,346</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</article>#}
-                {#<article class="col-sm-3 video_post postType3">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                {#<div class="row screencast m0">#}
-                {#<img src="{{ asset('theme/images/media/10.jpg') }}" alt="" class="cast img-responsive">#}
-                {#<div class="play_btn"></div>#}
-                {#<div class="media-length">17:30</div>#}
-                {#</div>#}
-                {#</a>#}
-                {#<div class="row m0 post_data">#}
-                {#<div class="category"><a href="{{ asset('theme/category.html') }}"><img#}
-                {#src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Relationship</a>#}
-                {#</div>#}
-                {#<div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis#}
-                {#aute irure dolor in adipsicing elit</a></div>#}
-                {#<div class="fleft date">Published: 3 August, 2015</div>#}
-                {#<div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"#}
-                {#alt="">3,45,346</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</article>#}
-                {#<article class="col-sm-3 video_post postType4">#}
-                {#<div class="inner row m0">#}
-                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                {#<div class="row screencast m0">#}
-                {#<img src="{{ asset('theme/images/media/11.jpg') }}" alt="" class="cast img-responsive">#}
-                {#<div class="play_btn"></div>#}
-                {#<div class="media-length">17:30</div>#}
-                {#</div>#}
-                {#</a>#}
-                {#<div class="row m0 post_data">#}
-                {#<div class="category"><a href="{{ asset('theme/category.html') }}"><img#}
-                {#src="{{ asset('theme/images/icons/catagory.png') }}" alt="">Business</a>#}
-                {#</div>#}
-                {#<div class="row m0"><a href="{{ asset('theme/single-video.html') }}" class="post_title">Duis#}
-                {#aute irure dolor in adipsicing elit</a></div>#}
-                {#<div class="fleft date">Published: 3 August, 2015</div>#}
-                {#<div class="fright views"><a href="#"><img src="{{ asset('theme/images/icons/views.png') }}"#}
-                {#alt="">3,45,346</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</article>#}
-                {#<div class="row m0">#}
-                {#<div class="clearfix"></div>#}
-                {#<a href="{{ asset('theme/inc/more-uploads-1.html') }}" class="load_more_videos">Load more videos</a>#}
-                {#</div>#}
             </div>
         </div>
     </section> <!--Recent Upload-->
-
-
-
-
-    {# Avec PAGINATION #}
-    {#<p>{{ pagination.getTotalitemCount }}</p>#}
-    {#{% if pagination.getTotalitemCount > 0 %}#}
-    {#<table class="width100 text-center">#}
-    {#<tr>#}
-    {#<th class="col-sm-3">Titre</th>#}
-    {#<th class="col-sm-3">Membre</th>#}
-    {#<th class="col-sm-3">Track</th>#}
-    {#<th class="col-sm-3">Télécharger/voir le track</th>#}
-    {#</tr>#}
-
-    {#{% for track in pagination %}#}
-    {#on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur#}
-    {#<tr {% if loop.index is odd %} class="color" {% endif %}>#}
-
-    {#title et track = noms des variables de l'entité Track#}
-    {#<td>{{ track.title }}</td>#}
-
-    {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le prénom#}
-    {#<td>{{ track.user.firstName }}</td>#}
-
-    {#<td>#}
-    {#<audio controls>#}
-    {#<source src="../audio/{{ track.track }}.mp3"/>#}
-    {#String $tpsTrack = {{ track.track }}#}
-    {#</audio>#}
-    {#</td>#}
-
-    {#<a href="{{ asset('audio/'~ track.track ~'.mp3') }}">   ==> Fonctionne mais ne télécharge pas : ouvre la musique ds une nouvelle page#}
-
-    {#<td>#}
-    {#<a href="{{ path('download', {'id' : track.id}) }}">#}
-    {#<img src="../images/download.png" height="50px" alt="Bouton télécharger track de musique">#}
-    {#</a>#}
-    {#<a href="{{ path('seetrack', {'id' : track.id}) }}">#}
-    {#<img src="../images/eye.png" height="50px" alt="Bouton voir track de musique">#}
-    {#</a>#}
-    {#</td>#}
-    {#</tr>#}
-    {#{% endfor %}#}
-    {#</table>#}
-
-    {#<div class="navigation ml_30">#}
-    {#{{ knp_pagination_render(pagination) }}#}
-    {#</div>#}
-
-    {#{% else %}#}
-    {#<p>Aucun résultat</p>#}
-    {#{% endif %}#}
 
 {% endblock content %}

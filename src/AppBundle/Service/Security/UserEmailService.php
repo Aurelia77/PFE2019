@@ -59,4 +59,6 @@ class UserEmailService
         // Et on envoie le mail qui contient le message créé ci-dessus
         return (bool) $this->mailer->send($message);
     }
+
+
 }

@@ -1,0 +1,41 @@
+<div class="inner row m0 audio-player">
+    {#<a href="{{ asset('theme/single-video.html') }}">#}
+    {#<a href="{{ asset('track/seetrack.html/', {'id' : track.id}) }}">  Marche PAS !!! Pk on utilise path et non asset ci-dessous ??? #}
+        <a href="{{ path('seetrack', {'id' : track.id}) }}" title="Voir le track dans un onglet">
+            <div class="row screencast m0">
+                <img src="../../images/img_track/{{ track.image }}.jpg" alt="Image de la musique"
+                     class="cast img-responsive img_track">
+                <div class="play_btn"></div>
+                <div class="media-length total-time">17:30</div>
+            </div>
+            <h3 class="row m0">
+                {{ track.title }}
+            </h3>
+        </a>
+
+        <div class="row m0 post_data">
+            {#title et track = noms des variables de l'entité Track#}
+
+
+
+            {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le prénom#}
+            <h4>{{ track.user.firstName }}</h4>
+
+            <div class="date">Publié le : {{ track.creationDate|date("d/m/Y") }}</div>
+            {#<div class="fright views"><a href="#"><img#}
+            {#src="{{ asset('theme/images/icons/views.png') }}"#}
+            {#alt="">3,45,346</a></div>#}
+            <audio controls>
+                Votre navigateur ne supporte pas l'élément <code>audio</code>
+                <source src="../../audio/{{ track.track }}.mp3"/>
+                {#String $tpsTrack = {{ track.track }}#}
+            </audio>
+
+            <a href="{{ path('download', {'id' : track.id}) }}">
+                {# app/web/images/download.png !!!??? Home : ../ mais seetrack : ../../ !!!??? #}
+                <img src="../../images/download.png" height="50px"
+                     alt="Lien télécharger track de musique">
+            </a>
+        </div>
+
+</div>

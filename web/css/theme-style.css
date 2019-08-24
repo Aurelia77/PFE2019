@@ -203,7 +203,7 @@ button:hover {
   position: absolute;
   top: 0;
   left: 0;
-  background: url(../../images/page-cover.jpg) no-repeat scroll center top;
+  background: url(../images/page-cover.jpg) no-repeat scroll center top;
   z-index: -1;
   opacity: 0.2;
 }
@@ -460,7 +460,7 @@ button:hover {
 
   z-index: -1;
 }
-.upload_media h2 {
+.upload_media h1 {            /* Changé de h2 en h1 */
   font-size: 48px;
   line-height: 1;
   font-weight: lighter;
@@ -468,7 +468,7 @@ button:hover {
   margin-bottom: 0;
   margin-top: 13px;
 }
-.upload_media h3 {
+.upload_media h2 {         /* Changé de h3 en h2 */
   font-size: 24px;
   line-height: 1;
   font-weight: lighter;
@@ -484,14 +484,15 @@ button:hover {
 .upload_media #upload_media,
 .upload_media #upload_media_2 {
   width: 460px;
-  height: 340px;
+  /*height: 340px;*/                      /*  ENLEVE    */
   background: #fff;
   color: #828a91;
   padding: 30px;
-  margin: auto 15px;
+  margin: 0 auto;
   cursor: pointer;
   position: relative;
-  float: left;
+  /*float: left;*/                      /*  ENLEVE    */
+  border-radius: 7px;                    /* AJOUTE */
 }
 .upload_media #upload_media .inner,
 .upload_media #upload_media_2 .inner {
@@ -1181,7 +1182,7 @@ footer.row {
   padding: 95px 0 50px;
 }
 #preloader {
-  /*position: fixed;*/          /* !!!!! ATTENTION ne fonctionne pas avec ça (poutant par défaut à l'achat du thème */
+  position: fixed;/**/          /* !!!!! ATTENTION ne fonctionne pas avec ça (poutant par défaut à l'achat du thème (BEN SI !!!???) */
   top: 0;
   left: 0;
   right: 0;
@@ -1458,8 +1459,9 @@ footer.row {
 }
 /*----------------------------------------------------------------*/
 .auth_form {
-  width: 100vw;
-  height: 100vh;
+  /*width: 100vw;*/
+  /*height: 100vh;*/
+  height: 80vh;       /* AJOUTE */
   background: #fff;
 }
 .auth_form .form-inner .form-header,
@@ -1561,8 +1563,8 @@ footer.row {
   margin-top: calc(50vh - 181px);
 }
 .login_form {
-  width: 100vw;
-  height: 100vh;
+  /*width: 100vw;*/
+  /*height: 100vh;*/
   background: #fff;
 }
 .login_form .form-inner {

@@ -37,6 +37,11 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=255)
      */
+    protected $pseudo;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     protected $email;
 
     /**
@@ -77,14 +82,9 @@ class User implements UserInterface, \Serializable
     protected $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    protected $favoriteBook;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    protected $book;
+    protected $photo;
 
     /**
      * @ORM\Column(type="string", length=45, nullable=true)
@@ -102,27 +102,38 @@ class User implements UserInterface, \Serializable
     private $oldPassword;
 
 
-
-
-
-
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="creationDate", type="datetime")
+     */
+    protected $creationDate;
 
     /**
      * Un utilisateur est lié à (= a mis sur le site) 0, 1, ou plusieurs Track(s)
      *
-     * @ORM\OneToMany(targetEntity="Track", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Track", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"id" = "DESC"})
      */
     protected $userTracks;
 
 
+    /**
+     * Un utilisateur est lié à (= a mis sur le site) 0, 1, ou plusieurs Message(s)
+     *
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    protected $userMessages;
 
 
 
 
-// On créé le Constructeur avec une valeur par défaut pour le champ roles : ROLE_USER
+// On créé le Constructeur avec une valeur par défaut pour le champ roles : ROLE_USER - Et la date de création
     public function __construct()
     {
         $this->setRoles(['ROLE_USER']);
+        $this->setCreationDate(new \DateTime());
     }
 
 //    /**
@@ -315,57 +326,6 @@ class User implements UserInterface, \Serializable
         return $this->lastName;
     }
 
-    /**
-     * Set the value of favoriteBook.
-     *
-     * @param string $favoriteBook
-     * @return \AppBundle\Entity\User
-     */
-    public function setFavoriteBook($favoriteBook)
-    {
-        $this->lastName = $favoriteBook;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of favoriteBook.
-     *
-     * @return string
-     */
-    public function getFavoriteBook()
-    {
-        return $this->favoriteBook;
-    }
-
-    /**
-     * Add book
-     *
-     * @param \AppBundle\Entity\Message $book
-     *
-     * @return Message
-     */
-    public function addBook(\AppBundle\Entity\Message $book)
-    {
-        if(!$this->getGroupes()->contains($book)){
-            $this->book[] = $book;
-        }
-
-        if(!$book->getBook()->contains($this)){
-            $book->addBook($this);
-        }
-        return $this;
-    }
-
-    /**
-     * Get book
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getBook()
-    {
-        return $this->book;
-    }
 
     /**
      * Set the value of lostPasswordToken.
@@ -513,5 +473,112 @@ class User implements UserInterface, \Serializable
     {
         
         return $this->oldPassword;
+    }
+
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     *
+     * @return User
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * Add userTrack
+     *
+     * @param \AppBundle\Entity\Track $userTrack
+     *
+     * @return User
+     */
+    public function addUserTrack(\AppBundle\Entity\Track $userTrack)
+    {
+        $this->userTracks[] = $userTrack;
+
+        return $this;
+    }
+
+    /**
+     * Remove userTrack
+     *
+     * @param \AppBundle\Entity\Track $userTrack
+     */
+    public function removeUserTrack(\AppBundle\Entity\Track $userTrack)
+    {
+        $this->userTracks->removeElement($userTrack);
+    }
+
+    /**
+     * Get userTracks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserTracks()
+    {
+        return $this->userTracks;
+    }
+
+    /**
+     * Set pseudo
+     *
+     * @param string $pseudo
+     *
+     * @return User
+     */
+    public function setPseudo($pseudo)
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * Get pseudo
+     *
+     * @return string
+     */
+    public function getPseudo()
+    {
+        return $this->pseudo;
+    }
+
+    /**
+     * Set photo
+     *
+     * @param string $photo
+     *
+     * @return User
+     */
+    public function setPhoto($photo)
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * Get photo
+     *
+     * @return string
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
     }
 }

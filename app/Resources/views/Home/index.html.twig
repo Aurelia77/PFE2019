@@ -1,139 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Meta Video | The Best Media Uploader</title>
+{% extends "layout.html.twig" %}
 
-    <!-- Favicon -->
-    <link rel="icon" href="../../../../web/theme/images/favicon.png" type="image/png" />
+{% block title %}
+{{ parent() }} | Thème Accueil
+{% endblock %}
 
-    <!--Bootstrap and Other Vendors-->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/magnific-popup.css">
-    <link rel="stylesheet" href="../../../../web/theme/vendors/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../../web/theme/vendors/bootstrap-select/css/bootstrap-select.min.css" media="screen">
-
-    <!--Fonts-->
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
-
-    <!--Theme Styles-->
-    <link rel="stylesheet" href="css/default/style.css">
-    <link rel="stylesheet" href="css/responsive/responsive.css">
-
-    <!--[if lt IE 9]>
-      <script src="js/html5shiv.min.js"></script>
-      <script src="js/respond.min.js"></script>
-    <![endif]-->
-    
-</head>
-<body class="home">
-    <nav class="navbar navbar-default navbar-static-top">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <a class="navbar-brand" href="index.html"><img src="../../../../web/theme/images/logo.png" alt=""></a>
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#middle-menu" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="middle-menu">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <span class="home_variation_icon"></span>Home variations
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="index.html">Home Page Version 1</a></li>
-                            <li><a href="../../../../web/theme/index2.html">Home Page Version 2</a></li>
-                            <li><a href="../../../../web/theme/index3.html">Home Page Version 3</a></li>
-                            <li><a href="../../../../web/theme/index4.html">Home Page Version 4</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown mega-drop">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <span class="video_menu_icon"></span>Video Menu
-                        </a>
-                        <ul class="dropdown-menu mega-menu">
-                            <li class="row_title">Staf Picked</li>
-                            <li class="videos">
-                                <div class="container">
-                                    <div class="col-sm-3">
-                                        <div class="row inner m0">
-                                            <div class="preview_img">
-                                                <img src="../../../../web/theme/images/menu/1.jpg" alt="" class="preview">
-                                                <a href="single-video.html" class="play-btn"></a>
-                                            </div>
-                                            <div class="title_row row m0"><a href="single-video.html">Duis aute irure dolor in adipsicing elit</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="row inner m0">
-                                            <div class="preview_img">
-                                                <img src="../../../../web/theme/images/menu/2.jpg" alt="" class="preview">
-                                                <a href="single-video.html" class="play-btn"></a>
-                                            </div>
-                                            <div class="title_row row m0"><a href="single-video.html">Duis aute irure dolor in adipsicing elit</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="row inner m0">
-                                            <div class="preview_img">
-                                                <img src="../../../../web/theme/images/menu/3.jpg" alt="" class="preview">
-                                                <a href="single-video.html" class="play-btn"></a>
-                                            </div>
-                                            <div class="title_row row m0"><a href="single-video.html">Duis aute irure dolor in adipsicing elit</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="row inner m0">
-                                            <div class="preview_img">
-                                                <img src="../../../../web/theme/images/menu/4.jpg" alt="" class="preview">
-                                                <a href="single-video.html" class="play-btn"></a>
-                                            </div>
-                                            <div class="title_row row m0"><a href="single-video.html">Duis aute irure dolor in adipsicing elit</a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <span class="extra_pages_icon"></span>Extra pages
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="../../../../web/theme/login.html">Login</a></li>
-                            <li><a href="../../../../web/theme/signup-popup.html">Sign Up</a></li>
-                            <li><a href="single-video.html">Single Video</a></li>
-                            <li><a href="../../../../web/theme/page-author.html">Auther Profile</a></li>
-                            <li><a href="../../../../web/theme/category.html">Category Page</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-            <ul class="nav navbar-nav navbar-right login_drop">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <span class="login_icon"></span> My Account
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="../../../../web/theme/login.html">Login</a></li>
-                        <li><a href="../../../../web/theme/signup-popup.html">Sign Up</a></li>
-                        <li><a href="../../../../web/theme/page-author.html">Auther Profile</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.container-fluid -->
-    </nav> <!--Navigation-->
-
+{% block content %}
     <section class="row upload_media">
         <div class="container">
             <div class="row">
@@ -173,7 +44,7 @@
             <li><a href="#"></a></li>
         </ul>
     </section> <!--Ribbon-->
-    
+
     <section class="row search_filter">
         <div class="container">
             <div class="row m0">
@@ -220,7 +91,7 @@
             </div>
         </div>
     </section>
-    
+
     <section class="row recent_uploads">
         <div class="container">
             <div class="row title_row">
@@ -239,7 +110,7 @@
                             <div class="row m0"><a href="single-video.html" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
                             <div class="fleft date">Published: 3 August, 2015</div>
                             <div class="fright views"><a href="#"><img src="../../../../web/theme/images/icons/views.png" alt="">3,45,346</a></div>
-                        </div> 
+                        </div>
                     </div>
                 </article>
                 <article class="col-sm-3 video_post postType4">
@@ -254,7 +125,7 @@
                             <div class="row m0"><a href="single-video.html" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
                             <div class="fleft date">Published: 3 August, 2015</div>
                             <div class="fright views"><a href="#"><img src="../../../../web/theme/images/icons/views.png" alt="">3,45,346</a></div>
-                        </div> 
+                        </div>
                     </div>
                 </article>
                 <article class="col-sm-3 video_post postType2">
@@ -269,7 +140,7 @@
                             <div class="row m0"><a href="single-video.html" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
                             <div class="fleft date">Published: 3 August, 2015</div>
                             <div class="fright views"><a href="#"><img src="../../../../web/theme/images/icons/views.png" alt="">3,45,346</a></div>
-                        </div> 
+                        </div>
                     </div>
                 </article>
                 <div class="col-sm-3 video_post advertise_betweeen_uploads">
@@ -289,7 +160,7 @@
                             <div class="row m0"><a href="single-video.html" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
                                 <div class="fleft date">Published: 3 August, 2015</div>
                             <div class="fright views"><a href="#"><img src="../../../../web/theme/images/icons/views.png" alt="">3,45,346</a></div>
-                        </div> 
+                        </div>
                     </div>
                 </article>
                 <article class="col-sm-3 video_post postType4">
@@ -304,7 +175,7 @@
                             <div class="row m0"><a href="single-video.html" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
                             <div class="fleft date">Published: 3 August, 2015</div>
                             <div class="fright views"><a href="#"><img src="../../../../web/theme/images/icons/views.png" alt="">3,45,346</a></div>
-                        </div> 
+                        </div>
                     </div>
                 </article>
                 <article class="col-sm-3 video_post postType2">
@@ -319,7 +190,7 @@
                             <div class="row m0"><a href="single-video.html" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
                             <div class="fleft date">Published: 3 August, 2015</div>
                             <div class="fright views"><a href="#"><img src="../../../../web/theme/images/icons/views.png" alt="">3,45,346</a></div>
-                        </div> 
+                        </div>
                     </div>
                 </article>
                 <article class="col-sm-3 video_post postType3">
@@ -334,7 +205,7 @@
                             <div class="row m0"><a href="single-video.html" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
                             <div class="fleft date">Published: 3 August, 2015</div>
                             <div class="fright views"><a href="#"><img src="../../../../web/theme/images/icons/views.png" alt="">3,45,346</a></div>
-                        </div> 
+                        </div>
                     </div>
                 </article>
                 <article class="col-sm-3 video_post postType4">
@@ -349,7 +220,7 @@
                             <div class="row m0"><a href="single-video.html" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
                             <div class="fleft date">Published: 3 August, 2015</div>
                             <div class="fright views"><a href="#"><img src="../../../../web/theme/images/icons/views.png" alt="">3,45,346</a></div>
-                        </div> 
+                        </div>
                     </div>
                 </article>
                 <article class="col-sm-3 video_post postType2">
@@ -364,7 +235,7 @@
                             <div class="row m0"><a href="single-video.html" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
                             <div class="fleft date">Published: 3 August, 2015</div>
                             <div class="fright views"><a href="#"><img src="../../../../web/theme/images/icons/views.png" alt="">3,45,346</a></div>
-                        </div> 
+                        </div>
                     </div>
                 </article>
                 <article class="col-sm-3 video_post postType3">
@@ -379,7 +250,7 @@
                             <div class="row m0"><a href="single-video.html" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
                             <div class="fleft date">Published: 3 August, 2015</div>
                             <div class="fright views"><a href="#"><img src="../../../../web/theme/images/icons/views.png" alt="">3,45,346</a></div>
-                        </div> 
+                        </div>
                     </div>
                 </article>
                 <article class="col-sm-3 video_post postType4">
@@ -394,7 +265,7 @@
                             <div class="row m0"><a href="single-video.html" class="post_title">Duis aute irure dolor in adipsicing elit</a></div>
                             <div class="fleft date">Published: 3 August, 2015</div>
                             <div class="fright views"><a href="#"><img src="../../../../web/theme/images/icons/views.png" alt="">3,45,346</a></div>
-                        </div> 
+                        </div>
                     </div>
                 </article>
                 <div class="row m0">
@@ -404,21 +275,21 @@
             </div>
         </div>
     </section> <!--Recent Upload-->
-    
+
     <section class="science_technology">
         <div class="container">
             <div class="row science_tec_row">
                 <div class="col-sm-8">
-                   <div class="science_img"> 
+                   <div class="science_img">
                         <img src="../../../../web/theme/images/media/large-video.jpg" alt="" class="big_img">
                         <div class="video-content">
                             <a href="single-video.html">Methode Technology Hall Intro</a>
                             <h5><a href="../../../../web/theme/page-author.html">Emran Khan</a> / OCTOER 2017</h5>
                         </div>
                    </div>
-                </div> 
+                </div>
                 <div class="col-sm-4 small_img">
-                   <div class="science_img"> 
+                   <div class="science_img">
                         <img src="../../../../web/theme/images/media/small-video.jpg" alt="">
                         <div class="video-content">
                             <a href="single-video.html">Methode Technology Hall Intro</a>
@@ -427,18 +298,18 @@
                    </div>
                 </div>
                 <div class="col-sm-4 small_img">
-                   <div class="science_img"> 
+                   <div class="science_img">
                         <img src="../../../../web/theme/images/media/small-video-2.jpg" alt="">
                         <div class="video-content">
                             <a href="single-video.html">Methode Technology Hall Intro</a>
                             <h5><a href="../../../../web/theme/page-author.html">Emran Khan</a> / OCTOER 2017</h5>
                         </div>
                    </div>
-                </div> 
+                </div>
             </div>
         </div>
     </section>
-    
+
     <section class="row author_interview author_interview_2">
         <div class="container">
             <div class="row title_row">
@@ -459,7 +330,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-5 other_posts widget widget_popular_videos"> 
+                <div class="col-sm-5 other_posts widget widget_popular_videos">
                     <div class="media">
                         <div class="media-left"><a href="single-video.html"><img src="../../../../web/theme/images/popular/1.jpg" alt=""><span class="duration">17:30</span></a></div>
                         <div class="media-body">
@@ -489,7 +360,7 @@
                             <div class="row m0 meta_info views">34,000 views</div>
                             <div class="row m0 meta_info posted">1 year ago</div>
                         </div>
-                    </div>  
+                    </div>
                     <div class="media">
                         <div class="media-left"><a href="single-video.html"><img src="../../../../web/theme/images/popular/4.jpg" alt=""><span class="duration">17:30</span></a></div>
                         <div class="media-body">
@@ -499,7 +370,7 @@
                             <div class="row m0 meta_info views">34,000 views</div>
                             <div class="row m0 meta_info posted">1 year ago</div>
                         </div>
-                    </div>  
+                    </div>
                     <div class="media">
                         <div class="media-left"><a href="single-video.html"><img src="../../../../web/theme/images/popular/5.jpg" alt=""><span class="duration">17:30</span></a></div>
                         <div class="media-body">
@@ -509,20 +380,20 @@
                             <div class="row m0 meta_info views">34,000 views</div>
                             <div class="row m0 meta_info posted">1 year ago</div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-    
+
     <section class="row advertise_area">
         <div class="container">
-            <div class="row advertise_row"> 
+            <div class="row advertise_row">
                <a href="#"><img src="../../../../web/theme/images/home-2-add.jpg" alt=""></a>
             </div>
         </div>
     </section> <!--Advertise Row-->
-    
+
     <section class="row author_interview">
         <div class="container">
             <div class="row title_row">
@@ -613,8 +484,8 @@
                 </div>
             </div>
         </div>
-    </section> 
-    
+    </section>
+
     <section class="row">
         <ul class="nav nav-justified ribbon">
             <li><a href="#"></a></li>
@@ -625,7 +496,7 @@
             <li><a href="#"></a></li>
         </ul>
     </section> <!--Ribbon-->
-    
+    {##}
     <footer class="row">
         <div class="container">
             <div class="row sidebar sidebar_footer">
@@ -673,30 +544,12 @@
             </div>
         </div>
     </footer>
-    
+    {##}
 	<!-- Preloader -->
 	<div id="preloader">
 		<div id="status">&nbsp;</div>
 	</div>
     
-    <!--jQuery, Bootstrap and other vendor JS-->
-    
-    <!--jQuery-->
-    <script src="../../../../web/theme/js/jquery-3.2.1.min.js"></script>
-    
-    <!--Bootstrap JS-->
-    <script src="../../../../web/theme/js/bootstrap.min.js"></script>
-    
-    <!--jScroll-->
-    <script src="../../../../web/theme/js/jquery.jscroll.min.js"></script>
-    
-    <!--Magnific Popup-->
-    <script src="../../../../web/theme/js/jquery.magnific-popup.min.js"></script>
-    
-    <!--Bootstrap Select-->
-    <script src="../../../../web/theme/vendors/bootstrap-select/js/bootstrap-select.min.js"></script>
-    
-    <!--Theme JS-->
-    <script src="../../../../web/theme/js/theme.js"></script>
-</body>
-</html>
+
+
+{% endblock content %}

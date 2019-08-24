@@ -16,8 +16,20 @@
                     {{ form_widget(newTrackForm.title, {'attr': {'class': 'form-control', 'placeholder':'Titre de ma création'}}) }}
 
                     {#{{ form_label(newTrackForm.track, 'Votre création (taille max : 2048 KiB)') }} ne sert à rien car déjà dans NewTrackType.php #}
+
                     {{ form_row(newTrackForm.track, {'attr': {'class': 'form-control'}}) }}
+
                     {{ form_row(newTrackForm.image, {'attr': {'class': 'form-control'}}) }}
+
+
+{# Personnaliser le bouton PARCOURIR #}
+                    {#<span class="btn btn-success fileinput-button">#}
+                        {#<i class="glyphicon glyphicon-plus"></i>#}
+                        {#<span>Select files...</span>#}
+                        {#<input id="fileupload" type="file" name="files[]" multiple="">#}
+                    {#</span>#}
+
+
 
                     <input type="submit" value="Ajouter" class="btn btn-default form-control">
                     {#<button type="submit" class="btn btn-info">S'enregistrer !</button>#}

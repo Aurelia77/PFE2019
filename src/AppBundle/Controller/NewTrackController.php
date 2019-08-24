@@ -20,7 +20,7 @@ class NewTrackController extends Controller
     /**
      * Page qui permet d'importer un nouveau tracks via un formulaire
      * L'utilisateur doit être connecté !
-     * @Route("/newtrack", name="newtrack")
+     * @Route("/newtrack/{num}/{id1}", name="newtrack")
      * @param Request $request
      * @param EntityManagerInterface $em
      * @return Response
@@ -34,8 +34,22 @@ class NewTrackController extends Controller
 
         // 2) Hydrater l'objet Track (avec ce qui est rentré dans le formulaire)
         $newTrackForm->handleRequest($request);
-        // Et on ajoute le User qui est authentifié
+        // On ajoute le User qui est authentifié
         $track->setUser($this->getUser());
+
+
+        // Puis les champ $num et $id1
+
+        $num = $request->get( 'num' );          // On récupère le paramètre num dans l'URL
+
+
+        $track->setNum($num);          // Numéro du son
+
+        if ($num == 2) {
+            $track->setId1(0);           // Donc relié à aucun autre son
+        }
+
+
 
         // 3) Validation du Form
         if ($newTrackForm->isSubmitted() && $newTrackForm->isValid()) {
@@ -56,7 +70,7 @@ class NewTrackController extends Controller
                 // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de profile
                 $fileSong->move(
 //                    'audio/'.$fileName
-                    $this->getParameter('track_directory'), $fileName.'.mp3'
+                    $this->getParameter('track_directory'), $fileName . '.mp3'
                 );
                 // Mettre à jour l'attribut fileName de l'entité Track avec le nouveau nom du fichier
                 $trackDatas->setTrack($fileName);
@@ -77,12 +91,11 @@ class NewTrackController extends Controller
                 // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de profile
                 $fileImg->move(
 //                    'audio/'.$fileName
-                    $this->getParameter('img_directory'), $fileName.'.jpg'
+                    $this->getParameter('img_directory'), $fileName . '.jpg'
                 );
                 // Mettre à jour l'attribut fileName de l'entité Track avec le nouveau nom du fichier
                 $trackDatas->setImage($fileName);
             }
-
 
 
             // Si l'entité est nouvelle et que $file est vide, on supprime l'entité de la collection et on ajoute un message d'erreur
@@ -96,7 +109,6 @@ class NewTrackController extends Controller
 //            }
 
 
-
             // Sauvegarder le track ds la BDD
             $em->persist($track);
             $em->flush();
@@ -105,7 +117,6 @@ class NewTrackController extends Controller
 
             return $this->redirectToRoute('home');
         }
-
 
 
         return $this->render(

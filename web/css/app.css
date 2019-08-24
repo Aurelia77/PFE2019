@@ -1,3 +1,33 @@
+/*{# Personnaliser le bouton PARCOURIR #}*/
+
+input[type="file"]
+{
+    cursor: pointer;
+}
+
+/*input[type="file"] { background-color:white; font:bold 14px Arial, Helvetica, sans-serif; color:#3287C8; border:0; cursor:pointer; }*/
+
+#fileupload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px;
+    direction: ltr;
+    cursor: pointer;
+}
+
+.fileinput-button {
+    position: relative;
+    overflow: hidden;
+}
+
+
+/*---------------------------------------------------------------------------------*/
+
+
 
 
 /*.img_track {*/
@@ -131,6 +161,9 @@ width: 100%;
     width: 80%;
 }
 
+.mb_10 {
+    margin-bottom: 10%;
+}
 /*.width100 {*/
   /*width: 100%;*/
 /*}*/
@@ -155,6 +188,7 @@ width: 100%;
 .disp_inlineblock {
   display: inline-block;
 }
+
 
 /*-------------------- Pour l'Audio player (https://codepen.io/gregh/pen/NdVvbm) ----------------*/
 /*.holder {*/
