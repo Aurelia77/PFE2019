@@ -1,0 +1,27 @@
+{% extends "/layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} | Réenvoie de mail de validation
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+
+            <h1>Création de compte Entre Dièses et Bémols</h1>
+
+            <p>Cliquez sur le lien-ci dessous pour recevoir un nouveau mail de confirmation</p>
+
+            <p>
+                <a href="{{ path('resendemailvalidation') }}" title=Lien de réenvoie de mail de validation">
+                <span>Activer le compte</span>
+            <div>
+                <img src="http://pfe2019-v2.aurelia-web.fr/images/logoDieseBemol.png"
+                     alt="Logo du site Entre Dièses et Bémols">
+            </div>
+            </a>
+            </p>
+
+        </div>
+    </div>
+{% endblock content %}

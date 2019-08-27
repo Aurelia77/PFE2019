@@ -31,6 +31,7 @@ class RegisterUserType extends AbstractType
                     new Length(array('max' => 4096))
                 ),                
             ))
+            ->add('pseudo', TextType::class)
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
 

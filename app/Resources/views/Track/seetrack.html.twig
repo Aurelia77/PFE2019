@@ -37,11 +37,11 @@
                 {# Musique visualisée #}
                 <div class="col-sm-5 video_post">                      {# classe enlevée : post_page_uploads #}
 
-                    <a href="{{ path('newtrack', {'num' : 2, 'id1' : track.id}) }}" class="clear_both ">
+                    <a href="{{ path('newtrack', {'num' : track.num + 1, 'id1' : track.id}) }}" class="clear_both ">
                         <button class="btn btn-info mb_10">Importer ma création ajoutée à celle-ci</button>
                     </a>
 
-                    {% include "Includes/viewTrack1.html.twig" %}
+                    {% include "Includes/viewTrack.html.twig" %}
 
                     {#<div class="inner row m0 audio-player">#}
                         {#<a href="{{ path('seetrack', {'id' : track.id}) }}" title="Voir le track dans un onglet">#}
@@ -50,6 +50,14 @@
                                      {#class="cast img-responsive img_track">#}
                                 {#<div class="play_btn"></div>#}
                                 {#<div class="media-length total-time">17:30</div>#}
+                    {#<div class="fright">#}
+                        {#{% if track.num == 1 %}#}
+                            {#{{ track.num }}#}
+                        {#{% else %}#}
+                            {#+ {{ track.num }}#}
+                        {#{% endif %}#}
+
+                    {#</div>#}
                             {#</div>#}
                         {#</a>#}
 
@@ -84,8 +92,10 @@
 
                     <div class="w_50 float-left">
 
+                        <h3>Sur ce track, il existe x +1</h3>
                         {# On affiche ici les pistes de musique en relation avec la piste visualisée (id1 = track.id) #}
-                        {% for track2 in tracks %}       {# if track2.id1  == track.id #}
+                        {% for track2 in tracks %}
+                            {# on peut aussi ajouter la condition à l'intérieur : {% for track2 in tracks if track2.id1  == track.id%} mais on ne peut pas ut. loop.index ?? #}
 
                             {% if track2.id1  == track.id %}
 
@@ -99,6 +109,9 @@
                                         </div>
                                         <h3 class="row m0">
                                             {{ track2.title }}
+                                            {% if track2.num > 0 %}
+                                                (+{{ track2.num }})
+                                            {% endif %}
                                         </h3>
                                     </a>
 

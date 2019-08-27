@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Entity\Track;
 use AppBundle\Entity\Message;
 use AppBundle\Form\CreateBookType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -16,67 +17,136 @@ use Doctrine\ORM\EntityManagerInterface;                // Car on utilise le par
 use AppBundle\Repository\UserRepository;
 
 
+/**
+ * @Route("/admin")
+ */
 class AdministrationController extends Controller
 {
 
     /**
      * Page accessible seulement aux admins
      *
-     * @Route("e")
+     * @Route("/", name="admin")
      */
     public function administrationAction()
     {
+
         return $this->render('/Administration/administration.html.twig', array('nompage' => 'Administration:administration'));
     }
 
+
     /**
-     * Page accessible seulement aux admins, où sont listés tous les utilisateurs du site
+     * Affiche les membres du site
+     * Possibilité de faire une recherche par nom ou prénom
      *
-     * @Route("/private/administration/users", name="administrationusers")
+     * @Route("/users", name="adminlistmembers")
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
      */
-    public function administrationUsersAction(Request $request, PaginatorInterface $paginator) //, EntityManagerInterface $em)
+    public function administrationUsersAction(Request $request, PaginatorInterface $paginator)
     {
-        // Si un utilisateur a lancé la requête = si le name est récupéré ( = ce qui a été saisi dans le champ du formulaire)
+        $userRepo = $this->getDoctrine()->getRepository(User::class);
 
-        $name = "Aucune recherche pour l'instant";
+        $name = $request->query->get('query');
 
-        if ($request->get('name')) {
-
-            // On la récupère : on aura donc le nom ou le prénom recherché
-            $name = $request->get('name');
-
-            // On l'exécute avec notre fonction findByFirstNameOrLastName() avec la recherche ($name)
-            //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
-            $userRepository = $this->getDoctrine()->getRepository(User::class);
-
-            //    Avec la pagination
-            $pagination = $paginator->paginate(
-                $userRepository->findByFirstNameOrLastName($name),    // La query que l'on veut paginer
-                $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
-                5                                             // Nombre d'éléments affichés par page
-            );
-
+        if (isset($name) && $name !== "")
+        {
+            $users = $userRepo->findByFirstNameOrLastName($name);
         } else {
-
-            // Sinon on recherche tous les utilisateurs (findAll)
-            //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
-            $userRepository = $this->getDoctrine()->getRepository(User::class);
-
-            $pagination = $paginator->paginate(
-                $userRepository->findAll(),                         // La query que l'on veut paginer
-                $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
-                5                                             // Nombre d'éléments affichés par page
-            );
+            $users = $userRepo->findAll();
         }
 
+        $pagination = $paginator->paginate(
+            $users,                                           // données
+            $request->query->getInt('page', 1),  // numéro de la page lors du chargement
+            3                                           // nombre d'élements par page
+        );
 
-        // Le return retourne une variable et un tableau (array ou [])
-        return $this->render('/Administration/users.html.twig', [
-            'nompage' => 'Administration:administrationUsers',
-            'pagination' => $pagination,
+        return $this->render('/Administration/listmembers.html.twig', array(
+            'pagination'=>$pagination,
             'recherche' => $name,
-        ]);
+
+        ));
     }
+
+
+    /**
+     * Affiche les tracks du site
+     *
+     * @Route("/tracks", name="adminlisttracks")
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
+    public function administrationTracksAction(Request $request, PaginatorInterface $paginator)
+    {
+        $trackRepo = $this->getDoctrine()->getRepository(Track::class);
+
+        $name = $request->query->get('query');
+
+//        if (isset($name) && $name !== "")
+//        {
+//            $users = $userRepo->findByFirstNameOrLastName($name);
+//        } else {
+        $tracks = $trackRepo->findAll();
+//        }
+
+        $pagination = $paginator->paginate(
+            $tracks,                                         // données
+            $request->query->getInt('page', 1),  // numéro de la page lors du chargement
+            3                                           // nombre d'élements par page
+        );
+
+        return $this->render('/Administration/listtracks.html.twig', array(
+            'pagination'=>$pagination,
+//            'recherche' => $name,
+        ));
+    }
+
+
+//    public function administrationUsersAction(Request $request, PaginatorInterface $paginator) //, EntityManagerInterface $em)
+//    {
+//        // Si un utilisateur a lancé la requête = si le name est récupéré ( = ce qui a été saisi dans le champ du formulaire)
+//
+//        $name = "Aucune recherche pour l'instant";
+//
+//        if ($request->get('name')) {
+//
+//            // On la récupère : on aura donc le nom ou le prénom recherché
+//            $name = $request->get('name');
+//
+//            // On l'exécute avec notre fonction findByFirstNameOrLastName() avec la recherche ($name)
+//            //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
+//            $userRepository = $this->getDoctrine()->getRepository(User::class);
+//
+//            //    Avec la pagination
+//            $pagination = $paginator->paginate(
+//                $userRepository->findByFirstNameOrLastName($name),    // La query que l'on veut paginer
+//                $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
+//                5                                             // Nombre d'éléments affichés par page
+//            );
+//
+//        } else {
+//
+//            // Sinon on recherche tous les membres (findAll)
+//            //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
+//            $userRepository = $this->getDoctrine()->getRepository(User::class);
+//
+//            $pagination = $paginator->paginate(
+//                $userRepository->findAll(),                         // La query que l'on veut paginer
+//                $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
+//                3                                             // Nombre d'éléments affichés par page
+//            );
+//        }
+//
+//
+//        // Le return retourne une variable et un tableau (array ou [])
+//        return $this->render('/Administration/listmember.html.twig', [
+//            'pagination' => $pagination,
+//            'recherche' => $name,
+//        ]);
+//    }
 
     // ET SANS LA PAGINATION (OK !! ):
 //    public function administrationUsersAction() //(Request $request, EntityManagerInterface $em)
@@ -92,45 +162,18 @@ class AdministrationController extends Controller
 //    }
 
 
-//      LUCAS : pas d'utilisation de l'EntityManagerInterface $em, pourquoi ????? (je ne l'ai pas utilisé sans la pagination !!(?) et pourquoi pas de Querybuilder ?????
-//    /**
-//     * Page accessible seulement aux admins, où sont listés tous les utilisateurs du site
-//     *
-//     * @Route("/private/administration/users", name="administrationusers")
-//     * @param Request $request
-//     * @param PaginatorInterface $paginator
-//     * @return \Symfony\Component\HttpFoundation\Response
-//     */
-//    public function administrationUsersAction(Request $request, PaginatorInterface $paginator)
-//    {
-//        $userRepo = $this->getDoctrine()->getRepository(User::class);
-//
-//        $query = $request->query->get('query');
-//
-//        if (isset($query) && $query !== "")
-//        {
-//            $users = $userRepo->findByFirstNameOrLastName($query);
-//        } else {
-//            $users = $userRepo->findAll();
-//        }
-//
-//        $pagination = $paginator->paginate(
-//            $users, // donnees
-//            $request->query->getInt('page', 1), // num page lors du chargement
-//            5 // nb element par page
-//        );
-//
-//        return $this->render('/Administration/users.html.twig', array(
-//            'users'=>$users,
-//            'pagination'=>$pagination,
-//        ));
-//    }
+
+
+
+
+
+
 
 
     /**
      * Page accessible seulement aux admins, pour créer un nouveau livre
      *
-     * @Route("/private/administration", name="administration")
+     * @Route("/private/administration", name="administrationBook")
      * @param Request $request
      * @param EntityManagerInterface $em
      * @return Response

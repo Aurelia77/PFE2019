@@ -12,14 +12,14 @@
                     {{ form_errors(newTrackForm) }}
 
                     {# On choisi l'odre des éléments (sinon si on ajoute un bouton il se mettra avant les champs) #}
-                    {#{{ form_row(newTrackForm.title) }} ==> Va afficher aussi le label #}
+
+                    {# form_widget : Affiche seulement le champ #}
                     {{ form_widget(newTrackForm.title, {'attr': {'class': 'form-control', 'placeholder':'Titre de ma création'}}) }}
 
-                    {#{{ form_label(newTrackForm.track, 'Votre création (taille max : 2048 KiB)') }} ne sert à rien car déjà dans NewTrackType.php #}
-
+                    {# form_row : Affiche le lable et le champ #}
                     {{ form_row(newTrackForm.track, {'attr': {'class': 'form-control'}}) }}
-
                     {{ form_row(newTrackForm.image, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_row(newTrackForm.motsclefs, {'attr': {'class': 'form-control'}}) }}
 
 
 {# Personnaliser le bouton PARCOURIR #}
@@ -28,7 +28,6 @@
                         {#<span>Select files...</span>#}
                         {#<input id="fileupload" type="file" name="files[]" multiple="">#}
                     {#</span>#}
-
 
 
                     <input type="submit" value="Ajouter" class="btn btn-default form-control">

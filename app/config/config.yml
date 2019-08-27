@@ -69,6 +69,10 @@ swiftmailer:
     encryption: '%mailer_encryption%'
     port: '%mailer_port%'
     spool: { type: memory }
+    stream_options:
+        ssl:
+            allow_self_signed: true
+            verify_peer: false
 
 # Paginator Configuration
 knp_paginator:

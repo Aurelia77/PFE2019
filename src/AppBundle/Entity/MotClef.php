@@ -30,13 +30,13 @@ class MotClef
 
 
 
-//    OBJET !!!
+//    Tableau d'OBJET !!! Relation MANY to MANY (on décide que MotClef est l'entité propriétaire)
     /**
-     * @var int
+     * Un mot clef peut être relié à plusieurs tracks et inversement
      *
-     * @ORM\Column(name="track", type="integer")
+     * @ORM\ManyToMany(targetEntity="Track", inversedBy="motsclefs", cascade={"persist","remove"})
      */
-    private $track;
+    protected $tracks;
 
 
 
@@ -75,28 +75,46 @@ class MotClef
         return $this->mot;
     }
 
+  
     /**
-     * Set track
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tracks = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add track
      *
-     * @param integer $track
+     * @param \AppBundle\Entity\User $track
      *
      * @return MotClef
      */
-    public function setTrack($track)
+    public function addTrack(User $track)
     {
-        $this->track = $track;
+        $this->tracks[] = $track;
 
         return $this;
     }
 
     /**
-     * Get track
+     * Remove track
      *
-     * @return int
+     * @param \AppBundle\Entity\User $track
      */
-    public function getTrack()
+    public function removeTrack(User $track)
     {
-        return $this->track;
+        $this->tracks->removeElement($track);
+    }
+
+    /**
+     * Get tracks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTracks()
+    {
+        return $this->tracks;
     }
 }
-

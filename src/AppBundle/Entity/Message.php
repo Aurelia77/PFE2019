@@ -41,16 +41,16 @@ class Message
     // user est le propriétaire du message. C'est un objet !!!
     /**
      * Plusieurs messages peuvent être liées à Un même utilisateur : Relation ManyToOne bidirectionnelle
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="$userTracks", cascade={"persist"})
-     * @ORM\JoinColumn(name="user", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="$userMessages", cascade={"persist"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     protected $user;
 
     // track est le son dont parle le message. C'est un objet !!!
     /**
      * Plusieurs messages peuvent être liées à Un même track : Relation ManyToOne bidirectionnelle
-     * @ORM\ManyToOne(targetEntity="Track", inversedBy="$userMessages", cascade={"persist"})
-     * @ORM\JoinColumn(name="track", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Track", inversedBy="$trackMessages", cascade={"persist"})
+     * @ORM\JoinColumn(name="track_id", referencedColumnName="id", nullable=false)
      */
     protected $track;
 
@@ -58,7 +58,7 @@ class Message
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="creationDate", type="datetime", nullable=true)
+     * @ORM\Column(name="creationDate", type="datetime")
      */
     private $creationDate;
 
@@ -103,5 +103,100 @@ class Message
     }
 
 
-}
 
+    /**
+     * Set corps
+     *
+     * @param string $corps
+     *
+     * @return Message
+     */
+    public function setCorps($corps)
+    {
+        $this->corps = $corps;
+
+        return $this;
+    }
+
+    /**
+     * Get corps
+     *
+     * @return string
+     */
+    public function getCorps()
+    {
+        return $this->corps;
+    }
+
+    /**
+     * Set creationDate
+     *
+     * @param \DateTime $creationDate
+     *
+     * @return Message
+     */
+    public function setCreationDate($creationDate)
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    /**
+     * Get creationDate
+     *
+     * @return \DateTime
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Message
+     */
+    public function setUser(User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set track
+     *
+     * @param \AppBundle\Entity\Track $track
+     *
+     * @return Message
+     */
+    public function setTrack(Track $track = null)
+    {
+        $this->track = $track;
+
+        return $this;
+    }
+
+    /**
+     * Get track
+     *
+     * @return \AppBundle\Entity\Track
+     */
+    public function getTrack()
+    {
+        return $this->track;
+    }
+}

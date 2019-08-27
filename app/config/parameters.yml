@@ -7,10 +7,13 @@ parameters:
     database_password: null
     mailer_transport: smtp
     mailer_host: smtp.gmail.com
-    mailer_user: cdw2k18@gmail.com
-    mailer_password: plusdecafe
+    mailer_user: test.pfe2019.aurelia@gmail.com
+    mailer_password: test.pfe2019
     mailer_port: 587
     mailer_encryption: tls
     secret: ThisTokenIsNotSoSecretChangeIt
     locale: fr
     verify_email_after_registration: true
+    track_directory: audio
+    img_directory: images/img_track
+# Aussi dans parameters.yml.dist (va chercher là bas et le met ici qd on fait composer:update)

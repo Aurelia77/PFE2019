@@ -34,19 +34,18 @@ class NewTrackController extends Controller
 
         // 2) Hydrater l'objet Track (avec ce qui est rentré dans le formulaire)
         $newTrackForm->handleRequest($request);
+
         // On ajoute le User qui est authentifié
         $track->setUser($this->getUser());
-
 
         // Puis les champ $num et $id1
 
         $num = $request->get( 'num' );          // On récupère le paramètre num dans l'URL
+        $track->setNum($num);          // Nombre de sons en plus (0 = juste 1 son, 1 = son +1 ...)
 
-
-        $track->setNum($num);          // Numéro du son
-
-        if ($num == 2) {
-            $track->setId1(0);           // Donc relié à aucun autre son
+        $id1 = $request->get( 'id1' );          // On récupère le paramètre num dans l'URL
+        if ($num > 1) {
+            $track->setId1($id1);           // Sinon NULL donc relié à aucun autre son
         }
 
 

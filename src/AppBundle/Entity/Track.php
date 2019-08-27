@@ -29,7 +29,9 @@ class Track
     private $title;
 
 
-// user est le propriétaire du track. C'est un objet !!!
+// user est le propriétaire du track. C'est un OBJET !!!
+// Track est l'entité propriétaire.
+// !!! Bien mettre nullable=false sinon par défaut à true (alors que normalement c'est l'inverse)
     /**
      * Plusieurs tracks peuvent être liées à Un même utilisateur : Relation ManyToOne bidirectionnelle
      * @ORM\ManyToOne(targetEntity="User", inversedBy="$userTracks", cascade={"persist"})
@@ -37,6 +39,23 @@ class Track
      */
     protected $user;
 
+
+    /**
+     * Un track est lié à 0, 1, ou plusieurs Message(s) : Relation OneToMany bidirectionnelle
+     *
+     * @ORM\OneToMany(targetEntity="Message", mappedBy="track", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"id" = "DESC"})
+     */
+    protected $trackMessages;
+
+
+//    Tableau d'OBJET !!! Relation MANY to MANY (on décide que MotClef est l'entité propriétaire)
+    /**
+     * Un track peut être relié à plusieurs mots clefs et inversement : Relation ManyToMany bidirectionnelle
+     *
+     * @ORM\ManyToMany(targetEntity="MotClef", mappedBy="tracks", cascade={"persist","remove"})
+     */
+    protected $motsclefs;
 
 
     /**
@@ -65,7 +84,7 @@ class Track
     /**
      * @var int
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $id1;
 
@@ -75,14 +94,6 @@ class Track
      * @ORM\Column(name="creationDate", type="datetime")
      */
     private $creationDate;
-
-    /**
-     * Un track est lié à 0, 1, ou plusieurs Message(s)
-     *
-     * @ORM\OneToMany(targetEntity="Message", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"id" = "DESC"})
-     */
-    protected $userMessages;
 
 
 //    /**
@@ -286,5 +297,107 @@ class Track
     public function getCreationDate()
     {
         return $this->creationDate;
+    }
+
+    /**
+     * Add motsclef
+     *
+     * @param \AppBundle\Entity\Track $motsclef
+     *
+     * @return Track
+     */
+    public function addMotsclef(Track $motsclef)
+    {
+        $this->motsclefs[] = $motsclef;
+
+        return $this;
+    }
+
+    /**
+     * Remove motsclef
+     *
+     * @param \AppBundle\Entity\Track $motsclef
+     */
+    public function removeMotsclef(Track $motsclef)
+    {
+        $this->motsclefs->removeElement($motsclef);
+    }
+
+    /**
+     * Get motsclefs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMotsclefs()
+    {
+        return $this->motsclefs;
+    }
+
+    /**
+     * Add userMessage
+     *
+     * @param \AppBundle\Entity\Message $userMessage
+     *
+     * @return Track
+     */
+    public function addUserMessage(Message $userMessage)
+    {
+        $this->userMessages[] = $userMessage;
+
+        return $this;
+    }
+
+    /**
+     * Remove userMessage
+     *
+     * @param \AppBundle\Entity\Message $userMessage
+     */
+    public function removeUserMessage(Message $userMessage)
+    {
+        $this->userMessages->removeElement($userMessage);
+    }
+
+    /**
+     * Get userMessages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserMessages()
+    {
+        return $this->userMessages;
+    }
+
+    /**
+     * Add trackMessage
+     *
+     * @param \AppBundle\Entity\Message $trackMessage
+     *
+     * @return Track
+     */
+    public function addTrackMessage(\AppBundle\Entity\Message $trackMessage)
+    {
+        $this->trackMessages[] = $trackMessage;
+
+        return $this;
+    }
+
+    /**
+     * Remove trackMessage
+     *
+     * @param \AppBundle\Entity\Message $trackMessage
+     */
+    public function removeTrackMessage(\AppBundle\Entity\Message $trackMessage)
+    {
+        $this->trackMessages->removeElement($trackMessage);
+    }
+
+    /**
+     * Get trackMessages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTrackMessages()
+    {
+        return $this->trackMessages;
     }
 }

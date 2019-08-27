@@ -40,7 +40,7 @@ class User implements UserInterface, \Serializable
     protected $pseudo;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     protected $email;
 
@@ -82,7 +82,7 @@ class User implements UserInterface, \Serializable
     protected $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $photo;
 
@@ -101,7 +101,6 @@ class User implements UserInterface, \Serializable
      */
     private $oldPassword;
 
-
     /**
      * @var \DateTime
      *
@@ -117,9 +116,8 @@ class User implements UserInterface, \Serializable
      */
     protected $userTracks;
 
-
     /**
-     * Un utilisateur est lié à (= a mis sur le site) 0, 1, ou plusieurs Message(s)
+     * Un utilisateur est lié à (= a mis sur le site) 0, 1, ou plusieurs Message(s) : Relation OneToMany bidirectionnelle
      *
      * @ORM\OneToMany(targetEntity="Message", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"id" = "DESC"})
@@ -243,7 +241,7 @@ class User implements UserInterface, \Serializable
     /**
      * Get the value of roles.
      *
-     * @return string
+     * @return array
      */
     public function getRoles()
     {
@@ -276,7 +274,7 @@ class User implements UserInterface, \Serializable
         if(in_array($role, $roles)){
             $this->setRoles(array_diff($roles, array($role)));
         }
-        
+
         return $this;
     }    
     
@@ -507,7 +505,7 @@ class User implements UserInterface, \Serializable
      *
      * @return User
      */
-    public function addUserTrack(\AppBundle\Entity\Track $userTrack)
+    public function addUserTrack(Track $userTrack)
     {
         $this->userTracks[] = $userTrack;
 
@@ -519,7 +517,7 @@ class User implements UserInterface, \Serializable
      *
      * @param \AppBundle\Entity\Track $userTrack
      */
-    public function removeUserTrack(\AppBundle\Entity\Track $userTrack)
+    public function removeUserTrack(Track $userTrack)
     {
         $this->userTracks->removeElement($userTrack);
     }
@@ -580,5 +578,39 @@ class User implements UserInterface, \Serializable
     public function getPhoto()
     {
         return $this->photo;
+    }
+
+    /**
+     * Add userMessage
+     *
+     * @param \AppBundle\Entity\Message $userMessage
+     *
+     * @return User
+     */
+    public function addUserMessage(Message $userMessage)
+    {
+        $this->userMessages[] = $userMessage;
+
+        return $this;
+    }
+
+    /**
+     * Remove userMessage
+     *
+     * @param \AppBundle\Entity\Message $userMessage
+     */
+    public function removeUserMessage(Message $userMessage)
+    {
+        $this->userMessages->removeElement($userMessage);
+    }
+
+    /**
+     * Get userMessages
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUserMessages()
+    {
+        return $this->userMessages;
     }
 }

@@ -43,8 +43,8 @@ security:
                 target: /
 
     access_control:
-    # require ROLE_ADMIN for /private/administration
-    - { path: ^/private/administration, roles: [ROLE_ADMIN] }
+    # require ROLE_ADMIN for /admin
+    - { path: ^/admin, roles: [ROLE_ADMIN] }
     # require ROLE_USER or ROLE_USER_PENDING for /private/denied
     - { path: ^/private/accessdenied, roles: [ROLE_USER, ROLE_USER_PENDING] }   
     # require ROLE_USER for /private

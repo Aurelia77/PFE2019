@@ -3,19 +3,24 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     database_host: 127.0.0.1
-    database_port: ~
-    database_name: symfony
+    database_port: null
+    database_name: pfe2019
     database_user: root
-    database_password: ~
+    database_password: null
     # You should uncomment this if you want to use pdo_sqlite
     #database_path: '%kernel.project_dir%/var/data/data.sqlite'
 
     mailer_transport: smtp
     mailer_host: smtp.gmail.com
-    mailer_user: cdw2k18@gmail.com
-    mailer_password: plusdecafe
+    mailer_user: test.pfe2019.aurelia@gmail.com
+    mailer_password: test.pfe2019
     mailer_port: 587
     mailer_encryption: tls
+    secret: ThisTokenIsNotSoSecretChangeIt
+    locale: fr
+    verify_email_after_registration: true
+    track_directory: audio
+    img_directory: images/img_track
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt

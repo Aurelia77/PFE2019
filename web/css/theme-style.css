@@ -435,10 +435,11 @@ button:hover {
 .upload_media {
   background: #232323;
   position: relative;
-  height: 640px;
+  /*height: 640px;*/
   z-index: 0;
   text-align: center;
-  padding-top: 140px;
+  /*padding-top: 140px;*/
+  padding: 22px 0px 50px 0px;
 }
 .upload_media:before {
   position: absolute;
@@ -629,7 +630,7 @@ button:hover {
 }
 /*----------------------------------------------------------------*/
 .recent_uploads {
-  padding: 95px 0 60px;
+  padding: 30px 0 60px;
 
   /*background: #040044;*/
   /*background-image: url("../images/jazz.png");      !* AJOUTE *!*/

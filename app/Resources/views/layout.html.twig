@@ -82,8 +82,9 @@
 {% endblock body %}
 
 {% block javascripts %}
-    {{ parent() }}
-    {# Dans le DM du Prof #}
+
+
+     {#Dans le DM du Prof#}
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
@@ -92,8 +93,8 @@
             integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"
             crossorigin="anonymous"></script>
 
-    {# DEBUT : Dans le Thème acheté :
-     https://themeforest.net/item/meta-video-photovideoaudio-uploading-social-html-template/20826346?_ga=2.180277540.1274598869.1565082986-1699288305.1565031820#}
+     {#DEBUT : Dans le Thème acheté :#}
+     {#https://themeforest.net/item/meta-video-photovideoaudio-uploading-social-html-template/20826346?_ga=2.180277540.1274598869.1565082986-1699288305.1565031820#}
     <!--[if lt IE 9]>
     <script src="{{ asset('theme/js/html5shiv.min.js') }}"></script>
     <script src="{{ asset('theme/js/respond.min.js') }}"></script>
@@ -111,22 +112,29 @@
     <script src="{{ asset('theme/vendors/bootstrap-select/js/bootstrap-select.min.js') }}"></script>
     <!--Theme JS-->
     <script src="{{ asset('theme/js/theme.js') }}"></script>
-    {# FIN : Dans le Thème acheté #}
+     {#FIN : Dans le Thème acheté#}
 
-      <script>
-          const audioPlayer = document.querySelector('.audio-player');
-          const player = audioPlayer.querySelector('audio');
-          const totalTime = audioPlayer.querySelector('.total-time');
 
-          function formatTime(time) {
-              const min = Math.floor(time / 60);
-              const sec = Math.floor(time % 60);
-              return min + ':' + ((sec < 10) ? ('0' + sec) : sec);
-          }
+    {# Temps total de la compo #}
+    <script>
 
-          player.addEventListener('loadedmetadata', () => {
-              totalTime.textContent = formatTime(player.duration);
-          });
+        $(function() {
+            $('.audio-player').each(function() {
 
-      </script>
+            var player =   $( this ).find( "audio" );
+            $( this ).find( ".total-time" ).html(formatTime(player[0].duration));
+
+
+
+            });
+        });
+
+        function formatTime(time) {
+            const min = Math.floor(time / 60);
+            const sec = Math.floor(time % 60);
+            return min + ':' + ((sec < 10) ? ('0' + sec) : sec);
+        }
+
+    </script>
+
   {% endblock %}

@@ -1,7 +1,25 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Validation de votre email{% endblock title%}
+{% block title %}
+    {{ parent() }} | title
+{% endblock title %}
 
 {% block body %}
- Cliquez sur ce lien pour valider votre email : {{link}}
+
+    <h1>Création de compte Entre Dièses et Bémols</h1>
+
+    <p>Votre demande de création de compte a été enregistrée.</p>
+
+    <p>Pour activer votre espace personnel, veuillez cliquer sur ce lien (vous avez 30 minutes) : </p>
+
+    <p>
+        <a href="{{ link }}" title="Activer le compte">
+            <span>Activer le compte</span>
+            <div>
+                <img src="http://pfe2019-v2.aurelia-web.fr/images/logoDieseBemol.png"
+                     alt="Logo du site Entre Dièses et Bémols">
+            </div>
+        </a>
+    </p>
+
 {% endblock body %}

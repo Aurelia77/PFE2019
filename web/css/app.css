@@ -115,18 +115,17 @@ input[type="file"]
   color: #5eb5e0 !important;
 }
 
-.efface {
-  display: none !important;
-}
-
-.cache {
-    visibility: hidden;
-}
-
-/*.color {*/
-  /*background-color: #5eb5e0;*/
+/*.efface {*/
+  /*display: none !important;*/
 /*}*/
 
+.color {
+  background-color: #5eb5e0;
+}
+
+.color2 {
+    color: red !important; ;
+}
 /*footer {*/
 
 /*}*/
@@ -190,6 +189,10 @@ width: 100%;
 }
 
 
+/* Bootstrap modifié */
+.alert {
+text-align: center;
+}
 /*-------------------- Pour l'Audio player (https://codepen.io/gregh/pen/NdVvbm) ----------------*/
 /*.holder {*/
     /*!*height: 100%;*!*/

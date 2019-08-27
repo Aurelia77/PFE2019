@@ -54,11 +54,11 @@ class HomeController extends Controller
         $pagination = $paginator->paginate(
             $trackRepository->findAll(),                        // La query que l'on veut paginer
             $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
-            3                                             // Nombre d'éléments affichés par page
+            6                                             // Nombre d'éléments affichés par page
         );
 
         return $this->render('/Home/home.html.twig', [
-            'pagination' => $pagination,
+            'pagination' => $pagination
         ]);
 
     }

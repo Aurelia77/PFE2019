@@ -1,9 +1,13 @@
 <div>
-    <a {% if app.request.get('_route') == 'administrationusers' %}class="active"{% endif %} href="{{ path('administrationusers') }}">
-        Liste des utilisateurs
+    <a {% if app.request.get('_route') == 'adminlistmembers' %}class="active"{% endif %} href="{{ path('adminlistmembers') }}">
+        Liste des membres
     </a>
+
+    <a {% if app.request.get('_route') == 'adminlisttracks' %}class="active"{% endif %} href="{{ path('adminlisttracks') }}">
+        Liste des tracks sur le site
+    </a>
+
     {#<a {% if app.request.get('_route') == 'administration' %}class="active"{% endif %} href="{{path('administration')}}">#}
-    <a href="#">
-        Liste des pistes
-    </a>
+    <a href="#">Liste des mots clefs</a>
+
 </div>

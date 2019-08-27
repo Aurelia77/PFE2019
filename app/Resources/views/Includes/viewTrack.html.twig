@@ -10,6 +10,9 @@
             </div>
             <h3 class="row m0">
                 {{ track.title }}
+                {% if track.num > 0 %}
+                    (+{{ track.num }})
+                {% endif %}
             </h3>
         </a>
 
@@ -36,6 +39,14 @@
                 <img src="../../images/download.png" height="50px"
                      alt="Lien télécharger track de musique">
             </a>
+            {% if track.num > 0 %}
+                <a href="{{ path('seetrack', {'id' : track.id - 1 }) }}" title ="Voir le track de musique sans le dernier son">
+                    <button class="btn btn-primary mb_10">Voir le track de musique sans le dernier son</button>
+                </a>
+            </a>
+
+            {% endif %}
+
         </div>
 
 </div>

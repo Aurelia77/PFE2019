@@ -21,6 +21,13 @@
                         FAQ
                     </a>
                 </li>
+                <li>
+                    <a {% if not is_granted('ROLE_ADMIN') %} class="hidden"{% endif %} {% if app.request.get('_route') == 'admin' %} class="active"{% endif %}
+                            href="{{ path('admin') }}">
+                        {#You only have this if you’ve actually logged in during this session and you're an Admin.#}
+                        Administration
+                    </a>
+                </li>
                 {#<li>#}
                 {#<a {% if app.request.get('_route') == 'administrination' %}class="active"{% endif %} href="{{ path('administration') }}">#}
                 {#Administration#}
@@ -35,31 +42,29 @@
                 {# Prénom du membre connecté (pas besoin de mettre des chose ds le controleur !!!) #}
                 {#<b class="ml-10">#}
                 {#<li class="pr_3em">#}
-                <a {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="cache"{% endif %} {% if app.request.get('_route') == 'user' %} class="active"{% endif %}
-                        href="{{ path('user') }}">
-                    {#You only have this if you’ve actually logged in during this session. If you’re logged in because of a remember me cookie, you won’t have this :#}
-
-                    {#On affiche le nom et le prénom de l'utilisateur dans la base de données, si ils existent#}
-                    {% if app.user.lastName is defined %}
-                        {{ app.user.lastName }}
-                    {% endif %}
-                    {% if app.user.firstName is defined %}
-                        {{ app.user.firstName }}
-                    {% endif %}
-                </a>
+                <li>
+                    <a {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden" {% elseif app.request.get('_route') == 'user' %} class="active color2" {% else %} class="color2"  {% endif %}
+                            href="{{ path('user') }} ">
+                        {#You only have this if you’ve actually logged in during this session. If you’re logged in because of a remember me cookie, you won’t have this :#}
+                        {# On affiche le pseudo du membre #}
+                        {% if app.user.pseudo is defined %}
+                            {{ app.user.pseudo }}
+                        {% endif %}
+                    </a>
+                </li>
                 {#</li>#}
                 {#</b>#}
 
 
                 <ul class="nav navbar-nav navbar-right login_drop">
                     {# Non Connecté #}
-                    <li {% if is_granted('IS_AUTHENTICATED_FULLY') %} class="efface" {% else %} class="disp_inlineblock" {% endif %} >
+                    <li {% if is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden" {% else %} class="disp_inlineblock" {% endif %} >
                         <a {% if app.request.get('_route') == 'register' %} class="active float_left"{% endif %}
                                 href="{{ path('register') }}">
                             M'inscrire
                         </a>
                     </li>
-                    <li {% if is_granted('IS_AUTHENTICATED_FULLY') %} class="efface" {% else %} class="disp_inlineblock" {% endif %} >
+                    <li {% if is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden" {% else %} class="disp_inlineblock" {% endif %} >
 
                         <a {% if app.request.get('_route') == 'login' %} class="active float_left"{% endif %}
                                 href="{{ path('login') }}">
@@ -68,13 +73,13 @@
                     </li>
 
                     {# Connecté #}
-                    <li {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="efface"{% else %} class="disp_inlineblock"{% endif %} >
+                    <li {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden"{% else %} class="disp_inlineblock"{% endif %} >
                         <a {% if app.request.get('_route') == 'user' %} class="active float_left"{% endif %}
                                 href="{{ path('user') }}">
                             Mon Compte
                         </a>
                     </li>
-                    <li {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="efface" {% else %} class="disp_inlineblock" {% endif %} >
+                    <li {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden" {% else %} class="disp_inlineblock" {% endif %} >
                         <a href="{{ path('logout') }}">
                             Se déconnecter
                         </a>

@@ -15,7 +15,7 @@
             <div class="form-inner row">
                 <div class="login_options row m0">
                     <div class="options_header row m0">
-                        <a href="{{ path('home') }}"><img src="../images/logoDieseBemol.png" alt=""></a>
+                        <a href="{{ path('home') }}"><img src="../images/logoDieseBemol.png" alt="Logo du site Entre Dièses et Bémols"></a>
                         <h4><a href="{{ path('login') }}">Se connecter</a></h4>
                     </div>
                 </div>
@@ -26,6 +26,7 @@
                     {{ form_widget(registerForm.email, {'attr': {'class': 'form-control', 'placeholder':'Email'}}) }}
                     {{ form_widget(registerForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder':'Mot de passe'}}) }}
                     {{ form_widget(registerForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder':'Répétez le mot de passe'}}) }}
+                    {{ form_widget(registerForm.pseudo, {'attr': {'class': 'form-control', 'placeholder':'Pseudo'}}) }}
                     {{ form_widget(registerForm.firstName, {'attr': {'class': 'form-control', 'placeholder':'Prénom'}}) }}
                     {{ form_widget(registerForm.lastName, {'attr': {'class': 'form-control', 'placeholder':'Nom'}}) }}
                     {#{{ form_row(registerForm._token) }} !!!???  = CSRF : Symfony utilise entre autre le paramètre secret: ThisTokenIsNotSoSecretChangeIt de

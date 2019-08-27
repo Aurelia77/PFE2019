@@ -1,7 +1,8 @@
 {% extends "/layout.html.twig" %}
 
-{% block title %}AppBundle:Security:accessDenied{% endblock title %}
-
+{% block title %}
+    {{ parent() }} | Accès refusé
+{% endblock %}
 {% block content %}
 
   <div>
@@ -9,7 +10,8 @@
     {% if is_granted('ROLE_USER_PENDING') %}
       Merci de bien vouloir valider votre email avant de pouvoir accéder à ce contenu<br>
       Vous n'avez pas reçu d'email de validation ? <a href="{{ path('accessdenied', {'resendEmailValidation': 1}) }}">Envoyer à nouveau</a>
-    {#  Si l'utilisateur a validé son email, mais n'est pas admin  #}  
+    {#  Si l'utilisateur a validé son email, mais n'est pas admin  #}
+
     {% elseif is_granted('ROLE_ADMIN') == false %}
       Vous devez être administrateur pour accéder à ce contenu
     {% endif %}
