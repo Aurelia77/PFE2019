@@ -170,57 +170,57 @@ class AdministrationController extends Controller
 
 
 
-    /**
-     * Page accessible seulement aux admins, pour créer un nouveau livre
-     *
-     * @Route("/private/administration", name="administrationBook")
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @return Response
-     */
-    public function administrationBooksAction(Request $request, PaginatorInterface $paginator) //, EntityManagerInterface $em)
-    {
-        // Si un utilisateur a lancé la requête = si le name est récupéré ( = ce qui a été saisi dans le champ du formulaire)
-
-        $name = "Aucune recherche pour l'instant";
-
-        if ($request->get('name')) {
-
-            // On la récupère : on aura donc le nom ou le prénom recherché
-            $name = $request->get('name');
-
-            // On l'exécute avec notre fonction findByFirstNameOrLastName() avec la recherche ($name)
-            //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
-            $userRepository = $this->getDoctrine()->getRepository(User::class);
-
-            //    Avec la pagination
-            $pagination = $paginator->paginate(
-                $userRepository->findByFirstNameOrLastName($name),    // La query que l'on veut paginer
-                $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
-                5                                             // Nombre d'éléments affichés par page
-            );
-
-        } else {
-
-            // Sinon on recherche tous les utilisateurs (findAll)
-            //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
-            $userRepository = $this->getDoctrine()->getRepository(User::class);
-
-            $pagination = $paginator->paginate(
-                $userRepository->findAll(),                         // La query que l'on veut paginer
-                $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
-                5                                             // Nombre d'éléments affichés par page
-            );
-        }
-
-
-        // Le return retourne une variable et un tableau (array ou [])
-        return $this->render('/Administration/users.html.twig', [
-            'nompage' => 'Administration:administrationUsers',
-            'pagination' => $pagination,
-            'recherche' => $name,
-        ]);
-    }
+//    /**
+//     * Page accessible seulement aux admins, pour créer un nouveau livre
+//     *
+//     * @Route("/private/administration", name="administrationBook")
+//     * @param Request $request
+//     * @param EntityManagerInterface $em
+//     * @return Response
+//     */
+//    public function administrationBooksAction(Request $request, PaginatorInterface $paginator) //, EntityManagerInterface $em)
+//    {
+//        // Si un utilisateur a lancé la requête = si le name est récupéré ( = ce qui a été saisi dans le champ du formulaire)
+//
+//        $name = "Aucune recherche pour l'instant";
+//
+//        if ($request->get('name')) {
+//
+//            // On la récupère : on aura donc le nom ou le prénom recherché
+//            $name = $request->get('name');
+//
+//            // On l'exécute avec notre fonction findByFirstNameOrLastName() avec la recherche ($name)
+//            //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
+//            $userRepository = $this->getDoctrine()->getRepository(User::class);
+//
+//            //    Avec la pagination
+//            $pagination = $paginator->paginate(
+//                $userRepository->findByFirstNameOrLastName($name),    // La query que l'on veut paginer
+//                $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
+//                5                                             // Nombre d'éléments affichés par page
+//            );
+//
+//        } else {
+//
+//            // Sinon on recherche tous les utilisateurs (findAll)
+//            //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
+//            $userRepository = $this->getDoctrine()->getRepository(User::class);
+//
+//            $pagination = $paginator->paginate(
+//                $userRepository->findAll(),                         // La query que l'on veut paginer
+//                $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
+//                5                                             // Nombre d'éléments affichés par page
+//            );
+//        }
+//
+//
+//        // Le return retourne une variable et un tableau (array ou [])
+//        return $this->render('/Administration/users.html.twig', [
+//            'nompage' => 'Administration:administrationUsers',
+//            'pagination' => $pagination,
+//            'recherche' => $name,
+//        ]);
+//    }
 
 
 

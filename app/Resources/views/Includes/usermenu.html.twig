@@ -1,11 +1,24 @@
-<div>
-    <a {% if app.request.get('_route') == 'user' %}class="active"{% endif %} href="{{ path('user') }}">
-        Infos
-    </a>
-    <a {% if app.request.get('_route') == 'userpassword' %}class="active"{% endif %} href="{{ path('userpassword') }}">
-        Mot de passe
-    </a>
-    <a {% if app.request.get('_route') == 'useremail' %}class="active"{% endif %} href="{{ path('useremail') }}">
-        Email
-    </a>
+<div class="collapse navbar-collapse w-75" id="middle-menu">
+    <ul class="nav navbar-nav w-100">
+        <li>
+            <a {% if app.request.get('_route') == 'user' %}class="active"{% endif %} href="{{ path('user') }}">
+                Informations personnelles
+            </a>
+        </li>
+        <li>
+            <a {% if app.request.get('_route') == 'usertracks' %}class="active"{% endif %} href="{{ path('usertracks') }}">
+                Mes compos et mes tracks +1
+            </a>
+        </li>
+        <li>
+            <a {% if app.request.get('_route') == 'userpassword' %}class="active"{% endif %} href="{{ path('userpassword') }}">
+                Modifier mon mot de passe
+            </a>
+        </li>
+        <li>
+            <a {% if app.request.get('_route') == 'useremail' %}class="active"{% endif %} href="{{ path('useremail') }}">
+                Modifier mon adresse mail
+            </a>
+        </li>
+    </ul>
 </div>

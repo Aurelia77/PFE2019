@@ -8,34 +8,53 @@
     <div class="container">
         <div class="row">
 
-            <h1>Inscription entre Dièses et Bémols</h1>
+            <h1 class="mt-5 mb-5 text-center">Inscription Entre Dièses et Bémols</h1>
 
-            {# form_start => va afficher la balise <form> #}
+            {# form_start => balise <form> #}
             {{ form_start(registerForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
             <div class="form-inner row">
                 <div class="login_options row m0">
                     <div class="options_header row m0">
-                        <a href="{{ path('home') }}"><img src="../images/logoDieseBemol.png" alt="Logo du site Entre Dièses et Bémols"></a>
+                        <a href="{{ path('home') }}"><img src="{{ asset('images/logoDieseBemol.png') }}" alt="Logo du site Entre Dièses et Bémols"></a>
                         <h4><a href="{{ path('login') }}">Se connecter</a></h4>
                     </div>
                 </div>
-                <div class="form-body row m0">
-                    {{ form_errors(registerForm) }}
+                <div class="form-body row m0 mb-5">
 
-                    {#{{ form_row(registerForm.email, {'attr': {'class': 'form-control', 'placeholder':'coucou'}}) }}#}
+                    {#- form_widget() : Affiche le champ en argument uniquement.#}
+                    {#- form_errors() : Affiche les erreurs du champ en argument.#}
+                    {#- form_label() : Affiche le label du champ en argument. (Le second argument est la valeur du label ???!!!).#}
+                    {#- form_row() Affiche le label, les erreurs et le champ en argument.#}
+
+                    {# Va chercher les erreurs dans User #}
+                    <p>{{ form_errors(registerForm.email) }}</p>
                     {{ form_widget(registerForm.email, {'attr': {'class': 'form-control', 'placeholder':'Email'}}) }}
-                    {{ form_widget(registerForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder':'Mot de passe'}}) }}
-                    {{ form_widget(registerForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder':'Répétez le mot de passe'}}) }}
+
+                    <p>{{ form_errors(registerForm.pseudo) }}</p>
                     {{ form_widget(registerForm.pseudo, {'attr': {'class': 'form-control', 'placeholder':'Pseudo'}}) }}
+
+                    <p>{{ form_errors(registerForm.photo) }}</p>
+                    {{ form_row(registerForm.photo, {'attr': {'class': 'form-control'}}) }}
+
+                    <p>{{ form_errors(registerForm.firstName) }}</p>
                     {{ form_widget(registerForm.firstName, {'attr': {'class': 'form-control', 'placeholder':'Prénom'}}) }}
+
+                    <p>{{ form_errors(registerForm.lastName) }}</p>
                     {{ form_widget(registerForm.lastName, {'attr': {'class': 'form-control', 'placeholder':'Nom'}}) }}
+
+                    <p>{{ form_errors(registerForm.plainPassword.first) }}</p>
+                    {{ form_widget(registerForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder':'Mot de passe'}}) }}
+
+                    <p>{{ form_errors(registerForm.plainPassword.second) }}</p>
+                    {{ form_widget(registerForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder':'Répétez le mot de passe'}}) }}
+
                     {#{{ form_row(registerForm._token) }} !!!???  = CSRF : Symfony utilise entre autre le paramètre secret: ThisTokenIsNotSoSecretChangeIt de
                   votre fichier parameters.yml pour générer le CSRF.#}
                     <input type="submit" value="S'inscrire" class="btn btn-default form-control">
                     {#<button type="submit" class="btn btn-info">S'enregistrer !</button>#}
                 </div>
             </div>
-            {# form_end => va afficher la balise </form> #}
+            {# form_end => balise </form> #}
             {{ form_end(registerForm) }}
         </div>
     </div>

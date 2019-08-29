@@ -3,9 +3,25 @@
 {% block title %}AppBundle:User:userEmail{% endblock title %}
 
 {% block content %}
-
+<div class="container">
+  <div class="row">
   {% include "Includes/usermenu.html.twig" %}
 
-  {{form(changeEmailForm)}}
+
+    {{ form_start(changeEmailForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
+    <div class="form-inner row">
+
+      <div class="form-body row m0 mb-5">
+
+        <p>{{ form_errors(changeEmailForm.emailTemp) }}</p>
+        {{ form_widget(changeEmailForm.emailTemp, {'attr': {'class': 'form-control', 'placeholder':'Nouvel email'}}) }}
+
+        <input type="submit" value="Enregistrer" class="btn btn-default form-control">
+      </div>
+    </div>
+    {{ form_end(changeEmailForm) }}
+
+  </div>
+</div>
 
 {% endblock content %}

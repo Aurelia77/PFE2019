@@ -72,24 +72,29 @@
             <div class="row media-grid content_video_posts">
 
                 {# Avec PAGINATION #}
-                <h3>{{ pagination.getTotalitemCount }} compos à écouter !</h3>
+                <h3>{{ pagination.getTotalitemCount }} compos et tracks avec des sons en plus à écouter !</h3>
 
                 {% if pagination.getTotalitemCount > 0 %}
 
                     {% for track in pagination %}
+                    {#{% for track in pagination | sortByField('pagination.creationdate')%} EXTENSION TWIG ???!!! #}
+
                         <article class="col-sm-4 video_post postType3">
                             {#{% include "Includes/viewTrack.html.twig" %}#}
 
+                            {#<div class="inner row m0 audio-player">#}
+                            {# On est obligé de répéter tout dans les classes ???!!! #}
                             <div class="inner row m0 audio-player">
+
                                 {#<a href="{{ asset('theme/single-video.html') }}">#}
                                 {#<a href="{{ asset('track/seetrack.html/', {'id' : track.id}) }}">  Marche PAS !!! Pk on utilise path et non asset ci-dessous ???#}
                                 <a href="{{ path('seetrack', {'id' : track.id}) }}"
                                    title="Voir le track dans un onglet">
                                     <div class="row screencast m0">
-                                        <img src="../images/img_track/{{ track.image }}.jpg" alt="Image de la musique"
+                                        <img src="../{{ img_track_directory }}/{{ track.image }}.jpg" alt="Image de la musique"
                                              class="cast img-responsive img_track">
                                         <div class="play_btn"></div>
-                                        <div class="media-length total-time">17:30</div>
+                                        <div class="media-length total-time"></div>
                                     </div>
                                     <h3 class="row m0">
                                         {{ track.title }}
@@ -99,7 +104,9 @@
                                     </h3>
                                 </a>
 
-                                <div class="row m0 post_data">
+                                <div {% if track.num == 0 %} class="row m0 post_data track_num0"
+                                     {% else %} class="row m0 post_data" {% endif %}>
+
                                     {#title et track = noms des variables de l'entité Track#}
 
                                     {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le pseudo#}
@@ -114,7 +121,7 @@
                                     {#alt="">3,45,346</a></div>#}
                                     <audio controls>
                                         Votre navigateur ne supporte pas l'élément <code>audio</code>
-                                        <source src="../audio/{{ track.track }}.mp3"/>
+                                        <source src="../{{ track_directory }}/{{ track.track }}.mp3"/>
                                         String $tpsTrack = {{ track.track }}
                                     </audio>
 

@@ -27,6 +27,7 @@ class ChangePasswordType extends AbstractType
             ))
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe doivent être identiques.',
                 'first_options'  => array('label' => 'Password'),
                 'second_options' => array('label' => 'Repeat Password'),
                 'constraints' => array(
@@ -34,7 +35,7 @@ class ChangePasswordType extends AbstractType
                     new Length(array('max' => 4096))
                 ),                
             ))
-            ->add('submit', SubmitType::class)
+//            ->add('submit', SubmitType::class)
         ;
     }
 

@@ -36,11 +36,18 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=2)
      */
     protected $pseudo;
 
     /**
+     * checkMX permet de s’assurer qu’il existe au moins un champ MX et c’est ce qui est important pour envoyer un mail.
+     *
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(
+     *      message = "L'email '{{ value }}' est invalide.",
+     *      checkMX = true
+     * )
      */
     protected $email;
 
@@ -61,6 +68,7 @@ class User implements UserInterface, \Serializable
     
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=6)
      */
     protected $password;
 
@@ -73,11 +81,13 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(min=2)
      */
     protected $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(min=2)
      */
     protected $lastName;
 

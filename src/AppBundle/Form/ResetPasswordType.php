@@ -21,6 +21,7 @@ class ResetPasswordType extends AbstractType
         $builder
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
+                'invalid_message' => 'Les mots de passe doivent être identiques.',
                 'first_options'  => array('label' => 'Password'),
                 'second_options' => array('label' => 'Repeat Password'),
                 'constraints' => array(
@@ -28,7 +29,6 @@ class ResetPasswordType extends AbstractType
                     new Length(array('max' => 4096))
                 ),
             ))
-            ->add('submit', SubmitType::class)
         ;
     }
 

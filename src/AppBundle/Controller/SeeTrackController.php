@@ -28,9 +28,14 @@ class SeeTrackController extends Controller
         // On veut aussi passer en pramètres tous les tracks pour pouvoir afficher ceux relié au track visualisé
         $tracks = $trackRepository->findAll();
 
+        $img_track_directory = $this->getParameter('img_track_directory');
+        $track_directory = $this->getParameter('track_directory');
+
         return $this->render('/Track/seetrack.html.twig',
-            array(  'tracks' => $tracks,
-                    'track' => $track
-        ));
+            array('tracks' => $tracks,
+                'track' => $track,
+                'img_track_directory' => $img_track_directory,
+                'track_directory' => $track_directory
+            ));
     }
 }

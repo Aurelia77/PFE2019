@@ -27,18 +27,16 @@
         </ul>
     </section> <!--Ribbon-->
 
-    <h2 class="text-center mt-5 mb-4">Ecoutez cette musique et ajoutez votre son !</h2>
+    <h2 class="text-center mt-5 mb-4">Ecoutez cette compo et ses +1, et ajoutez votre son !</h2>
 
     <section class="row post_page_sidebar post_page_sidebar1">
         <div class="container">
-
             <div class="row">
-
                 {# Musique visualisée #}
-                <div class="col-sm-5 video_post">                      {# classe enlevée : post_page_uploads #}
+                <div class="col-sm-5 video_post text-center">                      {# classe enlevée : post_page_uploads #}
 
-                    <a href="{{ path('newtrack', {'num' : track.num + 1, 'id1' : track.id}) }}" class="clear_both ">
-                        <button class="btn btn-info mb_10">Importer ma création ajoutée à celle-ci</button>
+                    <a href="{{ path('newtrack', {'num' : track.num + 1, 'id1' : track.id}) }}" class="clear_both">
+                        <button class="btn btn-info mb-5 h_50">Importer ma création ajoutée à celle-ci</button>
                     </a>
 
                     {% include "Includes/viewTrack.html.twig" %}
@@ -46,7 +44,7 @@
                     {#<div class="inner row m0 audio-player">#}
                         {#<a href="{{ path('seetrack', {'id' : track.id}) }}" title="Voir le track dans un onglet">#}
                             {#<div class="row screencast m0">#}
-                                {#<img src="../../images/img_track/{{ track.image }}.jpg" alt="Image de la musique"#}
+                                {#<img src="../../{{ img_track_directory }}/{{ track.image }}.jpg" alt="Image de la musique"#}
                                      {#class="cast img-responsive img_track">#}
                                 {#<div class="play_btn"></div>#}
                                 {#<div class="media-length total-time">17:30</div>#}
@@ -75,7 +73,7 @@
                             {#alt="">3,45,346</a></div>#}
                             {#<audio controls>#}
                                 {#Votre navigateur ne supporte pas l'élément <code>audio</code>#}
-                                {#<source src="../../audio/{{ track.track }}.mp3"/>#}
+                                {#<source src="../../{{ track_directory }}/{{ track.track }}.mp3"/>#}
                             {#</audio>#}
 
                             {#<a href="{{ path('download', {'id' : track.id}) }}">#}
@@ -85,27 +83,25 @@
                     {#</div>#}
                 </div>
 
-                <h2>Liste des pistes avec son ajouté</h2>
+                <h2 class="h_50 text-center">xx tracks avec un son en plus</h2>
 
                 {# Musique(s) en relation avec la musique visualisée #}
                 <div class="col-sm-7 sidebar video_post">              {# classe enlevée : sidebar2 #}
-
                     <div class="w_50 float-left">
-
-                        <h3>Sur ce track, il existe x +1</h3>
                         {# On affiche ici les pistes de musique en relation avec la piste visualisée (id1 = track.id) #}
                         {% for track2 in tracks %}
                             {# on peut aussi ajouter la condition à l'intérieur : {% for track2 in tracks if track2.id1  == track.id%} mais on ne peut pas ut. loop.index ?? #}
 
                             {% if track2.id1  == track.id %}
 
-                                <div class="inner row m0 audio-player">
+                                <div class="inner row m0 audio-player mb-5">
+                                    <div class="col-sm-6">
                                     <a href="{{ path('seetrack', {'id' : track2.id}) }}" title="Voir le track dans un onglet">
                                         <div class="row screencast m0">
-                                            <img src="../../images/img_track/{{ track2.image }}.jpg" alt="Image de la musique"
+                                            <img src="../../{{ img_track_directory }}/{{ track2.image }}.jpg" alt="Image de la musique"
                                                  class="cast img-responsive img_track">
                                             <div class="play_btn"></div>
-                                            <div class="media-length total-time">17:30</div>
+                                            <div class="media-length total-time"></div>
                                         </div>
                                         <h3 class="row m0">
                                             {{ track2.title }}
@@ -114,9 +110,8 @@
                                             {% endif %}
                                         </h3>
                                     </a>
-
-                                    <div class="row m0 post_data">
-
+                                    </div>
+                                    <div class="m0 post_data col-sm-6">
                                         <h4>{{ track2.user.firstName }}</h4>
 
                                         <div class="date">Publié le : {{ track2.creationDate|date("d/m/Y") }}</div>
@@ -125,7 +120,7 @@
                                         {#alt="">3,45,346</a></div>#}
                                         <audio controls>
                                             Votre navigateur ne supporte pas l'élément <code>audio</code>
-                                            <source src="../../audio/{{ track2.track }}.mp3"/>
+                                            <source src="../../{{ track_directory }}/{{ track2.track }}.mp3"/>
                                         </audio>
 
                                         <a href="{{ path('download', {'id' : track2.id}) }}">

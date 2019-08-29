@@ -20,7 +20,8 @@ parameters:
     locale: fr
     verify_email_after_registration: true
     track_directory: audio
-    img_directory: images/img_track
+    img_track_directory: images/img_track
+    img_user_directory: images/img_user
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt

@@ -1,14 +1,12 @@
 # To get started with security, check out the documentation:
 # https://symfony.com/doc/current/security.html
 security:
-
+    # Encodage des mots de passes d’un utilisateur
     encoders:
         AppBundle\Entity\User:
             algorithm: bcrypt
 
     role_hierarchy:
-        # Si le boolean "verify_email_after_registration" dans le fichier "parameters.yml" est = true
-        # alors ce rôle sera attribué aux nouveaux utilisateurs le temps qu'ils vérifient leur adresse email avant de pouvoir se connecter
         ROLE_USER_PENDING: [ROLE_USER_PENDING]
         ROLE_USER: [ROLE_USER]
         ROLE_ADMIN: [ROLE_ADMIN, ROLE_USER]
@@ -27,7 +25,7 @@ security:
             security: false
 
         # Private area
-            ## default_target_path: home ==> où on va une fois connecté ##
+            # default_target_path: home = où on va une fois connecté #
         private:
             access_denied_url: /private/accessdenied
             pattern:   ^/
@@ -42,16 +40,18 @@ security:
                 path:   logout
                 target: /
 
+    # Contrôle d'accès (également possible de le gérer depuis le code PHP / dans un template Twig,
+    # grâce aux services authorization_checker ou security)
     access_control:
     # require ROLE_ADMIN for /admin
     - { path: ^/admin, roles: [ROLE_ADMIN] }
-    # require ROLE_USER or ROLE_USER_PENDING for /private/denied
-    - { path: ^/private/accessdenied, roles: [ROLE_USER, ROLE_USER_PENDING] }   
-    # require ROLE_USER for /private
+    # require ROLE_USER or ROLE_USER_PENDING for /private/denied (accés refusé)
+    - { path: ^/private/accessdenied, roles: [ROLE_USER, ROLE_USER_PENDING] }
+    # require ROLE_USER for /private (mon compte...)
     - { path: ^/private, roles: ROLE_USER }
     # require ROLE_USER for /newtrack
     - { path: ^/newtrack, roles: ROLE_USER }
     # require ROLE_USER for /download
     - { path: ^/download, roles: ROLE_USER }
     # no auth needed for /
-    - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY } 
+    - { path: ^/, role: IS_AUTHENTICATED_ANONYMOUSLY }

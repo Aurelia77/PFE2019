@@ -16,7 +16,6 @@ class ChangeEmailType extends AbstractType
     {
         $builder
             ->add('emailTemp', EmailType::class)
-            ->add('submit', SubmitType::class)
         ;
     }
 

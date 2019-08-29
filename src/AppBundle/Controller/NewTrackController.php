@@ -48,8 +48,6 @@ class NewTrackController extends Controller
             $track->setId1($id1);           // Sinon NULL donc relié à aucun autre son
         }
 
-
-
         // 3) Validation du Form
         if ($newTrackForm->isSubmitted() && $newTrackForm->isValid()) {
 
@@ -59,14 +57,15 @@ class NewTrackController extends Controller
             /** @var Symfony\Component\HttpFoundation\File\UploadedFile $fileSong */
             $fileSong = $trackDatas->getTrack();
 
-            // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé, ou si il s'agit d'un fichier déjà stocké auparavant, qu'il ne faut donc pas modifier (si modif de track)
+            // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé,
+            // ou si il s'agit d'un fichier déjà stocké auparavant, qu'il ne faut donc pas modifier (si modif de track)
             if ($fileSong && $fileSong instanceof UploadedFile) {
                 // Generer un nom unique pour le fichier
                 //$fileName = md5(uniqid()) . '.' . $file->guessExtension();
 //                $fileName = md5(uniqid()) . '.mp3';
                 $fileName = md5(uniqid());
 
-                // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de profile
+                // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de track
                 $fileSong->move(
 //                    'audio/'.$fileName
                     $this->getParameter('track_directory'), $fileName . '.mp3'
@@ -77,7 +76,7 @@ class NewTrackController extends Controller
 
 
             // FICHIER IMAGE : fileImg contient l'image uploadée (stockée de manière temporaire)
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $fileImg */
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $fileImg ???!!! */
             $fileImg = $trackDatas->getImage();
 
             // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé, ou si il s'agit d'un fichier déjà stocké auparavant, qu'il ne faut donc pas modifier (si modif de track)
@@ -90,7 +89,7 @@ class NewTrackController extends Controller
                 // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de profile
                 $fileImg->move(
 //                    'audio/'.$fileName
-                    $this->getParameter('img_directory'), $fileName . '.jpg'
+                    $this->getParameter('img_track_directory'), $fileName . '.jpg'
                 );
                 // Mettre à jour l'attribut fileName de l'entité Track avec le nouveau nom du fichier
                 $trackDatas->setImage($fileName);

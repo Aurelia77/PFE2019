@@ -1,0 +1,105 @@
+{% extends "/layout.html.twig" %}
+
+{% block title %}AppBundle:User:user{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% include "Includes/usermenu.html.twig" %}
+
+            <h1 class="mt-5 mb-5 text-center">Mes compos et mes tracks +1 sur Entre Dièses et Bémols</h1>
+
+            <p>{{ app.user.email }}</p>
+            <p>{{ app.user.id }}</p>
+
+
+            {# Avec PAGINATION #}
+            <h3>{{ pagination.getTotalitemCount }} compos et tracks avec des sons en plus à écouter !</h3>
+
+            {% if pagination.getTotalitemCount > 0 %}
+
+                {% for track in pagination %}
+                    <p>{{ track.title }}</p>
+                    {#<p>{{ track.user }}</p>#}
+                    {#{% for track in pagination | sortByField('pagination.creationdate')%} EXTENSION TWIG ???!!! #}
+                    {#{% if track.user_id  == app.user.id %}#}
+
+                        {#<div class="inner row m0 audio-player mb-5">#}
+                            {#<div class="col-sm-6">#}
+                                {#<a href="{{ path('seetrack', {'id' : track2.id}) }}"#}
+                                   {#title="Voir le track dans un onglet">#}
+                                    {#<div class="row screencast m0">#}
+                                        {#<img src="../../{{ img_track_directory }}/{{ track2.image }}.jpg"#}
+                                             {#alt="Image de la musique"#}
+                                             {#class="cast img-responsive img_track">#}
+                                        {#<div class="play_btn"></div>#}
+                                        {#<div class="media-length total-time"></div>#}
+                                    {#</div>#}
+                                    {#<h3 class="row m0">#}
+                                        {#{{ track2.title }}#}
+                                        {#{% if track2.num > 0 %}#}
+                                            {#(+{{ track2.num }})#}
+                                        {#{% endif %}#}
+                                    {#</h3>#}
+                                {#</a>#}
+                            {#</div>#}
+                            {#<div class="m0 post_data col-sm-6">#}
+                                {#<h4>{{ track2.user.firstName }}</h4>#}
+
+                                {#<div class="date">Publié le : {{ track2.creationDate|date("d/m/Y") }}</div>#}
+                                {#<div class="fright views"><a href="#"><img#}
+                                {#src="{{ asset('theme/images/icons/views.png') }}"#}
+                                {#alt="">3,45,346</a></div>#}
+                                {#<audio controls>#}
+                                    {#Votre navigateur ne supporte pas l'élément <code>audio</code>#}
+                                    {#<source src="../../{{ track_directory }}/{{ track2.track }}.mp3"/>#}
+                                {#</audio>#}
+
+                                {#<a href="{{ path('download', {'id' : track2.id}) }}">#}
+                                    {# app/web/images/download.png !!!??? Home : ../ mais seetrack : ../../ !!!??? #}
+                                    {#<img src="../../images/download.png" height="50px"#}
+                                         {#alt="Lien télécharger track de musique">#}
+                                {#</a>#}
+                            {#</div>#}
+                        {#</div>#}
+
+                    {#{% endif %}#}
+
+                {% endfor %}
+            {% endif %}
+
+
+
+            {#{{ form_start(userInfoForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}#}
+
+            <div class="form-inner row">
+                <div class="login_options row m0">
+                    <div class="options_header row m0">
+                        <a href="{{ path('home') }}"><img src="../../images/logoDieseBemol.png"
+                                                          alt="Logo du site Entre Dièses et Bémols"></a>
+                        <h4><a href="{{ path('login') }}">Se connecter</a></h4>
+                    </div>
+                </div>
+                <div class="form-body row m0 mb-5">
+
+                    {#<p>{{ form_errors(userInfoForm.pseudo) }}</p>#}
+                    {#{{ form_row(userInfoForm.pseudo, {'attr': {'class': 'form-control'}}) }}#}
+
+                    {#<p>{{ form_errors(userInfoForm.firstName) }}</p>#}
+                    {#{{ form_row(userInfoForm.firstName, {'attr': {'class': 'form-control'}}) }}#}
+
+                    {#<p>{{ form_errors(userInfoForm.lastName) }}</p>#}
+                    {#{{ form_row(userInfoForm.lastName, {'attr': {'class': 'form-control'}}) }}#}
+
+                    {#<p>{{ form_errors(userInfoForm.photo) }}</p>#}
+                    {#{{ form_row(userInfoForm.photo, {'attr': {'class': 'form-control'}}) }}#}
+
+                    {#<button type="submit" class="btn-default">Enregistrer</button>#}
+                    {#<input type="submit" value="Enregistrer" class="btn btn-default form-control">#}
+
+                    {#{{ form_end(userInfoForm) }}#}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

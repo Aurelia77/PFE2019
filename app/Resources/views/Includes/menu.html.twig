@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header w_20">
+        <div class="navbar-header w-25">
             <a class="navbar-brand" href="{{ path('home') }}"><img src="{{ asset('images/logoDieseBemol.png') }}"
                                                                    alt=""></a>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#middle-menu"
@@ -14,8 +14,8 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse w_80" id="middle-menu">
-            <ul class="nav navbar-nav w_100">
+        <div class="collapse navbar-collapse w-75" id="middle-menu">
+            <ul class="nav navbar-nav w-100">
                 <li>
                     <a {% if app.request.get('_route') == 'faq' %}class="active"{% endif %} href="{{ path('faq') }}">
                         FAQ
@@ -28,27 +28,20 @@
                         Administration
                     </a>
                 </li>
-                {#<li>#}
-                {#<a {% if app.request.get('_route') == 'administrination' %}class="active"{% endif %} href="{{ path('administration') }}">#}
-                {#Administration#}
-                {#</a>#}
-                {#</li>#}
-                {#<li class="pr_3em">#}
-                {#<a {% if app.request.get('_route') == 'dashboard' %}class="active"{% endif %} href="{{ path('dashboard') }}">#}
-                {#Dashboard#}
-                {#</a>#}
-                {#</li>#}
 
-                {# Prénom du membre connecté (pas besoin de mettre des chose ds le controleur !!!) #}
+
+                {# PSEUDO du membre connecté #}
                 {#<b class="ml-10">#}
                 {#<li class="pr_3em">#}
-                <li>
+                <li id="pseudo_menu">
                     <a {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden" {% elseif app.request.get('_route') == 'user' %} class="active color2" {% else %} class="color2"  {% endif %}
                             href="{{ path('user') }} ">
                         {#You only have this if you’ve actually logged in during this session. If you’re logged in because of a remember me cookie, you won’t have this :#}
                         {# On affiche le pseudo du membre #}
                         {% if app.user.pseudo is defined %}
-                            {{ app.user.pseudo }}
+                            {{ app.user.pseudo }} -
+                            {% if app.user.roles[0] is defined %}{{ app.user.roles[0] }} {% endif %}
+                            {% if app.user.roles[1] is defined %}{{ app.user.roles[1] }} {% endif %}
                         {% endif %}
                     </a>
                 </li>

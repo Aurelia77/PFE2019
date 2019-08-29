@@ -3,18 +3,21 @@
 {% block title %}
     {{ parent() }} | Accès refusé
 {% endblock %}
+
 {% block content %}
+<div class="container">
+    <div class="row mt-5">
+        {#  Si l'utilisateur n'a pas validé son email  #}
+        {% if is_granted('ROLE_USER_PENDING') %}
 
-  <div>
-    {#  Si l'utilisateur n'a pas validé son email  #}
-    {% if is_granted('ROLE_USER_PENDING') %}
-      Merci de bien vouloir valider votre email avant de pouvoir accéder à ce contenu<br>
-      Vous n'avez pas reçu d'email de validation ? <a href="{{ path('accessdenied', {'resendEmailValidation': 1}) }}">Envoyer à nouveau</a>
-    {#  Si l'utilisateur a validé son email, mais n'est pas admin  #}
 
-    {% elseif is_granted('ROLE_ADMIN') == false %}
-      Vous devez être administrateur pour accéder à ce contenu
-    {% endif %}
-  </div>
+            Merci de bien vouloir valider votre email avant de pouvoir accéder à ce contenu<br>
+            Vous n'avez pas reçu d'email de validation ?
+            <a href="{{ path('accessdenied', {'resendEmailValidation': 1}) }}">Envoyer à nouveau</a>
+        {% elseif not is_granted('ROLE_ADMIN') %}
+            Vous n'avez pas les droits nécessaires pour accéder à ce contenu.
+        {% endif %}
+    </div>
+</div>
 {% endblock content %}
 

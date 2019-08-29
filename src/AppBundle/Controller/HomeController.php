@@ -57,8 +57,13 @@ class HomeController extends Controller
             6                                             // Nombre d'éléments affichés par page
         );
 
+        $img_track_directory = $this->getParameter('img_track_directory');
+        $track_directory = $this->getParameter('track_directory');
+
         return $this->render('/Home/home.html.twig', [
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'img_track_directory' => $img_track_directory,
+            'track_directory' => $track_directory
         ]);
 
     }

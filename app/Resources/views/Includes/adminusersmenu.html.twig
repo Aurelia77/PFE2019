@@ -1,13 +1,17 @@
-<div>
-    <a {% if app.request.get('_route') == 'adminlistmembers' %}class="active"{% endif %} href="{{ path('adminlistmembers') }}">
-        Liste des membres
-    </a>
-
-    <a {% if app.request.get('_route') == 'adminlisttracks' %}class="active"{% endif %} href="{{ path('adminlisttracks') }}">
-        Liste des tracks sur le site
-    </a>
-
-    {#<a {% if app.request.get('_route') == 'administration' %}class="active"{% endif %} href="{{path('administration')}}">#}
-    <a href="#">Liste des mots clefs</a>
-
+<div class="collapse navbar-collapse w-75" id="middle-menu">
+    <ul class="nav navbar-nav w-100">
+        <li>
+            <a {% if app.request.get('_route') == 'adminlistmembers' %}class="active"{% endif %} href="{{ path('adminlistmembers') }}">
+                Liste des membres
+            </a>
+        </li>
+        <li>
+            <a {% if app.request.get('_route') == 'adminlisttracks' %}class="active"{% endif %} href="{{ path('adminlisttracks') }}">
+                Liste des tracks sur le site
+            </a>
+        </li>
+        <li>
+            {#<a {% if app.request.get('_route') == 'administration' %}class="active"{% endif %} href="{{path('administration')}}">#}
+            <a href="#">Liste des mots clefs</a>
+        </li>
 </div>
