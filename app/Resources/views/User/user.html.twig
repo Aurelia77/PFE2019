@@ -31,7 +31,7 @@
                     {# Photo/image actuelle #}
                     {% if app.user.photo != NULL %}
                         {#<img src="{{ asset(img_user_directory/app.user.photo) }}.jpg" alt="Photo/image de profil"#}
-                        <img src="../../{{ img_user_directory }}/{{ app.user.photo }}.jpg" alt="Photo/image de profil"
+                        <img src="{{ asset(img_user_directory) }}/{{ app.user.photo }}.jpg" alt="Photo/image de profil"
                              class="cast img-responsive img_profil">
                     {% endif %}
                 </p>

@@ -52,7 +52,7 @@ class HomeController extends Controller
         $trackRepository = $this->getDoctrine()->getRepository(Track::class);
 
         $pagination = $paginator->paginate(
-            $trackRepository->findAll(),                        // La query que l'on veut paginer
+            $trackRepository->findBy(array(), array('creationDate' => 'DESC')),   // La query que l'on veut paginer
             $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
             6                                             // Nombre d'éléments affichés par page
         );

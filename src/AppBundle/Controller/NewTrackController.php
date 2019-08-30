@@ -54,7 +54,7 @@ class NewTrackController extends Controller
             $trackDatas = $newTrackForm->getData();
 
             // FICHIER MUSIQUE : $fileSong contient la musique uploadée (stockée de manière temporaire)
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $fileSong */
+            // @var Symfony\Component\HttpFoundation\File\UploadedFile $fileSong
             $fileSong = $trackDatas->getTrack();
 
             // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé,
@@ -76,7 +76,7 @@ class NewTrackController extends Controller
 
 
             // FICHIER IMAGE : fileImg contient l'image uploadée (stockée de manière temporaire)
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $fileImg ???!!! */
+            // @var Symfony\Component\HttpFoundation\File\UploadedFile $fileImg
             $fileImg = $trackDatas->getImage();
 
             // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé, ou si il s'agit d'un fichier déjà stocké auparavant, qu'il ne faut donc pas modifier (si modif de track)

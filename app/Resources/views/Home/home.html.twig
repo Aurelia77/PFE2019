@@ -4,17 +4,10 @@
     {{ parent() }} | Accueil
 {% endblock %}
 
-
-
-
 {% block content %}
 
-    {#<a href="{{ path('newtrack') }}" class="clear_both">#}
-    {#<button class="w_50 btn-info ml_30">Importer ma création</button>#}
-    {#</a>#}
-
-    {# Pour ajouter un track avec un seul son #}
-    <section class="row upload_media">
+    {# Pour ajouter un track avec un seul son (compo de départ) #}
+    <section class="row upload_media"> <!--Upload Form-->
         <div class="container">
             <div class="row">
                 <h1>Entre Dièses et Bémols</h1>
@@ -31,7 +24,7 @@
                     {#</form>#}
                     {#<a class="or_btn" href="#">or</a>#}
                     <div id="upload_media_2">
-                        {# Num = 0 (car track de base avec un seul son) - Id1 = 0 (car pas de track avant) #}
+                        {# Num = 0 (car compo de départ avec un seul son) - Id1 = 0 (car pas de track avant) #}
                         <a href="{{ path('newtrack', {'num' : 0, 'id1' : 0}) }}">
                             <div class="inner row m0">
                                 {#<h2>Upload From PC</h2>#}
@@ -45,7 +38,7 @@
                 </div>
             </div>
         </div>
-    </section> <!--Upload Form-->
+    </section>
 
     <section class="row">
         <ul class="nav nav-justified ribbon">
@@ -75,63 +68,61 @@
                 <h3>{{ pagination.getTotalitemCount }} compos et tracks avec des sons en plus à écouter !</h3>
 
                 {% if pagination.getTotalitemCount > 0 %}
-
+                    {# On affiche les tracks par ordre antéchronologique (indiqué dans le HomeController sur la creationDate) #}
                     {% for track in pagination %}
-                    {#{% for track in pagination | sortByField('pagination.creationdate')%} EXTENSION TWIG ???!!! #}
-
                         <article class="col-sm-4 video_post postType3">
-                            {#{% include "Includes/viewTrack.html.twig" %}#}
+                            {% include "Includes/viewTrack.html.twig" %}
 
                             {#<div class="inner row m0 audio-player">#}
                             {# On est obligé de répéter tout dans les classes ???!!! #}
-                            <div class="inner row m0 audio-player">
+                            {#<div class="inner row m0 audio-player">#}
 
-                                {#<a href="{{ asset('theme/single-video.html') }}">#}
-                                {#<a href="{{ asset('track/seetrack.html/', {'id' : track.id}) }}">  Marche PAS !!! Pk on utilise path et non asset ci-dessous ???#}
-                                <a href="{{ path('seetrack', {'id' : track.id}) }}"
-                                   title="Voir le track dans un onglet">
-                                    <div class="row screencast m0">
-                                        <img src="../{{ img_track_directory }}/{{ track.image }}.jpg" alt="Image de la musique"
-                                             class="cast img-responsive img_track">
-                                        <div class="play_btn"></div>
-                                        <div class="media-length total-time"></div>
-                                    </div>
-                                    <h3 class="row m0">
-                                        {{ track.title }}
-                                        {% if track.num > 0 %}
-                                            (+{{ track.num }})
-                                        {% endif %}
-                                    </h3>
-                                </a>
+                                {#<a href="{{ path('seetrack', {'id' : track.id}) }}"#}
+                                   {#title="Voir le track dans un onglet">#}
+                                    {#<div class="row screencast m0">#}
+                                        {# img_track_directory : variable dans parameters.yml #}
+                                        {#<img src="../{{ img_track_directory }}/{{ track.image }}.jpg" alt="Image du track de musique"#}
+                                        {#<img src="{{ asset(img_track_directory) }}/{{ track.image }}.jpg" alt="Image du track de musique"#}
+                                             {#class="cast img-responsive img_track">#}
+                                        {#<div class="play_btn"></div>#}
+                                        {#<div class="media-length total-time">00:00</div>#}
+                                    {#</div>#}
+                                    {#<h3 class="row m0">#}
+                                        {#{{ track.title }}#}
+                                        {#{% if track.num > 0 %}#}
+                                            {#(+{{ track.num }})#}
+                                        {#{% endif %}#}
+                                    {#</h3>#}
+                                {#</a>#}
 
-                                <div {% if track.num == 0 %} class="row m0 post_data track_num0"
-                                     {% else %} class="row m0 post_data" {% endif %}>
+                                {#<div {% if track.num == 0 %} class="row m0 post_data track_num0"#}
+                                     {#{% else %} class="row m0 post_data" {% endif %}>#}
 
                                     {#title et track = noms des variables de l'entité Track#}
 
                                     {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le pseudo#}
-                                    {% if track.user.pseudo is defined %}
-                                        <h4>{{ track.user.pseudo }}</h4>
-                                    {% endif %}
+                                    {#{% if track.user.pseudo is defined %}#}
+                                        {#<h4>{{ track.user.pseudo }}</h4>#}
+                                    {#{% endif %}#}
 
 
-                                    <div class="date">Publié le : {{ track.creationDate|date("d/m/Y") }}</div>
+                                    {#<div class="date">Publié le : {{ track.creationDate|date("d/m/Y") }}</div>#}
                                     {#<div class="fright views"><a href="#"><img#}
                                     {#src="{{ asset('theme/images/icons/views.png') }}"#}
                                     {#alt="">3,45,346</a></div>#}
-                                    <audio controls>
-                                        Votre navigateur ne supporte pas l'élément <code>audio</code>
-                                        <source src="../{{ track_directory }}/{{ track.track }}.mp3"/>
-                                        String $tpsTrack = {{ track.track }}
-                                    </audio>
+                                    {#<audio controls>#}
+                                        {#Votre navigateur ne supporte pas l'élément <code>audio</code>#}
+                                        {#<source src="{{ asset(track_directory) }}//{{ track.track }}.mp3"/>#}
+                                        {#String $tpsTrack = {{ track.track }}#}
+                                    {#</audio>#}
 
-                                    <a href="{{ path('download', {'id' : track.id}) }}">
-                                        <img src="../images/download.png" height="50px"
-                                             alt="Lien télécharger track de musique">
-                                    </a>
-                                </div>
+                                    {#<a href="{{ path('download', {'id' : track.id}) }}">#}
+                                        {#<img src="{{ asset('images/download.png') }}" height="50px"#}
+                                             {#alt="Lien télécharger track de musique">#}
+                                    {#</a>#}
+                                {#</div>#}
 
-                            </div>
+                            {#</div>#}
                         </article>
                     {% endfor %}
 

@@ -66,7 +66,10 @@ class User implements UserInterface, \Serializable
      */
     private $plainPassword;    
     
+
     /**
+     * Contrainte de longueur ne fonctionne pas pour l'inscription car on l'écrase
+     * dans le RegisterUserType avec d'autres contraintes (donc l'ajouter aussi là bas)
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=6)
      */

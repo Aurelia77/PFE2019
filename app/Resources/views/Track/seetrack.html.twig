@@ -98,10 +98,10 @@
                                     <div class="col-sm-6">
                                     <a href="{{ path('seetrack', {'id' : track2.id}) }}" title="Voir le track dans un onglet">
                                         <div class="row screencast m0">
-                                            <img src="../../{{ img_track_directory }}/{{ track2.image }}.jpg" alt="Image de la musique"
+                                            <img src="{{ asset(img_track_directory) }} /{{ track2.image }}.jpg" alt="Image de la musique"
                                                  class="cast img-responsive img_track">
                                             <div class="play_btn"></div>
-                                            <div class="media-length total-time"></div>
+                                            <div class="media-length total-time">00:00</div>
                                         </div>
                                         <h3 class="row m0">
                                             {{ track2.title }}
@@ -120,12 +120,11 @@
                                         {#alt="">3,45,346</a></div>#}
                                         <audio controls>
                                             Votre navigateur ne supporte pas l'élément <code>audio</code>
-                                            <source src="../../{{ track_directory }}/{{ track2.track }}.mp3"/>
+                                            <source src="{{ asset(track_directory) }}/{{ track2.track }}.mp3"/>
                                         </audio>
 
                                         <a href="{{ path('download', {'id' : track2.id}) }}">
-                                            {# app/web/images/download.png !!!??? Home : ../ mais seetrack : ../../ !!!??? #}
-                                            <img src="../../images/download.png" height="50px"
+                                            <img src="{{ asset('images/download.png') }}" height="50px"
                                                  alt="Lien télécharger track de musique">
                                         </a>
                                     </div>

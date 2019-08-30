@@ -25,6 +25,14 @@ class AppFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
+        $userA = new User();
+
+        $userA  ->setEmail("aurelia.h@hotmail.fr")
+                ->setPassword("mdp")
+                ->setPseudo("Oré");
+//                ->setRoles()
+//                ->setA
+
         // Création de 3 users valides & 3 non valides
         for ($i = 0; $i < 6; $i++) {
             $user = new User();
@@ -65,7 +73,7 @@ class AppFixtures extends Fixture
             ->setImage("2f29d6a6e4a5e189ea01c24286dd5948")
             ->setNum(1)
             ->setId1(0)
-//                ->setUser(1);
+//                ->setUser($user);
             ->setCreationDate(new \DateTime());
         $manager->persist($track);
 

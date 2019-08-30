@@ -77,7 +77,7 @@ class SecurityController extends Controller
             $userDatas = $registerForm->getData();
 
             // FICHIER IMAGE : fileImg contient l'image uploadée (stockée de manière temporaire)
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $fileImg ???!!! */
+            // @var Symfony\Component\HttpFoundation\File\UploadedFile $fileImg
             $fileImg = $userDatas->getPhoto();
 
             // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé,

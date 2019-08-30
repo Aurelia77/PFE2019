@@ -31,13 +31,13 @@ class RegisterUserType extends AbstractType
                 'second_options' => array('label' => 'Je répète le mot de passe'),
                 'constraints' => array(
                     new NotBlank(),
-                    new Length(array('max' => 4096))
+                    new Length(array('max' => 15,'min' => 6))
                 ),                
             ))
             ->add('pseudo', TextType::class)
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
-            ->add('photo', FileType::class, ['label' => 'Image/photo du compte (taille max : 2048 KiB)'])
+            ->add('photo', FileType::class, ['label' => 'Image/photo du compte (taille max : 2048 KiB)','required' => false])
 
 
 //            ->add('rgpd', CheckboxType::class, [
