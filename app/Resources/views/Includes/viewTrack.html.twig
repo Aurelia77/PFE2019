@@ -19,8 +19,10 @@
     <div {% if track.num == 0 %} class="row m0 post_data track_num0"
     {% else %} class="row m0 post_data" {% endif %}>
 
-        {# On va chercher dans la table Track le user (qui est un objet) dans lequel on va chercher le prénom #}
-        <h4>{{ track.user.firstName }}</h4>
+        {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le pseudo#}
+        {% if track.user.pseudo is defined %}
+            <h4>{{ track.user.pseudo }}</h4>
+        {% endif %}
 
         <div class="date">Publié le : {{ track.creationDate|date("d/m/Y") }}</div>
         {#<div class="fright views"><a href="#"><img#}
