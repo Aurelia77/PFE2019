@@ -6,72 +6,116 @@
 
 {% block content %}
 
-    {% include "Includes/adminusersmenu.html.twig" %}
+    <div class="container">
+        <div class="row">
+            {% include "Includes/adminusersmenu.html.twig" %}
 
-    <div>
+            <div>
 
-        {# Formulaire de recherche #}
-        <form method="GET">
-            <input type="text" class="form-control" placeholder="Partie du nom ou prénom..." name="query"
-                   aria-label="search" aria-describedby="search-button">
-            <button class="btn btn-secondary" type="submit">Rechercher</button>
-        </form>
+                {# Formulaire de recherche #}
+                <form method="GET">
+                    <input type="text" class="form-control" placeholder="Partie du nom ou prénom..." name="query"
+                           aria-label="search" aria-describedby="search-button">
+                    <button class="btn btn-secondary" type="submit">Rechercher</button>
+                </form>
 
-        <p>Recherche = {{ recherche }}</p>
+                <p>Recherche = {{ recherche }}</p>
 
-        {# On affiche ici la liste de tous les utilisateurs du site - et si une recherche est lancée la liste des résultats #}
-        {% if pagination.getTotalitemCount > 0 %}
-            <table>
-                <thead>
-                <tr>
-                    {#<th scope="col">#</th>#}
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prénom</th>
-                    <th scope="col">Email</th>
-                </tr>
-                </thead>
-                <tbody>
+                {# On affiche ici la liste de tous les utilisateurs du site - et si une recherche est lancée la liste des résultats #}
+                {% if pagination.getTotalitemCount > 0 %}
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            {#<th scope="col">#</th>#}
+                            <th scope="col">Email</th>
+                            <th scope="col">Prénom</th>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Photo</th>
+                            <th scope="col">Roles</th>
+                            <th scope="col">Actif</th>
+                            <th scope="col">Date de création</th>
+                        </tr>
+                        </thead>
 
-                {% for user in pagination %}
-                    <tr {% if loop.index is odd %} class="color" {% endif %}> {# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
-                        <td>{{ user.lastName }}</td>
-                        <td>{{ user.firstName }}</td>
-                        <td>{{ user.email }}</td>
-                        {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
-                        {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                        <tbody>
+                        {% if app.user.roles[0] is defined %}{{ app.user.roles[0] }} {% endif %}
+                        {% if app.user.roles[1] is defined %}{{ app.user.roles[1] }} {% endif %}
 
-            <div class="navigation">
-                {# Pour donner un style à la navigation #}
-                {{ knp_pagination_render(pagination, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
-                {#{{ knp_pagination_render(pagination) }}#}
+                        {% for user in pagination %}
+                            <tr {% if loop.index is odd %} class="color" {% endif %}> {# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.firstName }}</td>
+                                <td>{{ user.lastName }}</td>
+                                <td>{{ user.photo }}</td>
+
+                                {#{% if app.user.roles[0] is defined %}{{ app.user.roles[0] }} {% endif %}#}
+                                {#{% if app.user.roles[1] is defined %}{{ app.user.roles[1] }} {% endif %}#}
+
+
+                                <td>
+                                    {#{{ user.roles[1] }}#}
+                                    {#{% if user.roles[1]  is defined %}- {{ user.roles[1] }}{% endif %}#}
+                                </td>
+
+                                <td>
+                                    {#<a href=\"switch_utilisateur.php?id=".$row["id_user"]."\"#}
+                                    {#title=\"Publier / Dépublier le concours.\">#}
+                                    {#".$image."#}
+                                    {#</a>#}
+
+                                    {% if user.actif == 0 %}
+
+                                        {#<a href="{{ path('switchActifUser', {'id' : user.id}), , {'actif' : 0} }}">#}
+                                        <a href="{{ path('switchActifUser') }}">
+                                            <img src="{{ asset('images/inactif.png') }}" alt="Utilisateur inactif">
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('switchActifUser') }}">
+
+                                            <img src="{{ asset('images/actif.png') }}" alt="Utilisateur inactif">
+                                        </a>
+
+                                    {% endif %}
+
+                                </td>
+                                <td>{{ user.creationDate|date("d/m/Y - H:i") }}</td>
+                                {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
+                                {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="navigation">
+                        {# Pour donner un style à la navigation #}
+                        {{ knp_pagination_render(pagination, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
+                        {#{{ knp_pagination_render(pagination) }}#}
+                    </div>
+
+                {% else %}
+                    <p>Aucun résultat</p>
+                {% endif %}
+
+                {# Sans PAGINATION #}
+                {#<table>#}
+                {#<tr>#}
+                {#<th>Nom</th>#}
+                {#<th>Prénom</th>#}
+                {#<th>Email</th>#}
+                {#</tr>#}
+                {#{% for user in users %}#}
+                {#<tr {% if loop.index is odd %} class="color" {% endif %}> #}{# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
+                {#<td>{{ user.lastName }}</td>#}
+                {#<td>{{ user.firstName }}</td>#}
+                {#<td>{{ user.email }}</td>#}
+                {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
+                {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
+                {#</tr>#}
+                {#{% endfor %}#}
+                {#</table>#}
+
             </div>
-
-        {% else %}
-            <p>Aucun résultat</p>
-        {% endif %}
-
-        {# Sans PAGINATION #}
-        {#<table>#}
-        {#<tr>#}
-        {#<th>Nom</th>#}
-        {#<th>Prénom</th>#}
-        {#<th>Email</th>#}
-        {#</tr>#}
-        {#{% for user in users %}#}
-        {#<tr {% if loop.index is odd %} class="color" {% endif %}> #}{# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
-        {#<td>{{ user.lastName }}</td>#}
-        {#<td>{{ user.firstName }}</td>#}
-        {#<td>{{ user.email }}</td>#}
-        {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
-        {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
-        {#</tr>#}
-        {#{% endfor %}#}
-        {#</table>#}
-
+        </div>
     </div>
 
 {% endblock content %}

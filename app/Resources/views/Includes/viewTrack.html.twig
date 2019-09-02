@@ -1,9 +1,8 @@
 <div class="inner row m0 audio-player">
     {#<a href="{{ asset('theme/single-video.html') }}">#}
-    {#<a href="{{ asset('track/seetrack.html/', {'id' : track.id}) }}">  Marche PAS !!! Pk on utilise path et non asset ci-dessous ??? #}
     <a href="{{ path('seetrack', {'id' : track.id}) }}" title="Voir le track dans un onglet">
         <div class="row screencast m0">
-            <img src="{{ asset(img_track_directory) }}/{{ track.image }}.jpg" alt="Image de la musique"
+            <img src="{{ asset(img_track_directory) }}/{{ track.image }}" alt="Image de la musique"
                  class="cast img-responsive img_track">
             <div class="play_btn"></div>
             <div class="media-length total-time">00:00</div>
@@ -21,7 +20,9 @@
 
         {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le pseudo#}
         {% if track.user.pseudo is defined %}
-            <h4>{{ track.user.pseudo }}</h4>
+            <a href="{{ path('users_profile', {'id' : track.id}) }}">
+                <h4>{{ track.user.pseudo }}</h4>
+            </a>
         {% endif %}
 
         <div class="date">Publié le : {{ track.creationDate|date("d/m/Y") }}</div>
@@ -30,8 +31,7 @@
         {#alt="">3,45,346</a></div>#}
         <audio controls>
             Votre navigateur ne supporte pas l'élément <code>audio</code>
-            <source src="{{ asset(track_directory) }} /{{ track.track }}.mp3"/>
-            {#String $tpsTrack = {{ track.track }}#}
+            <source src="{{ asset(track_directory) }}/{{ track.track }}"/>
         </audio>
 
         <a href="{{ path('download', {'id' : track.id}) }}">
@@ -42,7 +42,6 @@
             <a href="{{ path('seetrack', {'id' : track.id - 1 }) }}"
                title="Voir le track de musique sans le dernier son">
                 <button class="btn btn-primary mb-5">Voir le track de musique sans le dernier son</button>
-            </a>
             </a>
 
         {% endif %}

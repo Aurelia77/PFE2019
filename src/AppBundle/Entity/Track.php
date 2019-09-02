@@ -27,7 +27,7 @@ class Track
 //     *
 //     * @ORM\Column(name="track", type="string", length=255)
 //     *
-//     * @Assert\NotBlank(message="Veuillez ajouter votre fichier")
+//     * @Assert\NotBlank(message="Veuillez ajouter votre fichier")         !!!??? Mis ds form Newtrack
 //     * @Assert\File(
 //     *     maxSize = "15M",
 //     *     mimeTypes = {"audio/mpeg"},
@@ -83,10 +83,14 @@ class Track
      */
     private $num;
 
+    // track est un OBJET !!! (de la même entité)
+    // On ne met pas nullable=false car peut ne pas avoir de relation avec un track (si compo de base)
+    // Plusieurs tracks peuvent être liées à Un track (compo de base) : Relation ManyToOne
     /**
-     * @var integer
+     * @var \AppBundle\Entity\Track
      *
-     * @ORM\Column(name="id1", type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Track", cascade={"all"})
+     * @ORM\JoinColumn(name="id1", referencedColumnName="id")
      */
     private $id1;
 
@@ -114,7 +118,7 @@ class Track
     private $id;
 
 
-    // CONSTRUCTEUR avec la date de création = date + heure du jour
+    // CONSTRUCTEUR avec valeur par défaut : la date de création = date + heure du jour
     public function __construct()
     {
         $this->setCreationDate(new \DateTime());
@@ -218,30 +222,6 @@ class Track
     }
 
     /**
-     * Set id1
-     *
-     * @param integer $id1
-     *
-     * @return Track
-     */
-    public function setId1($id1)
-    {
-        $this->id1 = $id1;
-
-        return $this;
-    }
-
-    /**
-     * Get id1
-     *
-     * @return integer
-     */
-    public function getId1()
-    {
-        return $this->id1;
-    }
-
-    /**
      * Set actif
      *
      * @param boolean $actif
@@ -303,11 +283,11 @@ class Track
     /**
      * Set user
      *
-     * @param \AppBundle\Entity\User $user
+     * @param User $user
      *
      * @return Track
      */
-    public function setUser(\AppBundle\Entity\User $user)
+    public function setUser(User $user)
     {
         $this->user = $user;
 
@@ -317,11 +297,36 @@ class Track
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User
+     * @return User
      */
     public function getUser()
     {
         return $this->user;
+    }
+
+    // Pour la relation ManyToOne avec Track (même entité) (champ $id1 plus haut) : 1 getter et 1 setter
+    /**
+     * Set id1
+     *
+     * @param Track $id1
+     *
+     * @return Track
+     */
+    public function setId1(Track $id1)
+    {
+        $this->id1 = $id1;
+
+        return $this;
+    }
+
+    /**
+     * Get id1
+     *
+     * @return Track
+     */
+    public function getId1()
+    {
+        return $this->id1;
     }
 
 
@@ -333,7 +338,7 @@ class Track
      *
      * @return Track
      */
-    public function addTrackMessage(\AppBundle\Entity\Message $trackMessage)
+    public function addTrackMessage(Message $trackMessage)
     {
         $this->trackMessages[] = $trackMessage;
 
@@ -345,7 +350,7 @@ class Track
      *
      * @param \AppBundle\Entity\Message $trackMessage
      */
-    public function removeTrackMessage(\AppBundle\Entity\Message $trackMessage)
+    public function removeTrackMessage(Message $trackMessage)
     {
         $this->trackMessages->removeElement($trackMessage);
     }

@@ -23,12 +23,16 @@ use AppBundle\Form\UserInfoType;
 use AppBundle\Service\Security\UserEmailService;
 
 // Note : il serait tout à fait possible de fusionner les 3 Actions (userAction, userPasswordAction, userEmailAction) en une seule !!!???
+
+/**
+ * @Route("/private/user")
+ */
 class UserController extends Controller
 {
 
     /**
      * Affiche les infos du membre
-     * @Route("/private/user", name="user")
+     * @Route("/", name="user")
      * 
      * @param Request $request
      * @param EntityManagerInterface $em
@@ -58,7 +62,7 @@ class UserController extends Controller
 
     /**
      * Affiche les tracks que le membre a mis sur le site
-     * @Route("/private/user/tarcks", name="usertracks")
+     * @Route("/tarcks", name="usertracks")
      *
      * @param Request $request
      * @param EntityManagerInterface $em
@@ -166,7 +170,7 @@ class UserController extends Controller
 
     /**
      * Changer le mdp du membre
-     * @Route("/private/user/password", name="userpassword")
+     * @Route("/password", name="userpassword")
      * 
      * @param Request $request
      * @param EntityManagerInterface $em     
@@ -200,7 +204,7 @@ class UserController extends Controller
 
     /**
      * Changer l'email de l'utilisateur
-     * @Route("/private/user/email", name="useremail")
+     * @Route("/email", name="useremail")
      *
      * @param Request $request
      * @param EntityManagerInterface $em
@@ -231,4 +235,74 @@ class UserController extends Controller
         
         return $this->render('/User/useremail.html.twig', array('changeEmailForm' => $changeEmailForm->createView(), 'nompage' => 'User:userEmail'));
     }
+
+    /**
+     * @Route("/{id}", name="users_profile", requirements={"id" = "\d+"}, defaults={"id" = null})
+     * @param User $user
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function profileAction(User $user = null, EntityManagerInterface $em, Request $request)
+    {
+        if (!$user) {
+            throw $this->createNotFoundException("Cet utilisateur n'existe pas");
+        }
+
+//        // On va stocker les fileNames des images de profil existantes avant que $user soit hydraté par le formulaire
+//        $profileImagesFileNames = [];
+//        foreach ($user->getProfileImages() as $profileImage){
+//            $profileImagesFileNames[$profileImage->getId()] = $profileImage->getFileName();
+//        }
+
+        // Création du form
+        $formUser = $this->createForm(\AppBundle\Form\UserType::class, $user);
+        // Hydratation de $user depuis la requete
+        $formUser->handleRequest($request);
+
+        // Validation du form
+//        if ($formUser->isSubmitted() && $formUser->isValid()) {
+//            // AJOUT & UPDATE DES IMAGES (idéalement, déplacer cette fonctionnalité dans un service)
+//            // NOTE : Grâce à orphanRemoval=true sur la relation user->profileImages, la suppression va se faire automatiquement
+//            foreach ($formUser->get('profileImages') as $profileImageForm) {
+//                $profileImage = $profileImageForm->getData();
+//                // $file contient le fichier uploadé (stocké de manière temporaire)
+//                /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+//                $file = $profileImage->getFileName();
+//                // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé, ou si il s'agit d'un fichier déjà stocké auparavant, qu'il ne faut donc pas modifier
+//                if ($file && $file instanceof UploadedFile) {
+//                    // Generer un nom unique pour le fichier
+//                    $fileName = md5(uniqid()) . '.' . $file->guessExtension();
+//                    // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de profile
+//                    $file->move(
+//                        $this->getParameter('profile_images_directory'), $fileName
+//                    );
+//                    // Mettre à jour l'attribut fileName de l'entité ProfileImage avec le nouveau nom du fichier
+//                    $profileImage->setFileName($fileName);
+//                }
+//                // Si l'entité est nouvelle et que $file est vide, on supprime l'entité de la collection et on ajoute un message d'erreur
+//                elseif ($profileImage->getId() === null) {
+//                    $user->removeProfileImage($profileImage);
+//                    $profileImageForm->get('fileName')->addError(new \Symfony\Component\Form\FormError('Aucune image sélectionnée'));
+//                }
+//                // L'image est déjà existante en base, mais $file est null car aucun fichier n'a été soumis. On ne veut surtout pas se retrouver avec un null comme nom de fichier dans la base, donc on réinitialise $profileImage à sa valeur initiale
+//                elseif(isset($profileImagesFileNames[$profileImage->getId()])){
+//                    $profileImage->setFileName($profileImagesFileNames[$profileImage->getId()]);
+//                }
+//            }
+//
+//            // Modification de l'utilisateur
+//            $em->flush();
+//            $this->addFlash('success', 'Utilisateur modifié avec succès');
+//        }
+
+        return $this->render('user/pages/profile.html.twig', array(
+            'user' => $user,
+            'groupes' => $em->getRepository(Groupe::class)->findAll(),
+            'baseUrlToSendMail' => $this->generateUrl('users_mail'),
+            'formUser' => $formUser->createView(),
+        ));
+    }
+
 }

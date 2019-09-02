@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\Track;
 use AppBundle\Entity\Message;
 use AppBundle\Form\CreateBookType;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormTypeInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -46,12 +47,15 @@ class AdministrationController extends Controller
      */
     public function administrationUsersAction(Request $request, PaginatorInterface $paginator)
     {
+        /* @var $userRepository UserRepository */   // ??? Pas besoin ???
+
         $userRepo = $this->getDoctrine()->getRepository(User::class);
 
         $name = $request->query->get('query');
 
         if (isset($name) && $name !== "")
         {
+
             $users = $userRepo->findByFirstNameOrLastName($name);
         } else {
             $users = $userRepo->findAll();
@@ -69,6 +73,27 @@ class AdministrationController extends Controller
 
         ));
     }
+
+
+//    /**
+//     * Modifie le fait que l'utilisateur soit actif ou non
+//     *
+//     * @Route("/switchActifUser", name="switchActifUser")
+//     * @param int $id
+//     * @param bool $actif
+//     * @param EntityManager $em
+//     * @return Response
+//     */
+//    public function switchActifUserAction(int $id, bool $actif, EntityManager $em)
+//    {
+//        /* @var $userRepository UserRepository */
+//        $userRepository = $em->getRepository(User::class);
+//        $userRepository->switchActifUserActionQuery($id, $actif); // La query que l'on veut paginer
+//
+//        return $this->redirectToRoute('adminlistmembers');
+//
+//    }
+
 
 
     /**

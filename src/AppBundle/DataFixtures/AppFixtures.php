@@ -25,70 +25,152 @@ class AppFixtures extends Fixture
      */
     public function load(ObjectManager $manager)
     {
+//--------------------------------------------------------USERS--------------------------------------------------------
+
+        // UserA
         $userA = new User();
 
-        $userA  ->setEmail("aurelia.h+user@hotmail.fr")
-                ->setPassword("mdp")
-                ->setPseudo("Toto")
+        $userA->setEmail("aurelia.h+user@hotmail.fr")
+            ->setPassword($this->userPasswordEncoderInterface->encodePassword($userA, 'mdpmdp'))
+            ->setPseudo("Toto")
 //                ->setRoles(['ROLE_USER'])                 Pas la peine car se fait tout seul dans le contructeur
-                ->setActif(1);
+            ->setActif(1);
 //                ->setCreationdate(new \DateTime());         Pas la peine car se fait tout seul dans le contructeur
 
+        // On marque l'entité comme étant à sauvegarder en base de donnée (sera effectué grâce au flush()
         $manager->persist($userA);
 
-
+        // UserAdmin
         $userAdmin = new User();
-
-        $userAdmin  ->setEmail("aurelia.h+admin@hotmail.fr")
-                    ->setPassword("mdp")
-                    ->setPseudo("Dudu")
-                    ->setActif(1);
-
+        $userAdmin->setEmail("aurelia.h+admin@hotmail.fr")
+            ->setPassword($this->userPasswordEncoderInterface->encodePassword($userAdmin, 'mdpmdp'))
+            ->setPseudo("Dudu")
+            ->setActif(1)
+            ->addRole('ROLE_ADMIN');
         $manager->persist($userAdmin);
 
 
-        $track1 = new Track();
+        // 1 users valide, 1 non validé et 1 admin
+        $user = new User();
+        $user->setEmail("cdwdm-user@yopmail.com")
+            ->setPseudo("User")
+            ->setFirstName("Prénom-usr")
+            ->setLastName("Nom-usr")
+            ->setActif(1)
+            ->setCreationDate(new \DateTime())
+            ->setPassword($this->userPasswordEncoderInterface->encodePassword($user, 'mdpmdp'));
+        $manager->persist($user);
 
-        $track1 ->setTitle('Piano')
-                ->setTrack('piano')
-                ->setImage('endormi')
-                ->setUser($userA)
-                ->setNum(1)
-                ->setActif(1);
+        $userPending = new User();
+        $userPending->setEmail("cdwdm-userP@yopmail.com")
+            ->setPseudo("UserP")
+            ->setFirstName("Prénom-usrP")
+            ->setLastName("Nom-usrP")
+            ->setActif(1)
+            ->setCreationDate(new \DateTime())
+            ->setPassword($this->userPasswordEncoderInterface->encodePassword($user, 'mdpmdp'));
+        $userPending->removeRole('ROLE_USER')->addRole('ROLE_USER_PENDING');
+        $manager->persist($userPending);
 
-        $manager->persist($track1);
+        $userADMIN = new User();
+        $userADMIN->setEmail("cdwdm-admin@yopmail.com")
+            ->setPseudo("Admin")
+            ->setFirstName("Prénom-adm")
+            ->setLastName("Nom-adm")
+            ->setActif(1)
+            ->setCreationDate(new \DateTime())
+            ->setPassword($this->userPasswordEncoderInterface->encodePassword($user, 'mdpmdp'))
+            ->addRole('ROLE_ADMIN');
+        $manager->persist($userADMIN);
 
-        $track2 = new Track();
+        $manager->flush();
 
-        $track2 ->setTitle('Révalité')
-                ->setTrack('révalité')
-                ->setImage('cd')
-                ->setUser($userAdmin)
-                ->setNum(1)
-                ->setActif(1);
-
-        $manager->persist($track2);
-
-        // Track3 : +1
-//        $track2 ->setTitle('Révalité')
-//            ->setTrack('révalité')
-//            ->setImage('cd')
-//            ->setUser($userAdmin)
-//            ->setNum(2)
-//            ->setId1(track2)
-//            ->setActif(1);
-
-        $manager->persist($track2);
+        // User non actif
+        $userNA = new User();
+        $userNA->setEmail("cdwdm-userNA@yopmail.com")
+            ->setPseudo("UserNA")
+            ->setFirstName("Prénom-usrNA")
+            ->setLastName("Nom-usrNA")
+            ->setActif(0)
+            ->setCreationDate(new \DateTime())
+            ->setPassword($this->userPasswordEncoderInterface->encodePassword($user, 'mdpmdp'));
+        $manager->persist($userNA);
         $manager->flush();
 
 
-        // Création de 3 users valides & 3 non valides
+        // On sauvegarde en BDD
+        $manager->flush();
+
+
+//--------------------------------------------------------MOTS CLEFS--------------------------------------------------------
+        $mc1 = new MotClef();
+        $mc1->setMot('Cordes')
+            ->setActif(1);
+        $manager->persist($mc1);
+
+        $mc2 = new MotClef();
+        $mc2->setMot('Vent')
+            ->setActif(1);
+        $manager->persist($mc2);
+
+        $mc3 = new MotClef();
+        $mc3->setMot('Voix')
+            ->setActif(1);
+        $manager->persist($mc3);
+
+        $mc4 = new MotClef();
+        $mc4->setMot('Rock')
+            ->setActif(1);
+        $manager->persist($mc4);
+
+        $manager->flush();
+
+
+//--------------------------------------------------------TRACKS--------------------------------------------------------
+
+        // Track1 (compo de base)
+        $track1 = new Track();
+        $track1->setTitle('Piano')
+            ->setTrack('piano.mp3')
+            ->setImage('endormi.jpg')
+            ->setUser($userA)
+            ->setNum(0)
+            ->setActif(1);
+        $manager->persist($track1);
+
+        // Track2 (compo de base)
+        $track2 = new Track();
+        $track2->setTitle('Révalité')
+            ->setTrack('revalite.mp3')
+            ->setImage('cd.jpg')
+            ->setUser($userAdmin)
+            ->setNum(0)
+            ->setActif(1);
+        $manager->persist($track2);
+
+        // Track3 (+1)
+        $track3 = new Track();
+        $track3->setTitle('Révalité')
+            ->setTrack('revalite2.mp3')
+            ->setImage('forme.png')
+            ->setUser($userAdmin)
+            ->setNum(1)
+            ->setId1($track1)
+            ->setActif(1);
+        $manager->persist($track3);
+
+        // On effectue les requêtes (sauvegarder les instances créées ci-dessus)
+        $manager->flush();
+
+
+//        // Création de 3 users valides & 3 non valides
 //        for ($i = 0; $i < 6; $i++) {
 //            $user = new User();
 //            $user->setEmail("cdwdm-user-$i@yopmail.com")
 //                ->setPseudo("User-$i")
 //                ->setFirstName("Prénom-usr-$i")
 //                ->setLastName("Nom-usr-$i")
+//                ->setActif(1)
 //                ->setCreationDate(new \DateTime())
 //                ->setPassword($this->userPasswordEncoderInterface->encodePassword($user, 'mdp'));
 //            if ($i >= 3) {
@@ -98,7 +180,7 @@ class AppFixtures extends Fixture
 //
 //            $manager->persist($user);
 //        }
-//
+////
 //        // Création de 2 admins
 //        for ($i = 0; $i < 2; $i++) {
 //            $user = new User();
@@ -112,9 +194,11 @@ class AppFixtures extends Fixture
 //
 //            $manager->persist($user);
 //        }
-//
+
 //        $manager->flush();
 //
+
+
 //        // Création de 4 tracks
 //        $track = new Track();
 //        $track->setTitle("Piano")

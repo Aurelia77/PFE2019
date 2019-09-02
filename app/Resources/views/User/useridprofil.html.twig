@@ -1,13 +1,15 @@
 {% extends "/layout.html.twig" %}
 
-{% block title %}AppBundle:User:user{% endblock title %}
+{% block title %}
+    {{ parent() }} | Profil membre
+{% endblock %}
 
 {% block content %}
     <div class="container">
         <div class="row">
             {% include "Includes/usermenu.html.twig" %}
 
-            <h1 class="mt-5 mb-5 text-center">Mon compte Entre Dièses et Bémols</h1>
+            <h1 class="mt-5 mb-5 text-center">Profil d'un mombre</h1>
 
             {{ form_start(userInfoForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
 
@@ -24,8 +26,8 @@
                     <p>{{ form_errors(userInfoForm.lastName) }}</p>
                     {{ form_row(userInfoForm.lastName, {'attr': {'class': 'form-control'}}) }}
 
-                    {#<p>{{ form_errors(userInfoForm.photo) }}</p>#}
-                    {#{{ form_row(userInfoForm.photo, {'attr': {'class': 'form-control'}}) }}#}
+                    <p>{{ form_errors(userInfoForm.photo) }}</p>
+                    {{ form_row(userInfoForm.photo, {'attr': {'class': 'form-control'}}) }}
 
                     <p>
                         {# Photo/image actuelle #}
@@ -42,9 +44,9 @@
                     {#<button type="submit" class="btn-default">Enregistrer</button>#}
                     <input type="submit" value="Enregistrer" class="btn btn-default form-control">
 
+                    {{ form_end(userInfoForm) }}
                 </div>
             </div>
-            {{ form_end(userInfoForm) }}
         </div>
     </div>
 {% endblock content %}

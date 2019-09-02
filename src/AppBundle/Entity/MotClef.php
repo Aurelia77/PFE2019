@@ -122,7 +122,7 @@ class MotClef
      *
      * @return MotClef
      */
-    public function addTrack(\AppBundle\Entity\Track $track)
+    public function addTrack(Track $track)
     {
         $this->tracks[] = $track;
 
@@ -134,7 +134,7 @@ class MotClef
      *
      * @param \AppBundle\Entity\Track $track
      */
-    public function removeTrack(\AppBundle\Entity\Track $track)
+    public function removeTrack(Track $track)
     {
         $this->tracks->removeElement($track);
     }

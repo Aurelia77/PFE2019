@@ -7,6 +7,7 @@ use AppBundle\Form\NewTrackType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -32,26 +33,37 @@ class NewTrackController extends Controller
         // $newTrackForm = $this->get('form.factory')->create(NewTrackType::class, $track);      // Ok mais mieux avec le helper ci-dessous :
         $newTrackForm = $this->createForm(NewTrackType::class, $track);
 
-        // 2) Hydrater l'objet Track (avec ce qui est rentré dans le formulaire)
+        // 2) Hydrater l'objet Track (avec ce qui est rentré dans le formulaire et le reste ci-dessous)
         $newTrackForm->handleRequest($request);
 
+        $track->setActif(1);
         // On ajoute le User qui est authentifié
         $track->setUser($this->getUser());
 
         // Puis les champ $num et $id1
 
-        $num = $request->get( 'num' );          // On récupère le paramètre num dans l'URL
-        $track->setNum($num);          // Nombre de sons en plus (0 = juste 1 son, 1 = son +1 ...)
+        // On récupère le paramètre num dans l'URL
+        $num = $request->get( 'num' );
+        $track->setNum($num);            // Nombre de sons en plus (0 = juste 1 son, 1 = son +1 ...)
 
-        $id1 = $request->get( 'id1' );          // On récupère le paramètre num dans l'URL
-        if ($num > 1) {
-            $track->setId1($id1);           // Sinon NULL donc relié à aucun autre son
+        // On récupère le paramètre id1 dans l'URL (l'id du track sans le son en plus)
+        $id1 = $request->get( 'id1' );
+
+        // On recherche le track qui a cet id
+        $trackRepository = $this ->getDoctrine()->getRepository( 'AppBundle:Track' );
+        $trackWithId1 = $trackRepository->find( $id1 );
+
+        if ($num > 0) {
+            $track->setId1($trackWithId1);           // Sinon NULL donc non relié à un track (compo de base)
         }
 
         // 3) Validation du Form
         if ($newTrackForm->isSubmitted() && $newTrackForm->isValid()) {
 
             $trackDatas = $newTrackForm->getData();
+
+            // FICHIERS : When the form is submitted, the attachment field will be an instance of UploadedFile.
+            // It can be used to move the attachment file to a permanent location.
 
             // FICHIER MUSIQUE : $fileSong contient la musique uploadée (stockée de manière temporaire)
             // @var Symfony\Component\HttpFoundation\File\UploadedFile $fileSong
@@ -60,20 +72,53 @@ class NewTrackController extends Controller
             // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé,
             // ou si il s'agit d'un fichier déjà stocké auparavant, qu'il ne faut donc pas modifier (si modif de track)
             if ($fileSong && $fileSong instanceof UploadedFile) {
-                // Generer un nom unique pour le fichier
-                //$fileName = md5(uniqid()) . '.' . $file->guessExtension();
-//                $fileName = md5(uniqid()) . '.mp3';
-                $fileName = md5(uniqid());
+                // Generer un nom unique pour le fichier avec son extension
+                $fileName = md5(uniqid()) . '.' . $fileSong->guessExtension();
+//                $fileName = md5(uniqid());
 
                 // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de track
                 $fileSong->move(
-//                    'audio/'.$fileName
-                    $this->getParameter('track_directory'), $fileName . '.mp3'
+                    $this->getParameter('track_directory'), $fileName
                 );
                 // Mettre à jour l'attribut fileName de l'entité Track avec le nouveau nom du fichier
                 $trackDatas->setTrack($fileName);
             }
 
+
+            // Pour mettre l'image dans la taille voulue
+//            if(isset($_POST["go"])){
+//                //Si le form contient plusieurs champs
+//                //On ventile
+//                $autorisations = array(
+//                    "image/jpeg",
+//                    "image/png"
+//                );
+//                $fichier	= $_FILES["nomfile"]["tmp_name"];
+//                $nom		= $_FILES["nomfile"]["name"];
+//                $type		= $_FILES["nomfile"]["type"];
+//                $poids		= $_FILES["nomfile"]["size"];
+//                $codeError	= $_FILES["nomfile"]["error"];
+//
+//                //On vérifie
+//                $error1		= verifFilesError($codeError,$poids);
+//                if(!isset($error1)) $error2 = verifTypeUpload($type,$autorisations);
+//
+//                //Si pas d'erreur
+//                if(getOk()){
+//                    //NETTOYAGE
+//                    $nomOK = fctNettoyage($nom,true);
+//                    $destination = "ressources/".$nomOK;
+//
+//                    $code = upSizingJpg($fichier,$destination,150);
+//                    $feedback = retourUpSizingJpg($code,"fr");
+//
+//                    if($code > 1) {
+//                        //INSERTION EN table du nom de fichier pour pouvoir aller rechercher pls tard cette valeur
+//                        //et afficher l'image dans une balise img par ex.
+//                    }
+//                }
+//            }
+//
 
             // FICHIER IMAGE : fileImg contient l'image uploadée (stockée de manière temporaire)
             // @var Symfony\Component\HttpFoundation\File\UploadedFile $fileImg
@@ -81,15 +126,13 @@ class NewTrackController extends Controller
 
             // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé, ou si il s'agit d'un fichier déjà stocké auparavant, qu'il ne faut donc pas modifier (si modif de track)
             if ($fileImg && $fileImg instanceof UploadedFile) {
-                // Generer un nom unique pour le fichier
-                //$fileName = md5(uniqid()) . '.' . $file->guessExtension();
-//                $fileName = md5(uniqid()) . '.mp3';
-                $fileName = md5(uniqid());
+                // Generer un nom unique pour le fichier avec son extension
+                $fileName = md5(uniqid()) . '.' . $fileImg->guessExtension();
 
                 // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de profile
                 $fileImg->move(
 //                    'audio/'.$fileName
-                    $this->getParameter('img_track_directory'), $fileName . '.jpg'
+                    $this->getParameter('img_track_directory'), $fileName
                 );
                 // Mettre à jour l'attribut fileName de l'entité Track avec le nouveau nom du fichier
                 $trackDatas->setImage($fileName);
@@ -106,6 +149,10 @@ class NewTrackController extends Controller
 //                $profileImage->setFileName($profileImagesFileNames[$profileImage->getId()]);
 //            }
 
+            // Les mots clef
+
+
+
 
             // Sauvegarder le track ds la BDD
             $em->persist($track);
@@ -119,7 +166,8 @@ class NewTrackController extends Controller
 
         return $this->render(
             '/Track/newtrack.html.twig', array('newTrackForm' => $newTrackForm->createView(),
-                'request' => $request)
+                'request' => $request,
+            )
         );
 
     }

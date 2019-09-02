@@ -11,11 +11,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * User
  *
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email_UNIQUE", columns={"email"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @UniqueEntity(fields="email", message="Ce mail est déjà utilisé")
  */
 class User implements UserInterface, \Serializable
 {
@@ -29,7 +31,13 @@ class User implements UserInterface, \Serializable
      */
      private $email;
 
-     // Contrainte de longueur ne fonctionne pas pour l'inscription car on l'écrase
+     // Mot de passe en clair ???!!!
+    /**
+     * not persisted plainPassword
+     */
+    private $plainPassword;
+
+    // Contrainte de longueur ne fonctionne pas pour l'inscription car on l'écrase
      // dans le RegisterUserType avec d'autres contraintes (donc l'ajouter là bas)
     /**
      * @ORM\Column(type="string", length=255)
@@ -45,6 +53,7 @@ class User implements UserInterface, \Serializable
      */
     private $pseudo;
 
+    // Si Nullable = true => à remettre dans le Form Type ! : ['required' => false]
     /**
      * @var string
      *
@@ -123,6 +132,11 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(name="lost_password_date", type="datetime", nullable=true)
      */
     private $lostPasswordDate;
+
+    /**
+     * Non mapped field, used when changing the password
+     */
+    private $oldPassword;
 
     /**
      * @var integer
@@ -204,6 +218,17 @@ class User implements UserInterface, \Serializable
     public function getPassword()
     {
         return $this->password;
+    }
+
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
     }
 
     /**
@@ -523,6 +548,31 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * Set oldPassword
+     *
+     * @param string $oldPassword
+     *
+     * @return User
+     */
+    public function setOldPassword($oldPassword)
+    {
+        $this->oldPassword = $oldPassword;
+
+        return $this;
+    }
+
+    /**
+     * Get oldPassword
+     *
+     * @return string
+     */
+    public function getOldPassword()
+    {
+
+        return $this->oldPassword;
+    }
+
+    /**
      * Get id
      *
      * @return integer
@@ -605,6 +655,8 @@ class User implements UserInterface, \Serializable
 
     // Ces fontions ci-dessous (serialize - unserialize - getSalt - getUsername - eraseCredentials
     // sont nécessaire pour que la classe User implements UserInterface, \Serializable (tout en haut)
+
+    // Fonction serialize importante pour pouvoir reconnaitre le membre connecté !
     /**
      * String representation of object
      * @link https://php.net/manual/en/serializable.serialize.php
@@ -613,7 +665,11 @@ class User implements UserInterface, \Serializable
      */
     public function serialize()
     {
-        // TODO: Implement serialize() method.
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+        ));
     }
 
     /**
@@ -627,7 +683,11 @@ class User implements UserInterface, \Serializable
      */
     public function unserialize($serialized)
     {
-        // TODO: Implement unserialize() method.
+        list (
+            $this->id,
+            $this->email,
+            $this->password,
+            ) = unserialize($serialized);
     }
 
     /**
@@ -639,7 +699,6 @@ class User implements UserInterface, \Serializable
      */
     public function getSalt()
     {
-        // TODO: Implement getSalt() method.
         // The bcrypt and argon2i algorithms don't require a separate salt.
         // You *may* need a real salt if you choose a different encoder.
         return null;
@@ -652,7 +711,7 @@ class User implements UserInterface, \Serializable
      */
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return $this->email;
     }
 
     /**

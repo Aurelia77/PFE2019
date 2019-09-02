@@ -6,7 +6,6 @@ namespace AppBundle\Form;
 use AppBundle\Entity\MotClef;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 // Type
@@ -26,7 +25,10 @@ class NewTrackType extends AbstractType
             ->add('image', FileType::class, ['label' => 'Choisissez une image'])
             // Des checkboxes avec les mots clefs (choix multiples)
             ->add('motsclefs', EntityType::class, [
+                // On veut des checkboxes :
+                // plusieurs possibilités
                 'multiple' => true,
+                // pas dans un SELECT mais des boutons
                 'expanded' => true,
                 // looks for choices from this entity
                 'class' => MotClef::class,

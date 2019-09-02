@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container" style="margin-bottom:400px ">
+    <div class="container mb_300">
         <div class="row">
 
             <h1 class="mt-5 mb-5 text-center">Inscription Entre Dièses et Bémols</h1>
@@ -41,6 +41,9 @@
 
                     <p>{{ form_errors(registerForm.lastName) }}</p>
                     {{ form_widget(registerForm.lastName, {'attr': {'class': 'form-control', 'placeholder':'Nom'}}) }}
+
+                    {#<p>{{ form_errors(registerForm.sexe) }}</p>#}
+                    {#{{ form_widget(registerForm.sexe, {'attr': {'class': 'form-control', 'placeholder':'Sexe'}}) }}#}
 
                     <p>{{ form_errors(registerForm.plainPassword.first) }}</p>
                     {{ form_widget(registerForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder':'Mot de passe'}}) }}

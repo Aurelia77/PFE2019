@@ -5,55 +5,58 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
+    <div class="row">
+        {% include "Includes/adminusersmenu.html.twig" %}
 
-    {% include "Includes/adminusersmenu.html.twig" %}
+        <div>
 
-    <div>
-
-        {# Formulaire de recherche #}
-        {#<form method="GET">#}
+            {# Formulaire de recherche #}
+            {#<form method="GET">#}
             {#<input type="text" class="form-control" placeholder="Partie du nom ou prénom..." name="query"#}
-                   {#aria-label="search" aria-describedby="search-button">#}
+            {#aria-label="search" aria-describedby="search-button">#}
             {#<button class="btn btn-secondary" type="submit">Rechercher</button>#}
-        {#</form>#}
+            {#</form>#}
 
-        {#<p>Recherche = {{ recherche }}</p>#}
+            {#<p>Recherche = {{ recherche }}</p>#}
 
-        {# On affiche ici la liste de tous les tracks mis sur le site - (et si une recherche est lancée la liste des résultats #}
-        {% if pagination.getTotalitemCount > 0 %}
-            <table>
-                <thead>
-                <tr>
-                    {#<th scope="col">#</th>#}
-                    <th scope="col">Titre</th>
-                    <th scope="col">Prénom User</th>
-                    <th scope="col">Email user</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                {% for track in pagination %}
-                    <tr {% if loop.index is odd %} class="color" {% endif %}> {# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
-                        <td>{{ track.title }}</td>
-                        <td>{{ track.user.firstName }}</td>
-                        <td>{{ track.user.email }}</td>
-                        {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
-                        {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
+            {# On affiche ici la liste de tous les tracks mis sur le site - (et si une recherche est lancée la liste des résultats #}
+            {% if pagination.getTotalitemCount > 0 %}
+                <table>
+                    <thead>
+                    <tr>
+                        {#<th scope="col">#</th>#}
+                        <th scope="col">Titre</th>
+                        <th scope="col">Prénom User</th>
+                        <th scope="col">Email user</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
 
-            <div class="navigation">
-                {# Pour donner un style à la navigation #}
-                {{ knp_pagination_render(pagination, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
-                {#{{ knp_pagination_render(pagination) }}#}
-            </div>
+                    {% for track in pagination %}
+                        <tr {% if loop.index is odd %} class="color" {% endif %}> {# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
+                            <td>{{ track.title }}</td>
+                            <td>{{ track.user.firstName }}</td>
+                            <td>{{ track.user.email }}</td>
+                            {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
+                            {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
 
-        {% else %}
-            <p>Aucun résultat</p>
-        {% endif %}
+                <div class="navigation">
+                    {# Pour donner un style à la navigation #}
+                    {{ knp_pagination_render(pagination, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
+                    {#{{ knp_pagination_render(pagination) }}#}
+                </div>
 
+            {% else %}
+                <p>Aucun résultat</p>
+            {% endif %}
+
+        </div>
+
+        {% endblock content %}
     </div>
-
-{% endblock content %}
+</div>

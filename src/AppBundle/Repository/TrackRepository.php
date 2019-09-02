@@ -29,25 +29,4 @@ class TrackRepository extends \Doctrine\ORM\EntityRepository
 //            ;
 //    }
 
-
-//    /**
-//     * On veut afficher les Tracks par ordre décroissant de la date de création
-//     * @return mixed float | null
-//     * @throws \Doctrine\ORM\NoResultException
-//     * @throws \Doctrine\ORM\NonUniqueResultException
-//     */
-//    public function getTrackByOrder()
-//    {
-//        $qb = $this->createQueryBuilder('u');
-//
-//        return $qb
-//            ->select('FROM `track` ORDER By `creationDate` DESC')
-//            ->getQuery()
-//            ->getSingleScalarResult();
-
-//$redCars = $carRepository->findBy( array ( 'color' => 'red' ), array ( 'creationDate' => 'ASC' ));
-
-
-//    }
-
 }

@@ -15,10 +15,10 @@ class UserInfoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName', TextType::class)
-            ->add('lastName', TextType::class)
             ->add('pseudo', TextType::class)
-            ->add('photo', TextType::class)
+            ->add('firstName', TextType::class, ['required' => false])
+            ->add('lastName', TextType::class, ['required' => false])
+//            ->add('photo', TextType::class)
 //            ->add('photo', FileType::class, ['label' => 'Image/photo du compte (taille max : 2048 KiB)'])
 
 

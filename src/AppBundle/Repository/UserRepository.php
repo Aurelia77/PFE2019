@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 
 use AppBundle\Entity\User;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\Query;
@@ -18,6 +19,38 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Modifie le fait que l'utilisateur soit actif ou non
+     *
+     * @param EntityManager $em
+     * @param int $id
+     * @param bool $actif
+     * @return \Doctrine\ORM\Query
+     */
+    public function switchActifUserActionQuery(int $id, bool $actif)
+    {
+        $qb = $this->createQueryBuilder( 'u' );
+
+        if ($actif = false) {
+            $qb ->update()
+                ->where('u.id LIKE $id')
+                ->set( 'u.actif' , ':actif' )
+                ->setParameter( 'actif' , true )
+                ->getQuery()
+                ->execute();
+        } else {
+            $qb ->update()
+                ->where('u.id LIKE $id')
+                ->set( 'u.actif' , ':actif' )
+                ->setParameter( 'actif' , false )
+                ->getQuery()
+                ->execute();
+        }
+
+
+        return $qb->getQuery();
+    }
+
     // Ce que j'ai fait (OK aussi mais un mieux avec LIKE
 //    public function findByFirstNameOrLastName(string $name)
 //    {

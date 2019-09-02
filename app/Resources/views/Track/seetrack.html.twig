@@ -41,102 +41,198 @@
 
                     {% include "Includes/viewTrack.html.twig" %}
 
-                    {#<div class="inner row m0 audio-player">#}
-                        {#<a href="{{ path('seetrack', {'id' : track.id}) }}" title="Voir le track dans un onglet">#}
-                            {#<div class="row screencast m0">#}
-                                {#<img src="../../{{ img_track_directory }}/{{ track.image }}.jpg" alt="Image de la musique"#}
-                                     {#class="cast img-responsive img_track">#}
-                                {#<div class="play_btn"></div>#}
-                                {#<div class="media-length total-time">17:30</div>#}
-                    {#<div class="fright">#}
-                        {#{% if track.num == 1 %}#}
-                            {#{{ track.num }}#}
-                        {#{% else %}#}
-                            {#+ {{ track.num }}#}
-                        {#{% endif %}#}
-
-                    {#</div>#}
-                            {#</div>#}
-                        {#</a>#}
-
-                        {#<div class="row m0 post_data">#}
-                            {#<h3 class="row m0">#}
-                                {#<a href="{{ path('seetrack', {'id' : track.id}) }}"#}
-                                   {#title="Voir le track dans un onglet" class="post_title">{{ track.title }}</a>#}
-                            {#</h3>#}
-
-                            {#<h4>{{ track.user.firstName }}</h4>#}
-
-                            {#<div class="date">Publié le : {{ track.creationDate|date("d/m/Y") }}</div>#}
-                            {#<div class="fright views"><a href="#"><img#}
-                            {#src="{{ asset('theme/images/icons/views.png') }}"#}
-                            {#alt="">3,45,346</a></div>#}
-                            {#<audio controls>#}
-                                {#Votre navigateur ne supporte pas l'élément <code>audio</code>#}
-                                {#<source src="../../{{ track_directory }}/{{ track.track }}.mp3"/>#}
-                            {#</audio>#}
-
-                            {#<a href="{{ path('download', {'id' : track.id}) }}">#}
-                                {#<img src="../../images/download.png" height="50px" alt="Lien télécharger track de musique">#}
-                            {#</a>#}
-                        {#</div>#}
-                    {#</div>#}
                 </div>
 
-                <h2 class="h_50 text-center">xx tracks avec un son en plus</h2>
-
-                {# Musique(s) en relation avec la musique visualisée #}
                 <div class="col-sm-7 sidebar video_post">              {# classe enlevée : sidebar2 #}
+
+                    <h3 class="h_50 text-center">xx tracks avec un son en plus</h3>
+
+                    {# Musique(s) en relation avec la musique visualisée #}
                     <div class="w_50 float-left">
                         {# On affiche ici les pistes de musique en relation avec la piste visualisée (id1 = track.id) #}
                         {% for track2 in tracks %}
                             {# on peut aussi ajouter la condition à l'intérieur : {% for track2 in tracks if track2.id1  == track.id%} mais on ne peut pas ut. loop.index ?? #}
 
-                            {% if track2.id1  == track.id %}
+                            {% if track2.id1.id is defined %}
+                                {% if track2.id1.id  == track.id %}
 
-                                <div class="inner row m0 audio-player mb-5">
-                                    <div class="col-sm-6">
-                                    <a href="{{ path('seetrack', {'id' : track2.id}) }}" title="Voir le track dans un onglet">
-                                        <div class="row screencast m0">
-                                            <img src="{{ asset(img_track_directory) }} /{{ track2.image }}.jpg" alt="Image de la musique"
-                                                 class="cast img-responsive img_track">
-                                            <div class="play_btn"></div>
-                                            <div class="media-length total-time">00:00</div>
+                                    <div class="inner row m0 audio-player mb-5">
+                                        <div class="col-sm-6">
+                                            <a href="{{ path('seetrack', {'id' : track2.id}) }}"
+                                               title="Voir le track dans un onglet">
+                                                <div class="row screencast m0">
+                                                    <img src="{{ asset(img_track_directory) }}/{{ track2.image }}"
+                                                         alt="Image de la musique"
+                                                         class="cast img-responsive img_track">
+                                                    <div class="play_btn"></div>
+                                                    <div class="media-length total-time">00:00</div>
+                                                </div>
+                                                <h3 class="row m0">
+                                                    {{ track2.title }}
+                                                    {% if track2.num > 0 %}
+                                                        (+{{ track2.num }})
+                                                    {% endif %}
+                                                </h3>
+                                            </a>
                                         </div>
-                                        <h3 class="row m0">
-                                            {{ track2.title }}
-                                            {% if track2.num > 0 %}
-                                                (+{{ track2.num }})
-                                            {% endif %}
-                                        </h3>
-                                    </a>
+                                        <div class="m0 post_data col-sm-6">
+                                            <h4>{{ track2.user.firstName }}</h4>
+
+                                            <div class="date">Publié le : {{ track2.creationdate|date("d/m/Y") }}</div>
+                                            {#<div class="fright views"><a href="#"><img#}
+                                            {#src="{{ asset('theme/images/icons/views.png') }}"#}
+                                            {#alt="">3,45,346</a></div>#}
+                                            <audio controls>
+                                                Votre navigateur ne supporte pas l'élément <code>audio</code>
+                                                <source src="{{ asset(track_directory) }}/{{ track2.track }}"/>
+                                            </audio>
+
+                                            <a href="{{ path('download', {'id' : track2.id}) }}">
+                                                <img src="{{ asset('images/download.png') }}" height="50px"
+                                                     alt="Lien télécharger track de musique">
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="m0 post_data col-sm-6">
-                                        <h4>{{ track2.user.firstName }}</h4>
-
-                                        <div class="date">Publié le : {{ track2.creationDate|date("d/m/Y") }}</div>
-                                        {#<div class="fright views"><a href="#"><img#}
-                                        {#src="{{ asset('theme/images/icons/views.png') }}"#}
-                                        {#alt="">3,45,346</a></div>#}
-                                        <audio controls>
-                                            Votre navigateur ne supporte pas l'élément <code>audio</code>
-                                            <source src="{{ asset(track_directory) }}/{{ track2.track }}.mp3"/>
-                                        </audio>
-
-                                        <a href="{{ path('download', {'id' : track2.id}) }}">
-                                            <img src="{{ asset('images/download.png') }}" height="50px"
-                                                 alt="Lien télécharger track de musique">
-                                        </a>
-                                    </div>
-                                </div>
-
+                                {% endif %}
                             {% endif %}
-
                         {% endfor %}
-
                     </div>
-
                 </div>
+            </div>
+
+            {# Nouveau Message #}
+            <p>newmessage/{{ track.id }}/{{ app.user.id }}</p>
+
+            <a href="{{ path('newtrack', {'num' : 0, 'id1' : 0}) }}">
+
+            <form action="{{ path('newmessage', {'track' : track.id, 'user' : app.user.id}) }}" method="post" class="row m0 comment_form">
+                <h5>Postez votre commentaire</h5>
+                <textarea class="form-control"></textarea>
+                <input type="submit" value="Envoyer" class="btn btn default">
+            </form>
+            {# Messages #}
+            <div class="row m0 comments">
+                <h2>Commentaire(s) au sujet du track</h2>
+
+                <h5 class="comment_count">xx commentaires :</h5>
+                <div class="media comment">
+                    <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
+                                                             class="img-circle"></a></div>
+                    {# On affiche ici les messages en relation avec la piste visualisée (track = track.id) #}
+                    {% for message in messages %}
+
+                        {% if message.track.id  == track.id %}
+                            <div class="media-body">
+                                <div class="comment_header">
+                                    <h5>
+                                        <a href="#" class="author_name">{{ message.user.pseudo }}</a>
+                                        <span class="time_ago">{{ message.creationdate|date("d/m/Y") }}</span>
+                                        <a href="#" class="reply_link">Reply</a>
+                                    </h5>
+                                </div>
+                                <p>{{ message.corps }}</p>
+                                <div class="media comment comment_reply">
+                                    <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
+                                                                             class="img-circle"></a></div>
+                                    <div class="media-body">
+                                        <div class="comment_header">
+                                            <h5>
+                                                <a href="#" class="author_name">Lisa Zing Lung Chung</a>
+                                                <span class="time_ago">10 minutes ago</span>
+                                                <a href="#" class="reply_link">Reply</a>
+                                            </h5>
+                                        </div>
+                                        <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem accusantium
+                                            doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+                                            inventore
+                                            veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+                                    </div>
+                                </div> <!--Comment Reply-->
+
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="row m0 comments">
+                    <h5 class="comment_count">37 Comments:</h5>
+                    <div class="media comment">
+                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
+                                                                 class="img-circle"></a></div>
+                        <div class="media-body">
+                            <div class="comment_header">
+                                <h5>
+                                    <a href="#" class="author_name">Lisa Zing Lung Chung</a>
+                                    <span class="time_ago">10 minutes ago</span>
+                                    <a href="#" class="reply_link">Reply</a>
+                                </h5>
+                            </div>
+                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                                deserunt
+                                mollit anim id est laborum. Sed ut perspiciat unde omnis iste natus error sit
+                                voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
+                                ab
+                                illo inventore veritatis et quasi architecto beatae vitae dicta sunt
+                                explicabo.</p>
+                            <div class="media comment comment_reply">
+                                <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
+                                                                         class="img-circle"></a></div>
+                                <div class="media-body">
+                                    <div class="comment_header">
+                                        <h5>
+                                            <a href="#" class="author_name">Lisa Zing Lung Chung</a>
+                                            <span class="time_ago">10 minutes ago</span>
+                                            <a href="#" class="reply_link">Reply</a>
+                                        </h5>
+                                    </div>
+                                    <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem accusantium
+                                        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+                                        inventore
+                                        veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+                                </div>
+                            </div> <!--Comment Reply-->
+                        </div>
+                    </div> <!--Comment-->
+                    <div class="media comment">
+                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
+                                                                 class="img-circle"></a></div>
+                        <div class="media-body">
+                            <div class="comment_header">
+                                <h5>
+                                    <a href="#" class="author_name">Lisa Zing Lung Chung</a>
+                                    <span class="time_ago">10 minutes ago</span>
+                                    <a href="#" class="reply_link">Reply</a>
+                                </h5>
+                            </div>
+                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                                deserunt
+                                mollit anim id est laborum. Sed ut perspiciat unde omnis iste natus error sit
+                                voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
+                                ab
+                                illo inventore veritatis et quasi architecto beatae vitae dicta sunt
+                                explicabo.</p>
+                            <div class="media comment comment_reply">
+                                <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
+                                                                         class="img-circle"></a></div>
+                                <div class="media-body">
+                                    <div class="comment_header">
+                                        <h5>
+                                            <a href="#" class="author_name">Lisa Zing Lung Chung</a>
+                                            <span class="time_ago">10 minutes ago</span>
+                                            <a href="#" class="reply_link">Reply</a>
+                                        </h5>
+                                    </div>
+                                    <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem accusantium
+                                        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+                                        inventore
+                                        veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+                                </div>
+                            </div> <!--Comment Reply-->
+                        </div>
+                    </div> <!--Comment-->
+                </div>
+
+
                 <div class="row">
                     <div class="col-sm-9 post_page_uploads">
                         <div class="author_details post_details row m0">
@@ -309,84 +405,8 @@
                     </div>
                     <div class="col-sm-3 sidebar sidebar2">
                         <div class="row m0 sidebar_row_inner">
-                            <!--Search Form-->
-                            <form action="#" role="search" class="search_form row m0 widget widget_search">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search Here">
-                                    <span class="input-group-addon"><button type="submit"><img
-                                                    src="images/icons/search.png"
-                                                    alt=""></button></span>
-                                </div>
-                            </form>
-                            <!--Sponsored Area-->
-                            <div class="row m0 widget widget_sponsored_area">
-                                <h5 class="widget_title">sponsored area</h5>
-                                <div class="row m0 inner">
-                                    <div class="row m0 advertise_betweeen_uploads">
-                                        <div class="inner row m0">
-                                            <h3>Advertise<br>Here</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--More From the Author-->
-                            <div class="row m0 widget widget_popular_videos">
-                                <h5 class="widget_title">more from the author</h5>
-                                <div class="row m0 inner">
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/1.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/2.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/3.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/4.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
                             <!--Recommended for You-->
                             <div class="row m0 widget widget_popular_videos">
                                 <h5 class="widget_title">Recommended for you</h5>

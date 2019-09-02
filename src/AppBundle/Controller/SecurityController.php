@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\Repository\UserRepository;
 use AppBundle\Service\Security\UserEmailService;
 use AppBundle\Form\RegisterUserType;
 use AppBundle\Form\ResetPasswordType;
@@ -59,6 +60,8 @@ class SecurityController extends Controller
         $registerForm->handleRequest($request);
 
         if ($registerForm->isSubmitted() && $registerForm->isValid()) {
+            $user->setActif(true);
+
             // 3) Encoder le mdp
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
@@ -246,6 +249,8 @@ class SecurityController extends Controller
         $userMail = $request->get('email');
         $responseParams = [];
         if ($userMail) {
+            /* @var $userRepository UserRepository */   // ??? Pas besoin ???
+
             $userRepository = $this->getDoctrine()->getRepository('AppBundle:User');
             /* @var $user User */
             $user = $userRepository->findOneByEmail($userMail);

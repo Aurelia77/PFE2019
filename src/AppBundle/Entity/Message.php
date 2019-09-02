@@ -62,7 +62,7 @@ class Message
      */
     private $id;
 
-    // OONSTRUCTIEUR avec la date de création = date + heure du jour
+    // OONSTRUCTIEUR avec valeur par défaut la date de création = date + heure du jour
     public function __construct()
     {
         $this->setCreationDate(new \DateTime());
@@ -162,7 +162,7 @@ class Message
      *
      * @return Message
      */
-    public function setUser(\AppBundle\Entity\User $user)
+    public function setUser(User $user)
     {
         $this->user = $user;
 
@@ -187,7 +187,7 @@ class Message
      *
      * @return Message
      */
-    public function setTrack(\AppBundle\Entity\Track $track)
+    public function setTrack(Track $track)
     {
         $this->track = $track;
 
