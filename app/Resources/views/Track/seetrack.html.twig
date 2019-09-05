@@ -3,7 +3,9 @@
 {% block title %}Entre Dièses et Bémols - Accueil{% endblock %}
 
 {% block content %}
-
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
     <section class="row page_cover">
         <div class="container">
             <div class="row m0">
@@ -16,6 +18,59 @@
         </div>
     </section>
 
+
+    {#<p>{{ track1.motsclefs  }}</p>#}
+    <p></p>
+    <div>Mots clefs :
+        {% for motclef in track1.motsclefs %}
+            <p>{{ motclef }}</p>
+            <p>{{ track1.motsclefs[0] }}</p>
+            {% if loop.first == false %} |
+            {% endif %}
+            {{ motclef.mot|capitalize }}
+        {% else %}
+
+            Ce track n'est lié à aucun mot clef
+        {% endfor %}
+    </div>
+
+    {#<div>Groupes :#}
+    {#{% for groupe in user.groupes %}#}
+    {#{% if loop.first == false %} |  {% endif %}#}
+    {#{{ groupe.name|capitalize }}#}
+    {#{% else %}#}
+
+    {#Cet utilisateur n'est lié à aucun groupe#}
+    {#{% endfor %}#}
+    {#</div>#}
+
+    {% for motclef in motsclefs %}
+        <p>{{ motclef.mot }}</p>
+    {% endfor %}
+
+    <form action="{{ path('seetrack', {'id' : track1.id}) }}" method="get">
+        {% for motclef in motsclefs %}
+            <label for="update-groupes-{{ motclef.mot }}">{{ motclef.mot }}</label>
+            <input type="checkbox" {% if motclef in track1.motsclefs %}checked{% endif %} name="update-groupes[]"
+                   id="update-groupes-{{ motclef.mot }}" value="{{ motclef.mot }}">
+        {% endfor %}
+        <input type="text" name="add-groupes">
+        <input type="submit" value="Submit">
+    </form>
+
+    {#<form action="{{ path('users_update_groupe', {'id' : user.id}) }}" method="get">#}
+    {#{% for groupe in groupes %}#}
+    {#<label for="update-groupes-{{ groupe.name }}">{{ groupe.name }}</label>#}
+    {#<input type="checkbox" {% if groupe in user.groupes %}checked{% endif %} name="update-groupes[]" id="update-groupes-{{groupe.name}}" value="{{ groupe.name }}">#}
+    {#{% endfor %}#}
+    {#<input type="text" name="add-groupes">#}
+    {#<input type="submit" value="Submit">#}
+    {#</form>#}
+
+
+
+
+
     <section class="row">
         <ul class="nav nav-justified ribbon">
             <li><a href="#"></a></li>
@@ -25,131 +80,115 @@
             <li><a href="#"></a></li>
             <li><a href="#"></a></li>
         </ul>
-    </section> <!--Ribbon-->
+    </section>
 
     <h2 class="text-center mt-5 mb-4">Ecoutez cette compo et ses +1, et ajoutez votre son !</h2>
 
     <section class="row post_page_sidebar post_page_sidebar1">
         <div class="container">
             <div class="row">
-                {# Musique visualisée #}
-                <div class="col-sm-5 video_post text-center">                      {# classe enlevée : post_page_uploads #}
+                {% if track1.actif == 1 %}
 
-                    <a href="{{ path('newtrack', {'num' : track.num + 1, 'id1' : track.id}) }}" class="clear_both">
-                        <button class="btn btn-info mb-5 h_50">Importer ma création ajoutée à celle-ci</button>
-                    </a>
+                    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+                    {# Musique visualisée avec bouton pour ajouter un track à celui-ci (avec un son en plus) #}
+                    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+                    <div class="col-sm-6 video_post text-center">                      {# classe enlevée : post_page_uploads #}
+                        <a href="{{ path('newtrack', {'num' : track1.num + 1, 'id1' : track1.id}) }}"
+                           class="clear_both">
+                            <button class="btn btn-info mb-5 h_50">Importer ma création ajoutée à celle-ci</button>
+                        </a>
 
-                    {% include "Includes/viewTrack.html.twig" %}
+                        {% include "Includes/viewTrack.html.twig" %}
+                    </div>
 
-                </div>
+                    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+                    {# Musique(s) en relation avec la musique visualisée (id1 = track.id) #}
+                    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+                    <div class="col-sm-6 sidebar video_post">              {# classe enlevée : sidebar2 #}
 
-                <div class="col-sm-7 sidebar video_post">              {# classe enlevée : sidebar2 #}
+                        <h3 class="h_50 text-center">xx tracks avec un son en plus</h3>
+                        {# On affiche les tracks par ordre antéchronologique (indiqué dans le HomeController sur la creationDate) #}
 
-                    <h3 class="h_50 text-center">xx tracks avec un son en plus</h3>
+                        {#<div class="w_50 float-left">#}
+                        {% for track in tracks %}
+                            {# on peut aussi ajouter la condition à l'intérieur : {% for track in tracks if track.id1  == track.id%} mais on ne peut pas ut. loop.index ?? #}
 
-                    {# Musique(s) en relation avec la musique visualisée #}
-                    <div class="w_50 float-left">
-                        {# On affiche ici les pistes de musique en relation avec la piste visualisée (id1 = track.id) #}
-                        {% for track2 in tracks %}
-                            {# on peut aussi ajouter la condition à l'intérieur : {% for track2 in tracks if track2.id1  == track.id%} mais on ne peut pas ut. loop.index ?? #}
-
-                            {% if track2.id1.id is defined %}
-                                {% if track2.id1.id  == track.id %}
-
-                                    <div class="inner row m0 audio-player mb-5">
-                                        <div class="col-sm-6">
-                                            <a href="{{ path('seetrack', {'id' : track2.id}) }}"
-                                               title="Voir le track dans un onglet">
-                                                <div class="row screencast m0">
-                                                    <img src="{{ asset(img_track_directory) }}/{{ track2.image }}"
-                                                         alt="Image de la musique"
-                                                         class="cast img-responsive img_track">
-                                                    <div class="play_btn"></div>
-                                                    <div class="media-length total-time">00:00</div>
-                                                </div>
-                                                <h3 class="row m0">
-                                                    {{ track2.title }}
-                                                    {% if track2.num > 0 %}
-                                                        (+{{ track2.num }})
-                                                    {% endif %}
-                                                </h3>
-                                            </a>
-                                        </div>
-                                        <div class="m0 post_data col-sm-6">
-                                            <h4>{{ track2.user.firstName }}</h4>
-
-                                            <div class="date">Publié le : {{ track2.creationdate|date("d/m/Y") }}</div>
-                                            {#<div class="fright views"><a href="#"><img#}
-                                            {#src="{{ asset('theme/images/icons/views.png') }}"#}
-                                            {#alt="">3,45,346</a></div>#}
-                                            <audio controls>
-                                                Votre navigateur ne supporte pas l'élément <code>audio</code>
-                                                <source src="{{ asset(track_directory) }}/{{ track2.track }}"/>
-                                            </audio>
-
-                                            <a href="{{ path('download', {'id' : track2.id}) }}">
-                                                <img src="{{ asset('images/download.png') }}" height="50px"
-                                                     alt="Lien télécharger track de musique">
-                                            </a>
-                                        </div>
-                                    </div>
+                            {% if track.id1.id is defined %}   {# Car possibilité de ne pas avoir d'id1 (si compo de départ #}
+                                {% if track.id1.id == track1.id %}
+                                    {% if track.id1.actif == 1 %}
+                                        {% include "Includes/viewTrack2.html.twig" %}
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
+                        {#</div>#}
                     </div>
-                </div>
+
+                {% else %}
+                    <h4>Ce track a été inactivé !</h4>
+                {% endif %}
             </div>
 
-            {# Nouveau Message #}
-            <p>newmessage/{{ track.id }}/{{ app.user.id }}</p>
+            {#-------------------------------------------------------------------------------------------------------------------------------------#}
+            {# Nouveau Message (commentaire) #}
+            {#-------------------------------------------------------------------------------------------------------------------------------------#}
+            <div class="row">
+                {#<p>newmessage/{{ track1.id }}/{{ app.user.id }}</p>#}
 
-            <a href="{{ path('newtrack', {'num' : 0, 'id1' : 0}) }}">
+                <form action="{{ path('seetrack', {'id' : track1.id}) }}" method="post"
+                      class="row m0 comment_form">
+                    <h5>Postez votre commentaire</h5>
+                    <textarea class="form-control"
+                              placeholder="Ecrivez quelque chose au sujet de ce track de musique ou des tracks +1"
+                              name="message"></textarea>
+                    <input type="submit" value="Envoyer" class="btn btn default">
+                </form>
+            </div>
 
-            <form action="{{ path('newmessage', {'track' : track.id, 'user' : app.user.id}) }}" method="post" class="row m0 comment_form">
-                <h5>Postez votre commentaire</h5>
-                <textarea class="form-control"></textarea>
-                <input type="submit" value="Envoyer" class="btn btn default">
-            </form>
-            {# Messages #}
+            {#-------------------------------------------------------------------------------------------------------------------------------------#}
+            {# Message(s) (commentaire(s)) en relation avec le track visualisé #}
+            {#-------------------------------------------------------------------------------------------------------------------------------------#}
             <div class="row m0 comments">
                 <h2>Commentaire(s) au sujet du track</h2>
 
                 <h5 class="comment_count">xx commentaires :</h5>
                 <div class="media comment">
-                    <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
-                                                             class="img-circle"></a></div>
-                    {# On affiche ici les messages en relation avec la piste visualisée (track = track.id) #}
+                    {# On affiche ici les messages en relation avec le track visualisé #}
                     {% for message in messages %}
 
-                        {% if message.track.id  == track.id %}
-                            <div class="media-body">
-                                <div class="comment_header">
-                                    <h5>
-                                        <a href="#" class="author_name">{{ message.user.pseudo }}</a>
-                                        <span class="time_ago">{{ message.creationdate|date("d/m/Y") }}</span>
-                                        <a href="#" class="reply_link">Reply</a>
-                                    </h5>
-                                </div>
-                                <p>{{ message.corps }}</p>
-                                <div class="media comment comment_reply">
-                                    <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
-                                                                             class="img-circle"></a></div>
-                                    <div class="media-body">
-                                        <div class="comment_header">
-                                            <h5>
-                                                <a href="#" class="author_name">Lisa Zing Lung Chung</a>
-                                                <span class="time_ago">10 minutes ago</span>
-                                                <a href="#" class="reply_link">Reply</a>
-                                            </h5>
-                                        </div>
-                                        <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem accusantium
-                                            doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
-                                            inventore
-                                            veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+                        {% if message.actif == 1 %}
+                            {% if message.track.id  == track1.id %}
+                                <div class="media-body">
+                                    <div class="comment_header">
+                                        <h5>
+                                            <a href="#" class="author_name">{{ message.user.pseudo }}</a>
+                                            <span class="time_ago">{{ message.creationdate|date("d/m/Y") }}</span>
+                                            <a href="#" class="reply_link">Reply</a>
+                                        </h5>
                                     </div>
-                                </div> <!--Comment Reply-->
+                                    <p>{{ message.corps }}</p>
+                                    <div class="media comment comment_reply">
+                                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
+                                                                                 class="img-circle"></a></div>
+                                        <div class="media-body">
+                                            <div class="comment_header">
+                                                <h5>
+                                                    <a href="#" class="author_name">Lisa Zing Lung Chung</a>
+                                                    <span class="time_ago">10 minutes ago</span>
+                                                    <a href="#" class="reply_link">Reply</a>
+                                                </h5>
+                                            </div>
+                                            <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem
+                                                accusantium
+                                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+                                                inventore
+                                                veritatis et quasi architecto beatae vitae dicta sunt
+                                                explicabo. </p>
+                                        </div>
+                                    </div> <!--Comment Reply-->
 
-                            </div>
+                                </div>
+                            {% endif %}
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -241,7 +280,8 @@
                                         src="https://www.youtube.com/embed/WTAHzO1i6Mw"></iframe>
                             </div>
                             <div class="row post_title_n_view">
-                                <h2 class="col-sm-8 post_title">Duis aute irure dolor in adipsicing elit perspiciatis
+                                <h2 class="col-sm-8 post_title">Duis aute irure dolor in adipsicing elit
+                                    perspiciatis
                                     omnis</h2>
                                 <h2 class="col-sm-4 view_count">3,45,346
                                     <small>View</small>
@@ -252,7 +292,8 @@
                                     <div class="row m0 section_row author_section widget widget_recommended_to_follow">
                                         <div class="media">
                                             <div class="media-left"><a href="page-author.html"><img
-                                                            src="images/follow/1.jpg" alt="" class="circle"></a></div>
+                                                            src="images/follow/1.jpg" alt="" class="circle"></a>
+                                            </div>
                                             <div class="media-body media-middle">
                                                 <a href="page-author.html"><h5>Lisa Zing Lung</h5></a>
                                                 <div class="btn-group">
@@ -265,18 +306,30 @@
                                     <div class="row m0 social_section section_row">
                                         <h5>Social Accounts</h5>
                                         <ul class="list-inline">
-                                            <li><a href="#"><img src="images/icons/social/1.jpg" alt=""></a></li>
-                                            <li><a href="#"><img src="images/icons/social/2.jpg" alt=""></a></li>
-                                            <li><a href="#"><img src="images/icons/social/3.jpg" alt=""></a></li>
-                                            <li><a href="#"><img src="images/icons/social/4.jpg" alt=""></a></li>
-                                            <li><a href="#"><img src="images/icons/social/5.jpg" alt=""></a></li>
-                                            <li><a href="#"><img src="images/icons/social/6.jpg" alt=""></a></li>
-                                            <li><a href="#"><img src="images/icons/social/7.jpg" alt=""></a></li>
-                                            <li><a href="#"><img src="images/icons/social/8.jpg" alt=""></a></li>
-                                            <li><a href="#"><img src="images/icons/social/9.jpg" alt=""></a></li>
-                                            <li><a href="#"><img src="images/icons/social/10.jpg" alt=""></a></li>
-                                            <li><a href="#"><img src="images/icons/social/11.jpg" alt=""></a></li>
-                                            <li><a href="#"><img src="images/icons/social/12.jpg" alt=""></a></li>
+                                            <li><a href="#"><img src="images/icons/social/1.jpg" alt=""></a>
+                                            </li>
+                                            <li><a href="#"><img src="images/icons/social/2.jpg" alt=""></a>
+                                            </li>
+                                            <li><a href="#"><img src="images/icons/social/3.jpg" alt=""></a>
+                                            </li>
+                                            <li><a href="#"><img src="images/icons/social/4.jpg" alt=""></a>
+                                            </li>
+                                            <li><a href="#"><img src="images/icons/social/5.jpg" alt=""></a>
+                                            </li>
+                                            <li><a href="#"><img src="images/icons/social/6.jpg" alt=""></a>
+                                            </li>
+                                            <li><a href="#"><img src="images/icons/social/7.jpg" alt=""></a>
+                                            </li>
+                                            <li><a href="#"><img src="images/icons/social/8.jpg" alt=""></a>
+                                            </li>
+                                            <li><a href="#"><img src="images/icons/social/9.jpg" alt=""></a>
+                                            </li>
+                                            <li><a href="#"><img src="images/icons/social/10.jpg" alt=""></a>
+                                            </li>
+                                            <li><a href="#"><img src="images/icons/social/11.jpg" alt=""></a>
+                                            </li>
+                                            <li><a href="#"><img src="images/icons/social/12.jpg" alt=""></a>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="row m0 about_section section_row single_video_info">
@@ -296,25 +349,39 @@
                                     </div>
                                 </div>
                                 <div class="media-body author_desc_by_author">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                        tempor
+                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                        quis
                                         nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        Duis
+                                        aute
+                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+                                        fugiat
                                         nulla
                                         pariatur.</p>
                                     <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
                                         deserunt
-                                        mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit
-                                        voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
+                                        mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus
+                                        error
+                                        sit
+                                        voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque
+                                        ipsa
+                                        quae
                                         ab
                                         illo inventore veritatis et quasi architecto beatae vitae dicta sunt
                                         explicabo.</p>
-                                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
+                                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
+                                        fugit,
+                                        sed
                                         quia
-                                        consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                                    <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,
-                                        adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et
+                                        consequuntur magni dolores eos qui ratione voluptatem sequi
+                                        nesciunt.</p>
+                                    <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
+                                        consectetur,
+                                        adipisci velit, sed quia non numquam eius modi tempora incidunt ut
+                                        labore et
                                         dolore
                                         magnam aliquam quaerat voluptatem.</p>
                                 </div>
@@ -335,13 +402,18 @@
                                     </div>
                                     <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
                                         deserunt
-                                        mollit anim id est laborum. Sed ut perspiciat unde omnis iste natus error sit
-                                        voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
+                                        mollit anim id est laborum. Sed ut perspiciat unde omnis iste natus
+                                        error
+                                        sit
+                                        voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque
+                                        ipsa
+                                        quae
                                         ab
                                         illo inventore veritatis et quasi architecto beatae vitae dicta sunt
                                         explicabo.</p>
                                     <div class="media comment comment_reply">
-                                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
+                                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg"
+                                                                                 alt=""
                                                                                  class="img-circle"></a></div>
                                         <div class="media-body">
                                             <div class="comment_header">
@@ -351,10 +423,13 @@
                                                     <a href="#" class="reply_link">Reply</a>
                                                 </h5>
                                             </div>
-                                            <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem accusantium
-                                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+                                            <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem
+                                                accusantium
+                                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
+                                                illo
                                                 inventore
-                                                veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+                                                veritatis et quasi architecto beatae vitae dicta sunt
+                                                explicabo. </p>
                                         </div>
                                     </div> <!--Comment Reply-->
                                 </div>
@@ -372,13 +447,18 @@
                                     </div>
                                     <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
                                         deserunt
-                                        mollit anim id est laborum. Sed ut perspiciat unde omnis iste natus error sit
-                                        voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
+                                        mollit anim id est laborum. Sed ut perspiciat unde omnis iste natus
+                                        error
+                                        sit
+                                        voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque
+                                        ipsa
+                                        quae
                                         ab
                                         illo inventore veritatis et quasi architecto beatae vitae dicta sunt
                                         explicabo.</p>
                                     <div class="media comment comment_reply">
-                                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
+                                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg"
+                                                                                 alt=""
                                                                                  class="img-circle"></a></div>
                                         <div class="media-body">
                                             <div class="comment_header">
@@ -388,10 +468,13 @@
                                                     <a href="#" class="reply_link">Reply</a>
                                                 </h5>
                                             </div>
-                                            <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem accusantium
-                                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
+                                            <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem
+                                                accusantium
+                                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
+                                                illo
                                                 inventore
-                                                veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
+                                                veritatis et quasi architecto beatae vitae dicta sunt
+                                                explicabo. </p>
                                         </div>
                                     </div> <!--Comment Reply-->
                                 </div>

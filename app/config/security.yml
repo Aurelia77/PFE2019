@@ -51,8 +51,8 @@ security:
     - { path: ^/private, roles: ROLE_USER }
     # require ROLE_USER for /newtrack
     - { path: ^/newtrack, roles: ROLE_USER }
-    # require ROLE_USER for /newmessage
-    - { path: ^/newmessage, roles: ROLE_USER }
+     # require ROLE_USER for /seetrack
+    - { path: ^/seetrack, roles: ROLE_USER }
     # require ROLE_USER for /download
     - { path: ^/download, roles: ROLE_USER }
     # no auth needed for /

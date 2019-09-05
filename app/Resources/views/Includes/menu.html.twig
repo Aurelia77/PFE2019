@@ -16,20 +16,67 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse w-75" id="middle-menu">
             <ul class="nav navbar-nav w-100">
+                {#-------------------------------------------------------------------------------------------------#}
+                {# Vu par tout le monde (connecté ou non#}
+                {#-------------------------------------------------------------------------------------------------#}
                 <li>
                     <a {% if app.request.get('_route') == 'faq' %}class="active"{% endif %} href="{{ path('faq') }}">
                         FAQ
                     </a>
                 </li>
                 <li>
-                    <a {% if not is_granted('ROLE_ADMIN') %} class="hidden"{% endif %} {% if app.request.get('_route') == 'admin' %} class="active"{% endif %}
-                            href="{{ path('admin') }}">
-                        {#You only have this if you’ve actually logged in during this session and you're an Admin.#}
-                        Administration
+                    <a {% if app.request.get('_route') == 'contact' %}class="active"{% endif %}
+                       href="{{ path('contact') }}">
+                        Contact
                     </a>
                 </li>
 
+                {#-------------------------------------------------------------------------------------------------#}
+                {# Pour les admin
+                {#-------------------------------------------------------------------------------------------------#}
+                <li {% if not is_granted('ROLE_ADMIN') %} class="hidden"{% else %} class="dropdown"{% endif %} >
+                    {#<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
+                    {#aria-expanded="false">#}
+                    {#<span class="home_variation_icon"></span>Home variations#}
+                    {#</a>#}
+                    <a {% if (app.request.get('_route') == 'admin')
+                        or (app.request.get('_route') == 'adminlistmembers')
+                        or (app.request.get('_route') == 'adminlisttracks')
+                        or (app.request.get('_route') == 'adminlistmotsclefs') %} class="active" {% endif %}
+                            href="{{ path('admin') }}">
+                        Administration
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a {% if app.request.get('_route') == 'adminlistmembers' %}class="active"{% endif %}
+                               href="{{ path('adminlistmembers') }}">
+                                Liste des membres
+                            </a>
+                        </li>
+                        <li>
+                            <a {% if app.request.get('_route') == 'adminlisttracks' %}class="active"{% endif %}
+                               href="{{ path('adminlisttracks') }}">
+                                Liste des tracks
+                            </a>
+                        </li>
+                        <li>
+                            <a {% if app.request.get('_route') == 'adminlistmotsclefs' %}class="active"{% endif %}
+                               href="{{ path('adminlistmotsclefs') }}">
+                                Liste des mots clefs
+                            </a>
+                        </li>
+                        <li>
+                            <a {% if app.request.get('_route') == 'adminlistmessages' %}class="active"{% endif %}
+                               href="{{ path('adminlistmessages') }}">
+                                Liste des commentaires
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {#-------------------------------------------------------------------------------------------------#}
                 {# PSEUDO du membre connecté #}
+                {#-------------------------------------------------------------------------------------------------#}
                 {#<b class="ml-10">#}
                 {#<li class="pr_3em">#}
                 <li id="pseudo_menu">
@@ -47,7 +94,9 @@
                 {#</li>#}
                 {#</b>#}
 
-
+                {#-------------------------------------------------------------------------------------------------#}
+                {#Si non connecté#}
+                {#-------------------------------------------------------------------------------------------------#}
                 <ul class="nav navbar-nav navbar-right login_drop">
                     {# Non Connecté #}
                     <li {% if is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden" {% else %} class="disp_inlineblock" {% endif %} >
@@ -64,13 +113,42 @@
                         </a>
                     </li>
 
-                    {# Connecté #}
-                    <li {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden"{% else %} class="disp_inlineblock"{% endif %} >
-                        <a {% if app.request.get('_route') == 'user' %} class="active float_left"{% endif %}
+                    {#-------------------------------------------------------------------------------------------------#}
+                    {#Si connecté#}
+                    {#-------------------------------------------------------------------------------------------------#}
+                    <li {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden"{% else %} class="dropdown"{% endif %} >
+
+                        {#<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"#}
+                        {#aria-expanded="false">#}
+                        {#<span class="home_variation_icon"></span>Home variations#}
+                        {#</a>#}
+                        <a {% if (app.request.get('_route') == 'user') or (app.request.get('_route') == 'userpassword')
+                            or (app.request.get('_route') == 'useremail') %} class="active" {% endif %}
                                 href="{{ path('user') }}">
                             Mon Compte
                         </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a {% if app.request.get('_route') == 'user' %}class="active"{% endif %}
+                                   href="{{ path('user') }}">
+                                    Informations personnelles
+                                </a>
+                            </li>
+                            <li>
+                                <a {% if app.request.get('_route') == 'userpassword' %}class="active"{% endif %}
+                                   href="{{ path('userpassword') }}">
+                                    Modifier mon mot de passe
+                                </a>
+                            </li>
+                            <li>
+                                <a {% if app.request.get('_route') == 'useremail' %}class="active"{% endif %}
+                                   href="{{ path('useremail') }}">
+                                    Modifier mon adresse mail
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
                     <li {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden" {% else %} class="disp_inlineblock" {% endif %} >
                         <a href="{{ path('logout') }}">
                             Se déconnecter
@@ -79,17 +157,6 @@
                 </ul>
 
 
-                {#<li class="dropdown">#}
-                {#<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">#}
-                {#<span class="home_variation_icon"></span>Home variations#}
-                {#</a>#}
-                {#<ul class="dropdown-menu">#}
-                {#<li><a href="{{ asset('theme/index.html') }}">Home Page Version 1</a></li>#}
-                {#<li><a href="{{ asset('theme/index2.html') }}">Home Page Version 2</a></li>#}
-                {#<li><a href="{{ asset('theme/index3.html') }}">Home Page Version 3</a></li>#}
-                {#<li><a href="{{ asset('theme/index4.html') }}">Home Page Version 4</a></li>#}
-                {#</ul>#}
-                {#</li>#}
                 {#<li class="dropdown mega-drop">#}
                 {#<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">#}
                 {#<span class="video_menu_icon"></span>Video Menu#}

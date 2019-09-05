@@ -4,10 +4,26 @@
     {{ parent() }} | Admin : Mentions légales
 {% endblock %}
 {% block content %}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    <section class="row page_cover">
+        <div class="container">
+            <div class="row m0">
+                <h1>Détails de la musique</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li class="active">Mentions légales</li>
+                </ol>
+            </div>
+        </div>
+    </section>
 
 
-    <div>
-        <h1>Mentions légales</h1>
+    <div class="container">
+        <div class="row">
+
+            <h2>Mentions légales</h2>
 
             <p>Dénomination commerciale : Entre Dièses et Bémols</p>
             <p>Nom : Heymann</p>
@@ -18,5 +34,6 @@
             <p>Hébergeur du site Internet : 1&1</p>
             <p>Développement et gestion des serveurs : Aurélia Heymann</p>
 
+        </div>
     </div>
 {% endblock content %}

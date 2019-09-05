@@ -13,6 +13,88 @@ use Doctrine\ORM\Query;
  */
 class TrackRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Pour les admin : Rechercher un track avec partie du titre OU pseudo/prénom user
+     *
+     * @param $query
+     * @return \Doctrine\ORM\Query
+     */
+    public function findByTitleOrName($query)
+    {
+//        /** Requête SQL
+//         * SELECT *
+//         * FROM User u JOIN u.userTracks t
+//         * WHERE t.title LIKE %query% OR u.firstname LIKE %query% OR u.pseudo LIKE %query%
+//         * DISTINCT
+//         */
+//
+//        $qb = $this->createQueryBuilder('u');
+//
+//        $qb
+//            ->join('u.userTracks', 't')
+//            ->where($qb->expr()->like('t.title', ':query'))
+//            ->orWhere($qb->expr()->like('u.firstname', ':query'))
+//            ->orWhere($qb->expr()->like('u.pseudo', ':query'))
+//            ->setParameter('query', '%' . $query . '%')// Ajout des '%' obligatoire
+////            ->orderBy('datecreation', 'DESC')
+//            ->orderBy('u.creationdate', 'DESC')
+//            ->distinct();
+
+        /** Requête SQL
+         * SELECT *
+         * FROM Track t
+         * WHERE t.title LIKE %query%
+         * DISTINCT
+         */
+        $qb = $this->createQueryBuilder('t');
+
+        $qb
+            ->where($qb->expr()->like('t.title', ':query'))
+            ->setParameter('query', '%' . $query . '%')// Ajout des '%' obligatoire
+            ->orderBy('t.creationdate', 'DESC')
+            ->distinct();
+
+        return $qb->getQuery();
+    }
+
+    /**
+     * Modifie le fait que le track soit actif ou non
+     *
+     * @param bool $actif
+     * @param int $id
+     * @return \Doctrine\ORM\Query
+     */
+    public function switchActifTrackActionQuery(bool $actif, int $id)
+    {
+        $qb = $this->createQueryBuilder('t');   // On est dans le TrackRepository donc t = track
+
+        // Avec id au lieu de le key 1 ???? (ds le where)
+        if ($actif == false) {
+            // On active le track en question
+            $query = $qb->update()
+                ->where('t.id = ?1')
+                ->set('t.actif', ':actif')
+                ->setParameter('actif', true)
+                ->setParameter(1, $id)
+                ->getQuery();
+            $result = $query->execute();
+
+        } else {
+            // On inactive le track en question
+            // Et tous les tracks avec des sons en plus (attribut id1 = id du track en question)
+            $query = $qb->update()
+                ->where('t.id = ?1')
+                ->orWhere('t.id1 = ?1')
+                ->set('t.actif', ':actif')
+                ->setParameter('actif', false)
+                ->setParameter(1, $id)
+                ->getQuery();
+            $result = $query->execute();
+
+        }
+        return $result;
+    }
+
 //    /**
 //     * Nous donne le nombre de son(s) reliés au son visualisé
 //     *
@@ -28,5 +110,6 @@ class TrackRepository extends \Doctrine\ORM\EntityRepository
 ////            ->getSingleScalarResult()
 //            ;
 //    }
+
 
 }

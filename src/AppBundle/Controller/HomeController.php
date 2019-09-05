@@ -48,6 +48,18 @@ class HomeController extends Controller
      */
     public function homeAction(Request $request, PaginatorInterface $paginator)
     {
+        // Si connecté et user = inactif : on déconnecte !
+        if ($this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            if ($this->getUser()->getActif() == 0){
+                $this->addFlash(
+                    "warning", "Membre non actif"
+                );
+
+                return $this->redirectToRoute('logout');
+            }
+
+        }
+
         //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
         $trackRepository = $this->getDoctrine()->getRepository(Track::class);
 
@@ -58,14 +70,15 @@ class HomeController extends Controller
         );
 
         $img_track_directory = $this->getParameter('img_track_directory');
+        $img_user_directory = $this->getParameter('img_user_directory');
         $track_directory = $this->getParameter('track_directory');
 
         return $this->render('/Home/home.html.twig', [
             'pagination' => $pagination,
             'img_track_directory' => $img_track_directory,
-            'track_directory' => $track_directory
+            'img_user_directory' => $img_user_directory,
+            'track_directory' => $track_directory,
         ]);
-
     }
 
 

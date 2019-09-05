@@ -19,24 +19,26 @@ class NewTrackType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, ['label' => 'Titre de ma création'])
+            ->add('title', TextType::class)
             // Type : FilType pour
             ->add('track', FileType::class, ['label' => 'Votre création (taille max : 2048 KiB)'])
             ->add('image', FileType::class, ['label' => 'Choisissez une image'])
             // Des checkboxes avec les mots clefs (choix multiples)
             ->add('motsclefs', EntityType::class, [
+                'label' => 'Choisissez un ou plusieurs mot(s) clef(s)',
+
+                // Choix dans cette entité :
+                'class' => MotClef::class,
+                // Avec le champ MotClef.mot :
+                'choice_label' => 'mot',
+
                 // On veut des checkboxes :
                 // plusieurs possibilités
                 'multiple' => true,
                 // pas dans un SELECT mais des boutons
                 'expanded' => true,
-                // looks for choices from this entity
-                'class' => MotClef::class,
 
-                // uses the User.username property as the visible option string
-                'choice_label' => 'mot',
-
-                'required' => false,
+                'required' => true,
                 'by_reference' => false, // utiliser les fonction addMotClef() et removeMotClef()
 //               'by_reference' => true, // ne pas utiliser les fonctions addMotClef() et removeMotClef()
             ]);

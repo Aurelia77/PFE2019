@@ -1,10 +1,24 @@
 {% extends "/layout.html.twig" %}
 
 {% block content %}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    <section class="row page_cover">
+        <div class="container">
+            <div class="row m0">
+                <h1>Uploader mon track</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li class="active">Upload track</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
     <div class="container">
         <div class="row">
-
-            <h1>Télécharger votre musique</h1>
+            <h2>Télécharger votre musique</h2>
 
             {{ form_start(newTrackForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
             <div class="form-inner row">
@@ -14,12 +28,12 @@
                     {# On choisi l'odre des éléments (sinon si on ajoute un bouton il se mettra avant les champs) #}
 
                     {# form_widget : Affiche seulement le champ #}
-                    {{ form_widget(newTrackForm.title, {'attr': {'class': 'form-control', 'placeholder':'Titre de ma création'}}) }}
+                    {{ form_widget(newTrackForm.title, {'attr': {'class': 'form-control mb-5', 'placeholder':'Titre de ma création'}}) }}
 
                     {# form_row : Affiche le lable et le champ #}
-                    {{ form_row(newTrackForm.track, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_row(newTrackForm.image, {'attr': {'class': 'form-control'}}) }}
-                    {{ form_row(newTrackForm.motsclefs, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_row(newTrackForm.track, {'attr': {'class': 'form-control mb-5'}}) }}
+                    {{ form_row(newTrackForm.image, {'attr': {'class': 'form-control mb-5'}}) }}
+                    {{ form_row(newTrackForm.motsclefs, {'attr': {'class': 'form-control mb-5'}}) }}
 
 
  {#Personnaliser le bouton PARCOURIR#}

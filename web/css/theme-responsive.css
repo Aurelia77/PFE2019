@@ -616,7 +616,7 @@
     }
     .search_form,
     .widget.widget_search {
-        width: 196px;
+        /*width: 196px;                         ENLEVE */
     }
 }
 

@@ -23,6 +23,17 @@ class DocumentationController extends Controller
     }
 
     /**
+     * @Route("/contact", name="contact")
+     *
+     * @return Response
+     */
+    public function contactAction()
+    {
+        return $this->render('/Documentation/contact.html.twig');
+    }
+
+
+    /**
      * @Route("/rgpd", name="rgpd")
      *
      * @return Response

@@ -3,6 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Track;
+use AppBundle\Entity\Message;
+use AppBundle\Entity\MotClef;
+
 use AppBundle\Form\NewTrackType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -16,8 +19,84 @@ use Symfony\Component\HttpFoundation\Response;
 use Doctrine\ORM\EntityManagerInterface;                // Car on utilise le paramètre : EntityManagerInterface $em
 use AppBundle\Repository\UserRepository;
 
-class NewTrackController extends Controller
+
+class TrackController extends Controller
 {
+    /**
+     * Voir un track (avec les commentaires et les track2 (track +1))
+     * Possibilité d'ajouter un message (commentaire) sur le track
+     * Accessible aux membres connectés
+     *
+     * @Route("/seetrack/{id}", name="seetrack"), requirements={"id" = "\d+"}, defaults={"id" = null})
+     * @param Track|null $track
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function seeTrackAction(Track $track = null, Request $request, EntityManagerInterface $em)
+    {
+        if (!$track) {
+            throw $this->createNotFoundException("Cette piste de musique n'existe pas");
+        }
+
+        // On va passer en paramètres tous les tracks pour pouvoir afficher ceux relié au track visualisé
+        $trackRepository = $this->getDoctrine()->getRepository(Track::class);
+        $tracks = $trackRepository->findBy(array(), array('creationdate' => 'DESC'));
+
+        // Aussi tous les messages pour pouvoir afficher ceux reliés au track visualisé
+        $messageRepository = $this->getDoctrine()->getRepository(Message::class);
+        $messages = $messageRepository->findBy(array(), array('creationdate' => 'DESC'));
+
+        // On va chercher les varibles stockées dans parameters.yml pour les chemins de fichiers
+        $img_track_directory = $this->getParameter('img_track_directory');
+        $img_user_directory = $this->getParameter('img_user_directory');
+        $track_directory = $this->getParameter('track_directory');
+
+//        if ($newTrackForm->isSubmitted() && $newTrackForm->isValid()) {
+//
+//            $trackDatas = $newTrackForm->getData();
+//
+
+
+        // Si ajout d'un message (commentaire) :
+        $userMessage = $request->get('message');
+
+        if ($userMessage) {
+            $message = new Message();
+
+            // 1-Le message écrit dans le formualaire
+            $message->setCorps($userMessage);
+            // 2-L'utilisateur connecté
+            $message->setUser($this->getUser());
+            // 3-Le track visualisé
+            $trackid = $request->get('id');
+            $trackRepository = $this->getDoctrine()->getRepository(Track::class);
+            $track = $trackRepository->find($trackid);
+            $message->setTrack($track);
+            // 4-Sauvegarder le message ds la BDD
+            $em->persist($message);
+            $em->flush();
+            $this->addFlash('success', 'Votre commentaire a bien été ajouté !');
+
+            // Pour que ça rafraichisse la page et affiche le message ajouté
+            return $this->redirect($request->getUri());
+        }
+
+//        $iduser = $this->getUser()->getId();
+
+        return $this->render('/Track/seetrack.html.twig',
+            array(
+                'tracks' => $tracks,
+                'messages' => $messages,
+                'track1' => $track,
+                'img_track_directory' => $img_track_directory,
+                'img_user_directory' => $img_user_directory,
+                'track_directory' => $track_directory,
+                'motsclefs' => $em->getRepository(MotClef::class)->findAll(),
+            ));
+    }
+
+
     /**
      * Page qui permet d'importer un nouveau tracks via un formulaire
      * L'utilisateur doit être connecté !
@@ -36,22 +115,22 @@ class NewTrackController extends Controller
         // 2) Hydrater l'objet Track (avec ce qui est rentré dans le formulaire et le reste ci-dessous)
         $newTrackForm->handleRequest($request);
 
-        $track->setActif(1);
+//        $track->setActif(1); Déjà dans le constructeur !!
         // On ajoute le User qui est authentifié
         $track->setUser($this->getUser());
 
         // Puis les champ $num et $id1
 
         // On récupère le paramètre num dans l'URL
-        $num = $request->get( 'num' );
+        $num = $request->get('num');
         $track->setNum($num);            // Nombre de sons en plus (0 = juste 1 son, 1 = son +1 ...)
 
         // On récupère le paramètre id1 dans l'URL (l'id du track sans le son en plus)
-        $id1 = $request->get( 'id1' );
+        $id1 = $request->get('id1');
 
         // On recherche le track qui a cet id
-        $trackRepository = $this ->getDoctrine()->getRepository( 'AppBundle:Track' );
-        $trackWithId1 = $trackRepository->find( $id1 );
+        $trackRepository = $this->getDoctrine()->getRepository('AppBundle:Track');
+        $trackWithId1 = $trackRepository->find($id1);
 
         if ($num > 0) {
             $track->setId1($trackWithId1);           // Sinon NULL donc non relié à un track (compo de base)
@@ -61,6 +140,10 @@ class NewTrackController extends Controller
         if ($newTrackForm->isSubmitted() && $newTrackForm->isValid()) {
 
             $trackDatas = $newTrackForm->getData();
+
+            // Les mots clef
+//            $track->addMotsclef();
+
 
             // FICHIERS : When the form is submitted, the attachment field will be an instance of UploadedFile.
             // It can be used to move the attachment file to a permanent location.
@@ -149,17 +232,15 @@ class NewTrackController extends Controller
 //                $profileImage->setFileName($profileImagesFileNames[$profileImage->getId()]);
 //            }
 
-            // Les mots clef
-
-
-
-
             // Sauvegarder le track ds la BDD
             $em->persist($track);
             $em->flush();
             $this->addFlash('success', 'Votre piste de musique a bien été ajoutée !');
 
-
+//            if (app.request.get('_route') == 'seetrack'){
+//
+//            }
+//            return $this->redirectToRoute('seetrack/...');
             return $this->redirectToRoute('home');
         }
 
@@ -187,5 +268,38 @@ class NewTrackController extends Controller
 //    // prints the HTTP headers followed by the content
 //$response->send();
 //return $response;
+
+    /**
+     * Quand un membre veut télécharger un track
+     * Accessible aux membres connectés
+     * @Route("/download/{id}", name="download"), requirements={"id" = "\d+"}, defaults={"id" = null})
+     * @param Track|null $track
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function downloadAction(Track $track = null)
+    {
+        // !!! A VOIR !!!
+        if (!$track) {
+            throw $this->createNotFoundException("Cet piste de musique n'existe pas");
+        }
+
+
+        //$id = $track->getId();
+        $nametrack = $track->getTrack();
+
+        //$pdfPath = $this->getParameter('dir.downloads').'/piano.mp3';
+
+        //$pdfPath = $this->getParameter('dir.downloads').'/ $nametrack;
+        $pdfPath = 'audio/' . $nametrack;
+//        $pdfPath = 'audio/'.$nametrack.'.mp3';
+
+        return $this->file($pdfPath);
+
+//        return $this->render('/User/ZZZdownload.html.twig', [
+//            'id' => $id,
+//            'nametrack' => $nametrack,
+//            'pdfPath' => $pdfPath,
+//        ]);
+    }
 
 }

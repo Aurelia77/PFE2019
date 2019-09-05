@@ -5,21 +5,40 @@
 {% endblock %}
 
 {% block content %}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    <section class="row page_cover">
+        <div class="container">
+            <div class="row m0">
+                <h1>Liste des membres</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li><a href="{{ path('admin') }}">Administration</a></li>
+                    <li class="active">Liste membres</li>
+                </ol>
+            </div>
+        </div>
+    </section>
 
     <div class="container">
         <div class="row">
             {% include "Includes/adminusersmenu.html.twig" %}
 
-            <div>
+            <h2>Liste des membres inscrits sur le site</h2>
 
+            <div>
                 {# Formulaire de recherche #}
                 <form method="GET">
-                    <input type="text" class="form-control" placeholder="Partie du nom ou prénom..." name="query"
+                    <input type="text" class="form-control mb-5" placeholder="Partie du nom / prénom / pseudo..."
+                           name="query"
                            aria-label="search" aria-describedby="search-button">
-                    <button class="btn btn-secondary" type="submit">Rechercher</button>
+                    <button class="btn btn-info" type="submit">Rechercher</button>
                 </form>
 
-                <p>Recherche = {{ recherche }}</p>
+                {% if recherche != NULL %}
+                    <p>Résultat(s) de la recherche dans le nom, prénom ou pseudo avec = "<b>{{ recherche }}</b>"</p>
+                {% endif %}
 
                 {# On affiche ici la liste de tous les utilisateurs du site - et si une recherche est lancée la liste des résultats #}
                 {% if pagination.getTotalitemCount > 0 %}
@@ -28,11 +47,13 @@
                         <tr>
                             {#<th scope="col">#</th>#}
                             <th scope="col">Email</th>
+                            <th scope="col">Pseudo</th>
                             <th scope="col">Prénom</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Photo</th>
                             <th scope="col">Roles</th>
-                            <th scope="col">Actif</th>
+                            <th scope="col">Modifier les Roles</th>
+                            <th scope="col">Actif ? (cliquez pour modifier)</th>
                             <th scope="col">Date de création</th>
                         </tr>
                         </thead>
@@ -44,35 +65,83 @@
                         {% for user in pagination %}
                             <tr {% if loop.index is odd %} class="color" {% endif %}> {# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
                                 <td>{{ user.email }}</td>
+                                <td>{{ user.pseudo }}</td>
                                 <td>{{ user.firstName }}</td>
                                 <td>{{ user.lastName }}</td>
                                 <td>{{ user.photo }}</td>
 
-                                {#{% if app.user.roles[0] is defined %}{{ app.user.roles[0] }} {% endif %}#}
-                                {#{% if app.user.roles[1] is defined %}{{ app.user.roles[1] }} {% endif %}#}
-
-
                                 <td>
-                                    {#{{ user.roles[1] }}#}
-                                    {#{% if user.roles[1]  is defined %}- {{ user.roles[1] }}{% endif %}#}
+                                    {% if user.roles[0] is defined %}
+                                        {% if user.roles[0] == 'ROLE_USER_PENDING' %}
+                                            <p>
+                                                <img src="{{ asset('images/inactif.png') }}"
+                                                     alt="Utilisateur inactif, l'activer">
+                                                Attente validation
+                                            </p>
+                                        {% endif %}
+                                        {% if user.roles[0] == 'ROLE_USER' %}
+                                            </p>
+                                            <img src="{{ asset('images/actif.png') }}"
+                                                 alt="Utilisateur actif, l'inactiver">
+                                            Membre
+                                            </p>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if user.roles[1] is defined %}
+                                        {% if user.roles[1] == 'ROLE_ADMIN' %}
+                                            <p>
+                                                <img src="{{ asset('images/admin.jpg') }}"
+                                                     alt="Utilisateur inactif, l'activer">
+                                                Admin
+                                            </p>
+                                        {% endif %}
+                                    {% endif %}
                                 </td>
 
                                 <td>
-                                    {#<a href=\"switch_utilisateur.php?id=".$row["id_user"]."\"#}
-                                    {#title=\"Publier / Dépublier le concours.\">#}
-                                    {#".$image."#}
+                                    {#Si Membre (non pending) on peut le passer Admin ou l'enlever#}
+                                    {% if user.roles[0] == 'ROLE_USER' %}
+                                        {#Si Admin#}
+                                        {% if user.roles[1] is defined %}
+                                            {% if user.roles[1] == 'ROLE_ADMIN' %}
+                                    <p>
+
+                                    <a href="{{ path('modifRolesUser', {'id' : user.id, 'role' : 1 }) }}">
+                                                    <img src="{{ asset('images/actif.png') }}"
+                                                         alt="Mettre rôle utilisateur : Membre">
+                                                    Enlever admin
+                                                </a>
+                                    </p>
+                                            {% endif %}
+                                            {#Sinon : si non admin#}
+                                        {% else %}
+                                            <p>
+                                            <a href="{{ path('modifRolesUser', {'id' : user.id, 'role' : 2 }) }}">
+                                                <img src="{{ asset('images/admin.jpg') }}"
+                                                     alt="Mettre rôle utilisateur : Admin">
+                                                Mettre en admin
+                                            </a>
+                                            </p>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {#<a href="{{ path('modifRoles', {'id' : user.id, 'roles' : user.roles}) }}">#}
+                                    {#<img src="{{ asset('images/inactif.png') }}"#}
+                                    {#alt="Utilisateur inactif, l'activer">#}
                                     {#</a>#}
+                                </td>
 
+                                <td>
                                     {% if user.actif == 0 %}
-
-                                        {#<a href="{{ path('switchActifUser', {'id' : user.id}), , {'actif' : 0} }}">#}
-                                        <a href="{{ path('switchActifUser') }}">
-                                            <img src="{{ asset('images/inactif.png') }}" alt="Utilisateur inactif">
+                                        <a href="{{ path('switchActif', {'entity' : 'user', 'id' : user.id, 'actif' : 0}) }}">
+                                            <img src="{{ asset('images/inactif.png') }}"
+                                                 alt="Utilisateur inactif, l'activer">
                                         </a>
                                     {% else %}
-                                        <a href="{{ path('switchActifUser') }}">
+                                        <a href="{{ path('switchActif', {'entity' : 'user', 'id' : user.id, 'actif' : 1}) }}">
 
-                                            <img src="{{ asset('images/actif.png') }}" alt="Utilisateur inactif">
+                                            <img src="{{ asset('images/actif.png') }}"
+                                                 alt="Utilisateur actif, l'inactiver">
                                         </a>
 
                                     {% endif %}
@@ -95,24 +164,6 @@
                 {% else %}
                     <p>Aucun résultat</p>
                 {% endif %}
-
-                {# Sans PAGINATION #}
-                {#<table>#}
-                {#<tr>#}
-                {#<th>Nom</th>#}
-                {#<th>Prénom</th>#}
-                {#<th>Email</th>#}
-                {#</tr>#}
-                {#{% for user in users %}#}
-                {#<tr {% if loop.index is odd %} class="color" {% endif %}> #}{# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
-                {#<td>{{ user.lastName }}</td>#}
-                {#<td>{{ user.firstName }}</td>#}
-                {#<td>{{ user.email }}</td>#}
-                {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
-                {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
-                {#</tr>#}
-                {#{% endfor %}#}
-                {#</table>#}
 
             </div>
         </div>

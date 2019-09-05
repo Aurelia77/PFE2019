@@ -5,14 +5,28 @@
 {% endblock %}
 
 {% block content %}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    <section class="row page_cover">
+        <div class="container">
+            <div class="row m0">
+                <h1>Administration</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li class="active">Administration</li>
+                </ol>
+            </div>
+        </div>
+    </section>
 
-  {#{% block adminusers %}#}
-  {% include "Includes/adminusersmenu.html.twig" %}
-  {#{% endblock adminusers %}#}
+    <div class="container">
+        <div class="row">
+            {#{% block adminusers %}#}
+            {% include "Includes/adminusersmenu.html.twig" %}
+            {#{% endblock adminusers %}#}
 
-<div class="container">
-    <div class="row mt-5">
-      Si vous êtes ici, c'est que vous êtes un Admin !
+            <h2>Vous accédez ici à l'interface de l'administration.</h2>
+        </div>
     </div>
-</div>
 {% endblock content %}

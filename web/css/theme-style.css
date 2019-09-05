@@ -204,6 +204,7 @@ button:hover {
   top: 0;
   left: 0;
   background: url(../images/page-cover.jpg) no-repeat scroll center top;
+  /*background-size: cover;*/
   z-index: -1;
   opacity: 0.2;
 }
@@ -337,7 +338,7 @@ button:hover {
   content: '';
   float: right;
   margin-left: 5px;
-  background: url(../../images/icons/dropdown-arrow.png) no-repeat scroll left center;
+  background: url(../images/dropdown-arrow.png) no-repeat scroll left center;
 }
 .navbar .container .navbar-nav li.dropdown a:hover:after {
   background-image: url(../../images/icons/dropdown-arrow-hover.png);

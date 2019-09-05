@@ -16,8 +16,10 @@ class UserInfoType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class)
-            ->add('firstName', TextType::class, ['required' => false])
-            ->add('lastName', TextType::class, ['required' => false])
+            ->add('firstName', TextType::class, ['required' => false,
+                'label' => 'Prénom'])
+            ->add('lastName', TextType::class, ['required' => false,
+                'label' => 'Nom'])
 //            ->add('photo', TextType::class)
 //            ->add('photo', FileType::class, ['label' => 'Image/photo du compte (taille max : 2048 KiB)'])
 

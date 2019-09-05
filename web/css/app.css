@@ -29,6 +29,8 @@
 
 .img_profil {
     max-height: 200px;
+    max-width: 100px;
+    margin: 0 auto;
 }
 
 .track_num0 {
@@ -56,13 +58,108 @@
 .mb_300 {
     margin-bottom: 300px;
 }
+
+/*.m_auto {*/
+    /*margin: 0 auto;*/
+/*}*/
 /*--------------------------------- Bootstrap modifié---------------------------------------------*/
 
 .alert {
     text-align: center;
 }
 
-/*------------------------------------------BOUTON PARCOURIR------------------------------------*/
+
+
+
+/*------------------------------------------FORMULAIRES------------------------------------*/
+
+
+/* Checkbox (https://www.creativejuiz.fr/blog/tutoriels/personnaliser-aspect-boutons-radio-checkbox-css) */
+/* Cachons la case à cocher */
+form p {
+    /*position: relative; !* permet de positionner la checkbox cachée *!*/
+}
+
+[type="checkbox"]:not(:checked),
+[type="radio"]:not(:checked),
+[type="checkbox"]:checked,
+[type="radio"]:checked
+{
+    /* Cache la checkbox sans la désactiver pour les lecteurs d'écran */
+    position: absolute;
+    left: 0;
+    opacity: 0.01;
+}
+
+/* on prépare le label */
+[type="checkbox"]:not(:checked) + label,
+[type="radio"]:not(:checked) + label,
+[type="checkbox"]:checked + label,
+[type="radio"]:checked + label
+{
+    position: relative; /* permet de positionner les pseudo-éléments */
+    padding-left: 1.5em; /* un peu d'espace pour notre case à venir */
+    padding-right: 1em;
+    font-size: 1.05em; /* Label un peu plus gros */
+    line-height: 1.7;
+    cursor: pointer;    /* affiche un curseur adapté */
+}
+
+/* Aspect de la case */
+[type="checkbox"]:not(:checked) + label:before,
+[type="radio"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before,
+[type="radio"]:checked + label:before
+{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1.4em;
+    height: 1.4em;
+    border: 1px solid #aaa;
+    background: #FFF;
+    border-radius: .2em;
+    box-shadow: inset 0 1px 3px rgba(0,0,0, .1), 0 0 0 rgba(203, 34, 237, .2);
+    transition: all .275s;
+}
+
+/* Aspect de la coche */
+[type="checkbox"]:not(:checked) + label:after,
+[type="radio"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after,
+[type="radio"]:checked + label:after
+{
+    content: '✓';
+    position: absolute;
+    top: .15em;
+    left: .1em;
+    font-size: 2em;
+    color: #2f19ff;
+    line-height: 0;
+    transition: all .2s; /* Petite transition */
+}
+
+/* Aspect non cochée */
+[type="checkbox"]:not(:checked) + label:after,
+[type="radio"]:not(:checked) + label:after
+{
+    opacity: 0;
+    transform: scale(0) rotate(45deg);
+}
+
+/* Aspect cochée */
+[type="checkbox"]:checked + label:after,
+[type="radio"]:checked + label:after
+{
+    opacity: 1;
+    transform: scale(1) rotate(0);
+}
+
+
+
+
+/*Boutons parcourir*/
 
 input[type="file"]
 {
@@ -71,7 +168,7 @@ input[type="file"]
 
 /*input[type="file"] { background-color:white; font:bold 14px Arial, Helvetica, sans-serif; color:#3287C8; border:0; cursor:pointer; }*/
 
-#fileupload {
+#fileupload {                           /* Et inscription photo !!! */
     position: absolute;
     top: 0;
     right: 0;
@@ -100,8 +197,15 @@ input[type="file"]
     background-color: #5eb5e0;
 }
 
+/*.icon {*/
+    /*max-height: 50px;*/
+    /*max-width: 50px;*/
+/*}*/
 
-
+table img {
+    max-height: 50px;
+    max-width: 50px;
+}
 /*------------------------------------------PRIS SUR BOOTSTRAP 4.1.2 (width, height, margin et padding)------------------------------------*/
 
 .w-25 {

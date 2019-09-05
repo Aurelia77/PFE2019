@@ -53,7 +53,8 @@ class User implements UserInterface, \Serializable
      */
     private $pseudo;
 
-    // Si Nullable = true => à remettre dans le Form Type ! : ['required' => false]
+    // Si Nullable = true => à remettre dans le Form RegisterUserType ! : ['required' => false]
+    // sinon le navigateur demande de rentrer une valeur
     /**
      * @var string
      *
@@ -150,14 +151,14 @@ class User implements UserInterface, \Serializable
     // Un utilisateur est lié à (= a mis sur le site) 0, 1, ou plusieurs Track(s) : Relation OneToMany bidirectionnelle
     /**
      * @ORM\OneToMany(targetEntity="Track", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"id" = "DESC"})
+     * @ORM\OrderBy({"creationdate" = "DESC"})
      */
     private $userTracks;
 
     // Un utilisateur est lié à (= a mis sur le site) 0, 1, ou plusieurs Message(s) : Relation OneToMany bidirectionnelle
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"id" = "DESC"})
+     * @ORM\OrderBy({"creationdate" = "DESC"})
      */
     private $userMessages;
 

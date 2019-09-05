@@ -1,7 +1,7 @@
 {% extends "/layout.html.twig" %}
 
 {% block title %}
-    {{ parent() }} | Admin : Liste des tracks
+    {{ parent() }} | Admin : Liste des commentaires
 {% endblock %}
 
 {% block content %}
@@ -11,11 +11,11 @@
     <section class="row page_cover">
         <div class="container">
             <div class="row m0">
-                <h1>Liste des tracks</h1>
+                <h1>Liste des commentaires</h1>
                 <ol class="breadcrumb">
                     <li><a href="{{ path('home') }}">Accueil</a></li>
                     <li><a href="{{ path('admin') }}">Administration</a></li>
-                    <li class="active">Liste tracks</li>
+                    <li class="active">Liste commentaires</li>
                 </ol>
             </div>
         </div>
@@ -25,21 +25,21 @@
     <div class="row">
         {% include "Includes/adminusersmenu.html.twig" %}
 
-        <h2>Liste des tracks enregistrés sur le site</h2>
+        <h2>Liste des commentaires enregistrés sur le site</h2>
 
         <div>
             {# Formulaire de recherche #}
-            <form method="GET">
-                <input type="text" class="form-control mb-5" placeholder="Partie du titre du track OU pseudo/prénom d'un membre..."
-                       name="query"
-                       aria-label="search" aria-describedby="search-button">
-                <button class="btn btn-info" type="submit">Rechercher</button>
-            </form>
+            {#<form method="GET">#}
+                {#<input type="text" class="form-control mb-5" placeholder="Partie du titre du track OU pseudo/prénom d'un membre..."#}
+                       {#name="query"#}
+                       {#aria-label="search" aria-describedby="search-button">#}
+                {#<button class="btn btn-info" type="submit">Rechercher</button>#}
+            {#</form>#}
 
 
-            {% if recherche != NULL %}
-                <p>Résultat(s) de la recherche dans le nom, prénom ou pseudo avec = "<b>{{ recherche }}</b>"</p>
-            {% endif %}
+            {#{% if recherche != NULL %}#}
+                {#<p>Résultat(s) de la recherche dans le nom, prénom ou pseudo avec = "<b>{{ recherche }}</b>"</p>#}
+            {#{% endif %}#}
 
 
             {# On affiche ici la liste de tous les tracks mis sur le site - (et si une recherche est lancée la liste des résultats #}
@@ -48,33 +48,37 @@
                     <thead>
                     <tr>
                         {#<th scope="col">#</th>#}
-                        <th scope="col">Titre</th>
-                        <th scope="col">Prénom User</th>
+                        <th scope="col">Pseudo User</th>
                         <th scope="col">Email user</th>
+                        <th scope="col">Track</th>
+                        <th scope="col">Commentaire</th>
                         <th scope="col">Date de création</th>
                         <th scope="col">Actif ? (cliquez pour modifier)</th>
                     </tr>
                     </thead>
-
                     <tbody>
-                    {% for track in pagination %}
+
+                    {% for message in pagination %}
                         <tr {% if loop.index is odd %} class="color" {% endif %}> {# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
-                            <td>{{ track.title }}</td>
-                            <td>{{ track.user.firstName }}</td>
-                            <td>{{ track.user.email }}</td>
-                            <td>{{ track.creationDate|date("d/m/Y - H:i") }}</td>
+                            <td>{{ message.user.pseudo }}</td>
+                            <td>{{ message.user.email }}</td>
+                            <td>{{ message.track.title }}</td>
+                            <td>{{ message.corps }}</td>
+                            <td>{{ message.creationDate|date("d/m/Y - H:i") }}</td>
                             <td>
-                                {% if track.actif == 0 %}
-                                    <a href="{{ path('switchActif', {'entity' : 'track', 'id' : track.id, 'actif' : 0}) }}">
-                                        <img src="{{ asset('images/inactif.png') }}" alt="Track inactif, l'activer">
+                                {% if message.actif == 0 %}
+                                    <a href="{{ path('switchActif', {'entity' : 'message', 'id' : message.id, 'actif' : 0}) }}">
+                                        <img src="{{ asset('images/inactif.png') }}" alt="message inactif, l'activer">
                                     </a>
                                 {% else %}
-                                    <a href="{{ path('switchActif', {'entity' : 'track', 'id' : track.id, 'actif' : 1}) }}">
+                                    <a href="{{ path('switchActif', {'entity' : 'message', 'id' : message.id, 'actif' : 1}) }}">
 
-                                        <img src="{{ asset('images/actif.png') }}" alt="Track actif, l'inactiver">
+                                        <img src="{{ asset('images/actif.png') }}" alt="message actif, l'inactiver">
                                     </a>
 
-                                {% endif %}                            </td>{#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
+                                {% endif %}
+                            </td>
+                            {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
                             {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
                         </tr>
                     {% endfor %}

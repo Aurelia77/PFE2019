@@ -5,10 +5,27 @@
 {% endblock %}
 
 {% block content %}
+  {#-------------------------------------------------------------------------------------------------------------------------------------#}
+  {# Header : titre + fil d'ariane #}
+  {#-------------------------------------------------------------------------------------------------------------------------------------#}
+  <section class="row page_cover">
+    <div class="container">
+      <div class="row m0">
+        <h1>Mon adresse mail</h1>
+        <ol class="breadcrumb">
+          <li><a href="{{ path('home') }}">Accueil</a></li>
+          <li><a href="{{ path('user') }}">Mon compte</a></li>
+          <li class="active">Adresse mail</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
 <div class="container">
   <div class="row">
   {% include "Includes/usermenu.html.twig" %}
 
+    <h2 class="mt-5 mb-5 text-center">Modifier mon adresse mail Entre Dièses et Bémols</h2>
 
     {{ form_start(changeEmailForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
     <div class="form-inner row">

@@ -40,18 +40,21 @@ class RegisterUserType extends AbstractType
             ->add('pseudo', TextType::class)
             ->add('firstName', TextType::class, ['required' => false])
             ->add('lastName', TextType::class, ['required' => false])
-//            ->add('sexe', ChoiceType::class, [
-//                'choices' => [
-//                        'Féminin' => 'stock_2',
-//                        'Masculin' => 'stock_1',
-//                        'Autre' => 'stock_0',
-//                ],
-//                // On veut des boutons radio :
-//                // pas dans un SELECT mais des boutons
-//                'expanded' => true,
-//                // une seule possibilité
-//                'required' => false
-//            ])
+            ->add('sexe', ChoiceType::class, [
+                'choices' => [
+                        'Féminin' => 'stock_2',
+                        'Masculin' => 'stock_1',
+                        'Autre' => 'stock_0',
+                ],
+                // On veut des boutons radio :
+                // pas dans un SELECT mais des boutons
+                'expanded' => true,
+                // une seule possibilité :
+                'required' => false,
+
+                // On ne veut pas de bouton "none" :
+                'placeholder' => false
+            ])
 
 
             ->add('photo', FileType::class, ['label' => 'Image/photo du compte (taille max : 2048 KiB)','required' => false])

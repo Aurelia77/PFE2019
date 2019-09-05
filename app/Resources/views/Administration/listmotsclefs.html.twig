@@ -1,0 +1,126 @@
+{% extends "/layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} | Admin : Liste des mots clefs
+{% endblock %}
+
+{% block content %}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    <section class="row page_cover">
+        <div class="container">
+            <div class="row m0">
+                <h1>Liste des mots clefs</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li><a href="{{ path('admin') }}">Administration</a></li>
+                    <li class="active">Liste mots clefs</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="row">
+            {% include "Includes/adminusersmenu.html.twig" %}
+
+            <h2>Liste des mots clefs enregistrés sur le site</h2>
+
+            <div>
+                {#---------------------------------------------------------------------------------------------#}
+                {# Formulaire de recherche #}
+                {#---------------------------------------------------------------------------------------------#}
+                <form method="GET">
+                    <input type="text" class="form-control mb-5" placeholder="Partie du mot clef"
+                           name="query"
+                           aria-label="search" aria-describedby="search-button">
+                    <button class="btn btn-info" type="submit">Rechercher</button>
+                </form>
+
+                {% if recherche %}
+                    <p>Résultat(s) de la recherche dans le nom, prénom ou pseudo avec = "<b>{{ recherche }}</b>"</p>
+                {% endif %}
+
+                {#---------------------------------------------------------------------------------------------#}
+                {# Liste de tous les mos clefs mis sur le site - (et si une recherche est lancée la liste des résultats #}
+                {#---------------------------------------------------------------------------------------------#}
+                <div class="col-sm-6">
+                    {% if pagination.getTotalitemCount > 0 %}
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                {#<th scope="col">#</th>#}
+                                <th scope="col">Mot</th>
+                                <th scope="col">Modifier le mot clef</th>
+                                <th scope="col">Actif ? (cliquez pour modifier)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            {% for motclef in pagination %}
+                                <tr {% if loop.index is odd %} class="color" {% endif %}> {# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
+                                    <td>{{ motclef.mot }}</td>
+                                    <td>Modifier le mot clef</td>
+                                    <td>
+                                        {% if motclef.actif == 0 %}
+                                            <a href="{{ path('switchActif', {'entity' : 'motclef', 'id' : motclef.id, 'actif' : 0}) }}">
+                                                <img src="{{ asset('images/inactif.png') }}"
+                                                     alt="Utilisateur inactif, l'activer">
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('switchActif', {'entity' : 'motclef', 'id' : motclef.id, 'actif' : 1}) }}">
+
+                                                <img src="{{ asset('images/actif.png') }}"
+                                                     alt="Utilisateur actif, l'inactiver">
+                                            </a>
+
+                                        {% endif %}
+                                    </td>
+
+                                    {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
+                                    {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div class="navigation">
+                            {# Pour donner un style à la navigation #}
+                            {{ knp_pagination_render(pagination, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
+                            {#{{ knp_pagination_render(pagination) }}#}
+                        </div>
+
+                    {% else %}
+                        <p>Aucun résultat</p>
+                    {% endif %}
+                </div>
+
+
+                {#---------------------------------------------------------------------------------------------#}
+                {#Ajouter un mot clef#}
+                {#---------------------------------------------------------------------------------------------#}
+                <div class="col-sm-6">
+                    <h3 class="text-center">Ajoutez un mot clef</h3>
+
+                    {{ form_start(newMotclefForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
+                    <div class="form-inner row mt-1">
+                        <div class="form-body row m0">
+                            {{ form_errors(newMotclefForm) }}
+
+                            {# On choisi l'odre des éléments (sinon si on ajoute un bouton il se mettra avant les champs) #}
+
+                            {# form_widget : Affiche seulement le champ #}
+                            {{ form_widget(newMotclefForm.mot, {'attr': {'class': 'form-control mb-5', 'placeholder':'Mot'}}) }}
+
+                            <input type="submit" value="Ajouter" class="btn btn-default form-control">
+                            {#<button type="submit" class="btn btn-info">S'enregistrer !</button>#}
+                        </div>
+                    </div>
+                    {{ form_end(newMotclefForm) }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock content %}

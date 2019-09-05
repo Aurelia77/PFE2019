@@ -10,4 +10,36 @@ namespace AppBundle\Repository;
  */
 class MessageRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Modifie le fait que le message (commentaire) soit actif ou non
+     *
+     * @param bool $actif
+     * @param int $id
+     * @return \Doctrine\ORM\Query
+     */
+    public function switchActifMessageActionQuery(bool $actif,int $id)
+    {
+        $qb = $this->createQueryBuilder('m');
+
+        if ($actif == false) {
+            $query =  $qb->update()
+                ->where('m.id = ?1')
+                ->set('m.actif', ':actif')
+                ->setParameter('actif', true)
+                ->setParameter(1,$id)
+                ->getQuery();
+            $result = $query->execute();
+
+        } else {
+            $query =  $qb->update()
+                ->where('m.id = ?1')
+                ->set('m.actif', ':actif')
+                ->setParameter('actif', false)
+                ->setParameter(1, $id)
+                ->getQuery();
+            $result = $query->execute();
+
+        }
+        return $result;
+    }
 }

@@ -29,6 +29,10 @@ class MotClef
     // Un mot clef peut être relié à plusieurs tracks et inversement : Relation ManyToMany bidirectionnelle
     /**
      * @ORM\ManyToMany(targetEntity="Track", inversedBy="motsclefs", cascade={"persist","remove"})
+     * @ORM\OrderBy({"creationdate" = "DESC"})
+     * @ORM\JoinTable(name="mot_clef_track",
+     *     joinColumns={@ORM\JoinColumn(name="motclef_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="track_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")})
      */
     private $tracks;
 
@@ -54,6 +58,7 @@ class MotClef
     public function __construct()
     {
         $this->tracks = new ArrayCollection();
+        $this->setActif(1);
     }
 
     /**

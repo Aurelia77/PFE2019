@@ -1,45 +1,86 @@
 <div class="inner row m0 audio-player">
     {#<a href="{{ asset('theme/single-video.html') }}">#}
-    <a href="{{ path('seetrack', {'id' : track.id}) }}" title="Voir le track dans un onglet">
+    <a href="{{ path('seetrack', {'id' : track1.id}) }}" title="Voir le track dans un onglet">
         <div class="row screencast m0">
-            <img src="{{ asset(img_track_directory) }}/{{ track.image }}" alt="Image de la musique"
+            <img src="{{ asset(img_track_directory) }}/{{ track1.image }}" alt="Image de la musique"
                  class="cast img-responsive img_track">
             <div class="play_btn"></div>
             <div class="media-length total-time">00:00</div>
         </div>
         <h3 class="row m0">
-            {{ track.title }}
-            {% if track.num > 0 %}
-                (+{{ track.num }})
+            {{ track1.title }}
+            {% if track1.num > 0 %}
+                (+{{ track1.num }})
             {% endif %}
         </h3>
     </a>
 
-    <div {% if track.num == 0 %} class="row m0 post_data track_num0"
+    <div {% if track1.num == 0 %} class="row m0 post_data track_num0"
     {% else %} class="row m0 post_data" {% endif %}>
 
-        {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher le pseudo#}
-        {% if track.user.pseudo is defined %}
-            <a href="{{ path('users_profile', {'id' : track.id}) }}">
-                <h4>{{ track.user.pseudo }}</h4>
+        {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher les autre attributs#}
+
+        {#Si membre du track actif : Lien vers son profil avec son pseudo et sa photo#}
+        {% if track1.user.actif == 1 %}
+
+            <a href="{{ path('users_profil', {'id' : track1.user.id}) }}">
+                <h4>
+                    {{ track1.user.pseudo }}
+                </h4>
+
+                <p>
+                    {# Photo/image actuelle #}
+                    {#Si pas de photo : image par défaut#}
+                    {% if track1.user.photo == NULL %}
+                        <img src="{{ asset('images/sexe_unknowed.png') }}"
+                             alt="Photo/image de profil (sexe non connu)"
+                             class="cast img-responsive img_profil">
+
+                        {#Si gestion du Sexe du membre#}
+                        {#{% elseif track1.user.sexe == 2 %}#}
+                        {#<img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"#}
+                        {#class="cast img-responsive img_profil">#}
+                        {#{% elseif track1.user.sexe == 1 %}#}
+                        {#<img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"#}
+                        {#class="cast img-responsive img_profil">#}
+                        {#Sinon : sa photo/image#}
+                    {% else %}
+                        <img src="{{ asset(img_user_directory) }}/{{ track1.user.photo }}.jpg"
+                             alt="Photo/image de profil"
+                             class="cast img-responsive img_profil">
+                    {% endif %}
+                    {#{% endif %}#}
+                </p>
             </a>
+            {# Si inactif : pas de lien vers son profil, pas de pseudo et photo par défaut#}
+
+        {% else %}
+            <h4>
+                Membre inactif
+            </h4>
+            <p>
+                <img src="{{ asset('images/sexe_unknowed.png') }}"
+                     alt="Photo/image de profil (sexe non connu)"
+                     class="cast img-responsive img_profil">
+            </p>
         {% endif %}
 
-        <div class="date">Publié le : {{ track.creationDate|date("d/m/Y") }}</div>
+
+        <div class="date">Publié le : {{ track1.creationDate|date("d/m/Y") }}</div>
         {#<div class="fright views"><a href="#"><img#}
         {#src="{{ asset('theme/images/icons/views.png') }}"#}
         {#alt="">3,45,346</a></div>#}
         <audio controls>
             Votre navigateur ne supporte pas l'élément <code>audio</code>
-            <source src="{{ asset(track_directory) }}/{{ track.track }}"/>
+            <source src="{{ asset(track_directory) }}/{{ track1.track }}"/>
         </audio>
 
-        <a href="{{ path('download', {'id' : track.id}) }}">
+        <a href="{{ path('download', {'id' : track1.id}) }}">
             <img src="{{ asset('images/download.png') }}" height="50px"
                  alt="Lien télécharger track de musique">
         </a>
-        {% if track.num > 0 %}
-            <a href="{{ path('seetrack', {'id' : track.id - 1 }) }}"
+        {% if track1.num > 0 %}
+            <a href="{{ path('seetrack', {'id' : track1.id - 1 }) }}"
                title="Voir le track de musique sans le dernier son">
                 <button class="btn btn-primary mb-5">Voir le track de musique sans le dernier son</button>
             </a>

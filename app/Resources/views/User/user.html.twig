@@ -3,48 +3,113 @@
 {% block title %}AppBundle:User:user{% endblock title %}
 
 {% block content %}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    <section class="row page_cover">
+        <div class="container">
+            <div class="row m0">
+                <h1>Mes informations</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li><a href="{{ path('user') }}">Mon compte</a></li>
+                    <li class="active">Mes infos</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
     <div class="container">
         <div class="row">
+
             {% include "Includes/usermenu.html.twig" %}
 
-            <h1 class="mt-5 mb-5 text-center">Mon compte Entre Dièses et Bémols</h1>
+            <h2 class="mt-5 mb-5 text-center">Mon compte Entre Dièses et Bémols</h2>
 
-            {{ form_start(userInfoForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
+            <div class="col-sm-5 video_post text-center">                      {# classe enlevée : post_page_uploads #}
 
-            <div class="form-inner row">
+                <h3>Mes informations peronnelles</h3>
 
-                <div class="form-body row m0 mb-5">
+                {{ form_start(userInfoForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
 
-                    <p>{{ form_errors(userInfoForm.pseudo) }}</p>
-                    {{ form_row(userInfoForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+                <div class="form-inner row">
+                    <div class="form-body row m0 mb-5">
 
-                    <p>{{ form_errors(userInfoForm.firstName) }}</p>
-                    {{ form_row(userInfoForm.firstName, {'attr': {'class': 'form-control'}}) }}
+                        <p>{{ form_errors(userInfoForm.pseudo) }}</p>
+                        {{ form_row(userInfoForm.pseudo, {'attr': {'class': 'form-control'}}) }}
 
-                    <p>{{ form_errors(userInfoForm.lastName) }}</p>
-                    {{ form_row(userInfoForm.lastName, {'attr': {'class': 'form-control'}}) }}
+                        <p>{{ form_errors(userInfoForm.firstName) }}</p>
+                        {{ form_row(userInfoForm.firstName, {'attr': {'class': 'form-control'}}) }}
 
-                    {#<p>{{ form_errors(userInfoForm.photo) }}</p>#}
-                    {#{{ form_row(userInfoForm.photo, {'attr': {'class': 'form-control'}}) }}#}
+                        <p>{{ form_errors(userInfoForm.lastName) }}</p>
+                        {{ form_row(userInfoForm.lastName, {'attr': {'class': 'form-control'}}) }}
 
-                    <p>
-                        {# Photo/image actuelle #}
-                        {% if app.user.photo is defined %}
+                        {#<p>{{ form_errors(userInfoForm.photo) }}</p>#}
+                        {#{{ form_row(userInfoForm.photo, {'attr': {'class': 'form-control'}}) }}#}
+
+                        <p>
                             {% if app.user.photo != NULL %}
                                 {#<img src="{{ asset(img_user_directory/app.user.photo) }}.jpg" alt="Photo/image de profil"#}
                                 <img src="{{ asset(img_user_directory) }}/{{ app.user.photo }}.jpg"
                                      alt="Photo/image de profil"
                                      class="cast img-responsive img_profil">
+                            {% elseif app.user.sexe == 2 %}
+                                <img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"
+                                     class="cast img-responsive img_profil">
+                            {% elseif app.user.sexe == 1 %}
+                                <img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"
+                                     class="cast img-responsive img_profil">
+                            {% else %}
+                                <img src="{{ asset('images/sexe_unknowed.png') }}"
+                                     alt="Photo/image de profil (sexe non connu)"
+                                     class="cast img-responsive img_profil">
                             {% endif %}
-                        {% endif %}
-                    </p>
+                        </p>
 
-                    {#<button type="submit" class="btn-default">Enregistrer</button>#}
-                    <input type="submit" value="Enregistrer" class="btn btn-default form-control">
+                        <input type="submit" value="Enregistrer" class="btn btn-default form-control">
+                    </div>
+                </div>
+                {{ form_end(userInfoForm) }}
+            </div>
+
+
+            <div class="col-sm-7 sidebar video_post">              {# classe enlevée : sidebar2 #}
+
+                <h3 class="text-center">Mes tracks mis en ligne</h3>
+
+                <div class="w_50 float-left">
+
+                    {% if pagination.getTotalitemCount > 0 %}
+                        <h3>{{ pagination.getTotalitemCount }} compos (en tout !!!!!) et tracks avec des sons en plus à écouter !</h3>
+                        {% for track in pagination %}
+                            {# on peut aussi ajouter la condition à l'intérieur : {% for track2 in tracks if track2.id1  == track.id%} mais on ne peut pas ut. loop.index ?? #}
+                            {#<p>{{ user.id }}</p>#}
+
+                            <p>Track véifié : </p>
+                            {% if track.user.id == user.id %}
+                                {% include "Includes/viewTrack2.html.twig" %}
+                            {% endif %}
+                        {% endfor %}
+                        <div class="navigation ml_30">
+                            {{ knp_pagination_render(pagination, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
+                        </div>
+
+                    {% else %}
+                        <h3 class="mb-5">Aucune composition musicale pour le moment, importez-en une : </h3>
+                        <a href="{{ path('newtrack', {'num' : 0, 'id1' : 0}) }}">
+                            <div class="inner row m0 text-center">
+                                {#<h2>Upload From PC</h2>#}
+                                {#<h6>Via Frontend Uploader</h6>#}
+                                <img src="{{ asset('theme/images/btn/upload-1.png') }}" alt="Lien uploader une musique">
+                                <h4>Choisissez votre compo à partager !</h4>
+                                {#<h5>or drag &amp; drop files</h5>#}
+                            </div>
+                        </a>                    {% endif %}
 
                 </div>
             </div>
-            {{ form_end(userInfoForm) }}
+
+
         </div>
     </div>
 {% endblock content %}

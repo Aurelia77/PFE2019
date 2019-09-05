@@ -52,7 +52,7 @@ class AppFixtures extends Fixture
 
         // 1 users valide, 1 non validé et 1 admin
         $user = new User();
-        $user->setEmail("cdwdm-user@yopmail.com")
+        $user->setEmail("cdw-user@yopmail.com")
             ->setPseudo("User")
             ->setFirstName("Prénom-usr")
             ->setLastName("Nom-usr")
@@ -62,7 +62,7 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         $userPending = new User();
-        $userPending->setEmail("cdwdm-userP@yopmail.com")
+        $userPending->setEmail("cdw-userP@yopmail.com")
             ->setPseudo("UserP")
             ->setFirstName("Prénom-usrP")
             ->setLastName("Nom-usrP")
@@ -73,7 +73,7 @@ class AppFixtures extends Fixture
         $manager->persist($userPending);
 
         $userADMIN = new User();
-        $userADMIN->setEmail("cdwdm-admin@yopmail.com")
+        $userADMIN->setEmail("cdw-admin@yopmail.com")
             ->setPseudo("Admin")
             ->setFirstName("Prénom-adm")
             ->setLastName("Nom-adm")
@@ -87,7 +87,7 @@ class AppFixtures extends Fixture
 
         // User non actif
         $userNA = new User();
-        $userNA->setEmail("cdwdm-userNA@yopmail.com")
+        $userNA->setEmail("cdw-userNA@yopmail.com")
             ->setPseudo("UserNA")
             ->setFirstName("Prénom-usrNA")
             ->setLastName("Nom-usrNA")

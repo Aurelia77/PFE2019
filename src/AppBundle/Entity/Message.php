@@ -58,13 +58,14 @@ class Message
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
-    // OONSTRUCTIEUR avec valeur par défaut la date de création = date + heure du jour
+    // OONSTRUCTIEUR avec valeurs par défaut : date de création = date/heure actuelles + actif = 1
     public function __construct()
     {
+        $this->setActif(1);
         $this->setCreationDate(new \DateTime());
     }
 

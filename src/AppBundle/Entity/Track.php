@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -64,13 +65,14 @@ class Track
     // Un track est lié à 0, 1, ou plusieurs Message(s) : Relation OneToMany bidirectionnelle
     /**
      * @ORM\OneToMany(targetEntity="Message", mappedBy="track", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"id" = "DESC"})
+     * @ORM\OrderBy({"creationdate" = "DESC"})
      */
     private $trackMessages;
 
     // Tableau d'OBJET !!! Relation MANY to MANY
     // (on décide que MotClef est l'entité propriétaire donc Track est l'entité inverse donc on ajoute : mappedBy="tracks")
     // Un track peut être relié à plusieurs mots clefs et inversement : Relation ManyToMany bidirectionnelle
+    // Si on veut personnaliser le nom de la table de jointure/relationnelle     (@ORM\JoinTable(name="participations")
     /**
      * @ORM\ManyToMany(targetEntity="MotClef", mappedBy="tracks", cascade={"persist","remove"})
      */
@@ -83,8 +85,8 @@ class Track
      */
     private $num;
 
-    // track est un OBJET !!! (de la même entité)
-    // On ne met pas nullable=false car peut ne pas avoir de relation avec un track (si compo de base)
+    // track est un OBJET !!! (de la même entité) Relation ManyToOne
+    // On ne met pas nullable=false car peut ne pas avoir de relation avec un track (si compo de base) !!! De tte façon on ne pt pas sur une relation car pas de @ORM\Column...
     // Plusieurs tracks peuvent être liées à Un track (compo de base) : Relation ManyToOne
     /**
      * @var \AppBundle\Entity\Track
@@ -122,6 +124,14 @@ class Track
     public function __construct()
     {
         $this->setCreationDate(new \DateTime());
+        $this->setActif(1);
+
+        // Ne pas oublier ces tableaux de collection pour pouvoir utiliser removeElement
+        // Realation ManyToMany avec MotClef
+        $this->motsclefs = new ArrayCollection();
+        // Realation OneToMany avec Message
+        $this->trackMessages = new ArrayCollection();
+
     }
 
 
@@ -367,16 +377,16 @@ class Track
 
 
     // Pour la relation ManyToMany avec MotClef : Add, Remove, Get (pas de setter car se fait avec MotClef = entité propriétaire (selon ce qu'on a décidé))
+
     /**
      * Add motsclef
      *
-     * @param \AppBundle\Entity\Track $motsclef
-     *
+     * @param MotClef $motclef
      * @return Track
      */
-    public function addMotsclef(Track $motsclef)
+    public function addMotsclef(MotClef $motclef)
     {
-        $this->motsclefs[] = $motsclef;
+        $this->motsclefs[] = $motclef;
 
         return $this;
     }
@@ -384,11 +394,11 @@ class Track
     /**
      * Remove motsclef
      *
-     * @param \AppBundle\Entity\Track $motsclef
+     * @param MotClef $motclef
      */
-    public function removeMotsclef(Track $motsclef)
+    public function removeMotsclef(MotClef $motclef)
     {
-        $this->motsclefs->removeElement($motsclef);
+        $this->motsclefs->removeElement($motclef);
     }
 
     /**

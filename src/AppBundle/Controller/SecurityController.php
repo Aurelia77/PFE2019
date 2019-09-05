@@ -1,4 +1,5 @@
 <?php
+
 namespace AppBundle\Controller;
 
 use AppBundle\Repository\UserRepository;
@@ -60,7 +61,7 @@ class SecurityController extends Controller
         $registerForm->handleRequest($request);
 
         if ($registerForm->isSubmitted() && $registerForm->isValid()) {
-            $user->setActif(true);
+//            $user->setActif(true);   Déjà dans le constructeur !!
 
             // 3) Encoder le mdp
             $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
@@ -115,7 +116,6 @@ class SecurityController extends Controller
 
     /**
      * Valide un email depuis le lien de validation
-     *
      * @Route("/validateemail/{emailTemp}/{emailToken}", name="validateemail")
      *
      * @param EntityManagerInterface $em
@@ -130,23 +130,23 @@ class SecurityController extends Controller
 
         // SI le lien de validation d'email envoyé par mail a été cliqué dans les temps, on valide l'inscription, on connecte les membre et on affiche la page d'accueil
         //if ($user->getCreationDate()->modify("+$validity hour") >= new \DateTime()) {
-            if ($user) {
-                $user
+        if ($user) {
+            $user
 //                ->setEmail($user->getEmailTemp())             // Déjà fait
-                    ->setEmailToken(null)
-                    ->setEmailTemp(null)
-                    ->addRole('ROLE_USER')
-                    ->removeRole('ROLE_USER_PENDING');
-                $em->flush();
+                ->setEmailToken(null)
+                ->setEmailTemp(null)
+                ->addRole('ROLE_USER')
+                ->removeRole('ROLE_USER_PENDING');
+            $em->flush();
 
-                // On authentifie l'utilisateur au cas où ce ne soit pas déjà fait
-                $this->authenticateUser($user);
-                $this->addFlash(
-                    "success", "Email validé avec succès, vous êtes maintenant connecté(e) !"
-                );
+            // On authentifie l'utilisateur au cas où ce ne soit pas déjà fait
+            $this->authenticateUser($user);
+            $this->addFlash(
+                "success", "Email validé avec succès, vous êtes maintenant connecté(e) !"
+            );
 
-                return $this->redirectToRoute('home');
-            }
+            return $this->redirectToRoute('home');
+        }
         // SINON on affiche une page qui va permettre de recevoir de nouveau le mail de validation
 //        } else {
 //            $this->addFlash(
@@ -234,6 +234,7 @@ class SecurityController extends Controller
     }
 
     /**
+     * Depuis la page Login, lien "Mot de passe oublié"
      * Affiche un formulaire pour redéfinir son MDP, et envoie un email de redéfinition du mdp
      * @Route("/lostpassword", name="lostpassword")
      *
@@ -247,26 +248,33 @@ class SecurityController extends Controller
     public function sendLostPasswordMailAction(Request $request, EntityManagerInterface $em, \Swift_Mailer $mailer)
     {
         $userMail = $request->get('email');
-        $responseParams = [];
+//        $responseParams = [];
+
         if ($userMail) {
             /* @var $userRepository UserRepository */   // ??? Pas besoin ???
-
             $userRepository = $this->getDoctrine()->getRepository('AppBundle:User');
+
             /* @var $user User */
             $user = $userRepository->findOneByEmail($userMail);
+
             if ($user) {
                 $resetToken = md5(uniqid());
                 $user->setLostPasswordDate(new \DateTime())->setLostPasswordToken($resetToken);
                 $em->flush();
-                $message = (new \Swift_Message('Mot De Passe Perdu'))
+
+                $message = (new \Swift_Message('Mot De Passe Oublié'))
                     ->setFrom($this->getParameter('mailer_user'))
                     ->setTo($userMail)
                     ->setBody(
                         $this->renderView(
-                            '/Security/Password/lostpassword-email.html.twig', array('link' => $this->generateUrl('resetpassword', ['lostPasswordToken' => $resetToken], UrlGeneratorInterface::ABSOLUTE_URL), 'validity' => self::LOST_PASSWORD_VALIDITY_TIME)
+                            '/Security/Password/lostpassword-email.html.twig',
+                            array('link' => $this->generateUrl('resetpassword',
+                                                                    ['lostPasswordToken' => $resetToken],
+                                                        UrlGeneratorInterface::ABSOLUTE_URL),
+                                                                    'validity' => self::LOST_PASSWORD_VALIDITY_TIME)
                         ), 'text/html'
-                    )
-                ;
+                    );
+
                 if ($mailer->send($message)) {
                     $this->addFlash(
                         "success", "Un email pour redéfinir votre mot de passe vous a été envoyé."
@@ -276,17 +284,18 @@ class SecurityController extends Controller
                         "danger", "Une erreur est survenue, merci d'essayer à nouveau."
                     );
                 }
+
             } else {
                 $this->addFlash(
                     "warning", "Email inconnu."
                 );
             }
         }
-        return $this->render('/Security/Password/lostpassword.html.twig', $responseParams);
+        return $this->render('/Security/Password/lostpassword.html.twig');//, $responseParams);
     }
 
     /**
-     * Redéfinir un mdp depuis le lien de redéfinition envoyé par mail
+     * Redéfinir un mdp depuis le lien de redéfinition envoyé par mail (si mot de passe oublié)
      * @Route("/resetpassword/{lostPasswordToken}", name="resetpassword")
      *
      * @param Request $request

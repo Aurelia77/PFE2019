@@ -19,34 +19,87 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * Pour les admin : Rechercher un user avec partie de son nom/prénom/pseudo
+     *
+     * @param $query
+     * @return \Doctrine\ORM\Query
+     */
+    public function findByFirstNameOrLastName($query)
+    {
+        /** Requête SQL
+         * SELECT *
+         * FROM User u
+         * WHERE u.lastname LIKE %query% OR u.firstname LIKE %query% OR u.pseudo LIKE %query%
+         * DISTINCT
+         */
+
+        $qb = $this->createQueryBuilder('u');                  // On est dans le UserRepository donc u = user ?????
+        $qb
+            ->where($qb->expr()->like('u.firstName', ':query'))
+            ->orWhere($qb->expr()->like('u.lastName', ':query'))
+            ->orWhere($qb->expr()->like('u.pseudo', ':query'))
+            ->setParameter('query', '%' . $query . '%')// Ajout des '%' obligatoire
+            ->orderBy('u.creationdate', 'DESC')
+            ->distinct();
+
+        return $qb->getQuery();
+    }
+
     /**
      * Modifie le fait que l'utilisateur soit actif ou non
      *
-     * @param EntityManager $em
-     * @param int $id
      * @param bool $actif
+     * @param int $id
      * @return \Doctrine\ORM\Query
      */
-    public function switchActifUserActionQuery(int $id, bool $actif)
+    public function switchActifUserActionQuery(bool $actif,int $id)
     {
-        $qb = $this->createQueryBuilder( 'u' );
+        $qb = $this->createQueryBuilder('u');   // On est dans le UserRepository donc u = user
 
-        if ($actif = false) {
-            $qb ->update()
-                ->where('u.id LIKE $id')
-                ->set( 'u.actif' , ':actif' )
-                ->setParameter( 'actif' , true )
-                ->getQuery()
-                ->execute();
+        if ($actif == false) {
+          $query =  $qb->update()
+                ->where('u.id = ?1')
+                ->set('u.actif', ':actif')
+                ->setParameter('actif', true)
+                 ->setParameter(1,$id)
+                ->getQuery();
+            $result = $query->execute();
+
         } else {
-            $qb ->update()
-                ->where('u.id LIKE $id')
-                ->set( 'u.actif' , ':actif' )
-                ->setParameter( 'actif' , false )
-                ->getQuery()
-                ->execute();
-        }
+            $query =  $qb->update()
+                ->where('u.id = ?1')
+                ->set('u.actif', ':actif')
+                ->setParameter('actif', false)
+                ->setParameter(1, $id)
+                ->getQuery();
+            $result = $query->execute();
 
+        }
+        return $result;
+    }
+
+    /**
+     * @param $query
+     * @return \Doctrine\ORM\Query
+     */
+    public function findByKeyWordOrTitle($query)
+    {
+        /** Requête SQL
+         * SELECT *
+         * FROM User u
+         * WHERE u.title LIKE %query%
+         * //         * OR u.firstname LIKE %query%
+         * DISTINCT
+         */
+
+        $qb = $this->createQueryBuilder('u');                   // Comment on sait que u = User ?????
+        $qb
+            ->where($qb->expr()->like('u.title', ':query'))
+//            ->orWhere($qb->expr()->like('u.lastName', ':query'))
+            ->setParameter('query', '%' . $query . '%')// Ajout des '%' obligatoire
+            ->distinct();
 
         return $qb->getQuery();
     }
@@ -65,28 +118,4 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
 //    }
 
 
-// Ce qu'a fait LUCAS :
-    /**
-     * @param $query
-     * @return \Doctrine\ORM\Query
-     */
-    public function findByFirstNameOrLastName($query)
-    {
-        /** Requête SQL
-         * SELECT *
-         * FROM User u
-         * WHERE u.lastname LIKE %query% OR u.firstname LIKE %query%
-         * DISTINCT
-         */
-
-        $qb = $this->createQueryBuilder('u');                   // Comment on sait que u = User ?????
-        $qb
-            ->where($qb->expr()->like('u.firstName', ':query'))
-            ->orWhere($qb->expr()->like('u.lastName', ':query'))
-            ->setParameter('query', '%'.$query.'%')             // Ajout des '%' obligatoire
-            ->distinct()
-        ;
-
-        return $qb->getQuery();
-    }
 }
