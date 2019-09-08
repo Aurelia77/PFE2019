@@ -21,12 +21,16 @@
     </div>
   </section>
 
+  {#Ruban#}
+  {% include "Includes/ribbon.html.twig" %}
+
 <div class="container">
   <div class="row">
   {% include "Includes/usermenu.html.twig" %}
 
     <h2 class="mt-5 mb-5 text-center">Modifier mon adresse mail Entre Dièses et Bémols</h2>
 
+    <p>Mon adresse mail actuelle : {{  app.user.email }}</p>
     {{ form_start(changeEmailForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
     <div class="form-inner row">
 

@@ -21,6 +21,9 @@
         </div>
     </section>
 
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
+
 <div class="container">
     <div class="row">
         {% include "Includes/adminusersmenu.html.twig" %}
@@ -30,7 +33,7 @@
         <div>
             {# Formulaire de recherche #}
             <form method="GET">
-                <input type="text" class="form-control mb-5" placeholder="Partie du titre du track OU pseudo/prénom d'un membre..."
+                <input type="text" class="form-control mb-5" placeholder="Partie du titre du track..." {#OU pseudo/prénom d'un membre..." ??? #}
                        name="query"
                        aria-label="search" aria-describedby="search-button">
                 <button class="btn btn-info" type="submit">Rechercher</button>
@@ -38,7 +41,7 @@
 
 
             {% if recherche != NULL %}
-                <p>Résultat(s) de la recherche dans le nom, prénom ou pseudo avec = "<b>{{ recherche }}</b>"</p>
+                <p>Résultat(s) de la recherche dans le titre des track avec = "<b>{{ recherche }}</b>"</p>
             {% endif %}
 
 
@@ -49,10 +52,12 @@
                     <tr>
                         {#<th scope="col">#</th>#}
                         <th scope="col">Titre</th>
-                        <th scope="col">Prénom User</th>
+                        <th scope="col">Pseudo User</th>
                         <th scope="col">Email user</th>
                         <th scope="col">Date de création</th>
                         <th scope="col">Actif ? (cliquez pour modifier)</th>
+                        <th scope="col">Voir le track sur la page du Front (si actif)</th>
+
                     </tr>
                     </thead>
 
@@ -60,7 +65,7 @@
                     {% for track in pagination %}
                         <tr {% if loop.index is odd %} class="color" {% endif %}> {# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
                             <td>{{ track.title }}</td>
-                            <td>{{ track.user.firstName }}</td>
+                            <td>{{ track.user.pseudo }}</td>
                             <td>{{ track.user.email }}</td>
                             <td>{{ track.creationDate|date("d/m/Y - H:i") }}</td>
                             <td>
@@ -74,7 +79,18 @@
                                         <img src="{{ asset('images/actif.png') }}" alt="Track actif, l'inactiver">
                                     </a>
 
-                                {% endif %}                            </td>{#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ path('seetrack', {'id' : track.id }) }}"
+                                   title="Voir le track de musique dans une page du front">
+
+                                <img src="{{ asset('images/eye.png') }}"
+                                         alt="Utilisateur inactif, l'activer">
+                                </a>
+                            </td>
+
+                            {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
                             {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
                         </tr>
                     {% endfor %}

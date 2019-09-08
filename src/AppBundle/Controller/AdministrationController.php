@@ -52,7 +52,7 @@ class AdministrationController extends Controller
      */
     public function administrationUsersAction(Request $request, PaginatorInterface $paginator)
     {
-        /* @var $userRepository UserRepository */
+        /* @var $userRepo UserRepository */
         $userRepo = $this->getDoctrine()->getRepository(User::class);
 
         $name = $request->query->get('query');
@@ -86,12 +86,13 @@ class AdministrationController extends Controller
      */
     public function administrationTracksAction(Request $request, PaginatorInterface $paginator)
     {
+        /* @var $trackRepo TrackRepository */
         $trackRepo = $this->getDoctrine()->getRepository(Track::class);
 
         $name = $request->query->get('query');
 
         if (isset($name) && $name !== "") {
-            $tracks = $trackRepo->findByTitleOrName($name);
+            $tracks = $trackRepo->findByTitle($name);
         } else {
             $tracks = $trackRepo->findBy(array(), array('creationdate' => 'DESC'));
         }
@@ -119,13 +120,13 @@ class AdministrationController extends Controller
      */
     public function administrationMotsclefsAction(Request $request, PaginatorInterface $paginator, EntityManagerInterface $em)
     {
-
+        /* @var $motclefRepo MotClefRepository */
         $motclefRepo = $this->getDoctrine()->getRepository(MotClef::class);
 
         $name = $request->query->get('query');
 
         if (isset($name) && $name !== "") {
-            $motsclefs = $motclefRepo->findBy(array('mot' => $name));
+            $motsclefs = $motclefRepo->findByMot($name);
         } else {
             $motsclefs = $motclefRepo->findBy(array(), array('mot' => 'ASC'));
         }
@@ -171,10 +172,9 @@ class AdministrationController extends Controller
      * @Route("/messages", name="adminlistmessages")
      * @param Request $request
      * @param PaginatorInterface $paginator
-     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function administrationMessagesAction(Request $request, PaginatorInterface $paginator, EntityManagerInterface $em)
+    public function administrationMessagesAction(Request $request, PaginatorInterface $paginator)
     {
         $messageRepo = $this->getDoctrine()->getRepository(Message::class);
         $message = $messageRepo->findBy(array(), array('creationdate' => 'DESC'));
@@ -218,18 +218,16 @@ class AdministrationController extends Controller
     {
         $id = $request->get('id');
 
-        if ($id == $this->getUser()->getId()){
+        if ($id == $this->getUser()->getId()) {
             $this->addFlash('success', 'Impossible de modifier son propre role !');
 
             return $this->redirectToRoute('adminlistmembers');
-    }
+        }
         $role = $request->get('role');
 
         if ($role == 1) {
             $user->removeRole('ROLE_ADMIN');
-        }
-
-        else if ($role == 2){
+        } else if ($role == 2) {
             $user->addRole('ROLE_ADMIN');
         }
 
@@ -252,6 +250,7 @@ class AdministrationController extends Controller
 
     /**
      * Modifie le fait que l'utilisateur/track/mot clef/message soit actifs ou non
+     * Pour les admins et aussi pour le membre connecté qui veut désactiver son compte
      *
      * @Route("/switchActif/{entity}/{actif}/{id}", name="switchActif")
      * @param Request $request
@@ -270,8 +269,11 @@ class AdministrationController extends Controller
 //        $route = $this ->get( 'router' );
 
         if ($entity == 'user') {
+
             /* @var $userRepository UserRepository */          // Pour le reconnaitre et utiliser ses méthode (ici switchActifUserActionQuery, sinon IDE ne reconnait pas)
             $userRepository = $em->getRepository(User::class);
+            // OU $userRepository = $this->getDoctrine()->getRepository(User::class); !!!
+
             // On recherche l'utilisateur avec l'id donné
             $user = $userRepository->find($id);
             $userRepository->switchActifUserActionQuery($actif, $id); // La query que l'on veut paginer

@@ -9,78 +9,17 @@
     <section class="row page_cover">
         <div class="container">
             <div class="row m0">
-                <h1>Détails de la musique</h1>
+                <h1>Détails du track</h1>
                 <ol class="breadcrumb">
                     <li><a href="{{ path('home') }}">Accueil</a></li>
-                    <li class="active">Détails de la musique</li>
+                    <li class="active">Détails du track</li>
                 </ol>
             </div>
         </div>
     </section>
 
-
-    {#<p>{{ track1.motsclefs  }}</p>#}
-    <p></p>
-    <div>Mots clefs :
-        {% for motclef in track1.motsclefs %}
-            <p>{{ motclef }}</p>
-            <p>{{ track1.motsclefs[0] }}</p>
-            {% if loop.first == false %} |
-            {% endif %}
-            {{ motclef.mot|capitalize }}
-        {% else %}
-
-            Ce track n'est lié à aucun mot clef
-        {% endfor %}
-    </div>
-
-    {#<div>Groupes :#}
-    {#{% for groupe in user.groupes %}#}
-    {#{% if loop.first == false %} |  {% endif %}#}
-    {#{{ groupe.name|capitalize }}#}
-    {#{% else %}#}
-
-    {#Cet utilisateur n'est lié à aucun groupe#}
-    {#{% endfor %}#}
-    {#</div>#}
-
-    {% for motclef in motsclefs %}
-        <p>{{ motclef.mot }}</p>
-    {% endfor %}
-
-    <form action="{{ path('seetrack', {'id' : track1.id}) }}" method="get">
-        {% for motclef in motsclefs %}
-            <label for="update-groupes-{{ motclef.mot }}">{{ motclef.mot }}</label>
-            <input type="checkbox" {% if motclef in track1.motsclefs %}checked{% endif %} name="update-groupes[]"
-                   id="update-groupes-{{ motclef.mot }}" value="{{ motclef.mot }}">
-        {% endfor %}
-        <input type="text" name="add-groupes">
-        <input type="submit" value="Submit">
-    </form>
-
-    {#<form action="{{ path('users_update_groupe', {'id' : user.id}) }}" method="get">#}
-    {#{% for groupe in groupes %}#}
-    {#<label for="update-groupes-{{ groupe.name }}">{{ groupe.name }}</label>#}
-    {#<input type="checkbox" {% if groupe in user.groupes %}checked{% endif %} name="update-groupes[]" id="update-groupes-{{groupe.name}}" value="{{ groupe.name }}">#}
-    {#{% endfor %}#}
-    {#<input type="text" name="add-groupes">#}
-    {#<input type="submit" value="Submit">#}
-    {#</form>#}
-
-
-
-
-
-    <section class="row">
-        <ul class="nav nav-justified ribbon">
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-        </ul>
-    </section>
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
 
     <h2 class="text-center mt-5 mb-4">Ecoutez cette compo et ses +1, et ajoutez votre son !</h2>
 
@@ -92,10 +31,10 @@
                     {#-------------------------------------------------------------------------------------------------------------------------------------#}
                     {# Musique visualisée avec bouton pour ajouter un track à celui-ci (avec un son en plus) #}
                     {#-------------------------------------------------------------------------------------------------------------------------------------#}
-                    <div class="col-sm-6 video_post text-center">                      {# classe enlevée : post_page_uploads #}
+                    <div class="col-sm-4 video_post">                      {# classe enlevée : post_page_uploads #}
                         <a href="{{ path('newtrack', {'num' : track1.num + 1, 'id1' : track1.id}) }}"
                            class="clear_both">
-                            <button class="btn btn-info mb-5 h_50">Importer ma création ajoutée à celle-ci</button>
+                            <button class="btn btn-info mb-5 h_50 w-100">Ajouter mon +1<br>↪&nbsp;&nbsp; ma création ajoutée à celle-ci</button>
                         </a>
 
                         {% include "Includes/viewTrack.html.twig" %}
@@ -104,9 +43,10 @@
                     {#-------------------------------------------------------------------------------------------------------------------------------------#}
                     {# Musique(s) en relation avec la musique visualisée (id1 = track.id) #}
                     {#-------------------------------------------------------------------------------------------------------------------------------------#}
-                    <div class="col-sm-6 sidebar video_post">              {# classe enlevée : sidebar2 #}
+                    <div class="col-sm-8 sidebar video_post">              {# classe enlevée : sidebar2 #}
 
-                        <h3 class="h_50 text-center">xx tracks avec un son en plus</h3>
+                        {#<h3 class="h_50 text-center">xx tracks avec un son en plus</h3> !!!???#}
+
                         {# On affiche les tracks par ordre antéchronologique (indiqué dans le HomeController sur la creationDate) #}
 
                         {#<div class="w_50 float-left">#}
@@ -114,8 +54,8 @@
                             {# on peut aussi ajouter la condition à l'intérieur : {% for track in tracks if track.id1  == track.id%} mais on ne peut pas ut. loop.index ?? #}
 
                             {% if track.id1.id is defined %}   {# Car possibilité de ne pas avoir d'id1 (si compo de départ #}
-                                {% if track.id1.id == track1.id %}
-                                    {% if track.id1.actif == 1 %}
+                                {% if track.id1.actif == 1 %}
+                                    {% if track.id1.id == track1.id %}
                                         {% include "Includes/viewTrack2.html.twig" %}
                                     {% endif %}
                                 {% endif %}
@@ -139,7 +79,7 @@
                       class="row m0 comment_form">
                     <h5>Postez votre commentaire</h5>
                     <textarea class="form-control"
-                              placeholder="Ecrivez quelque chose au sujet de ce track de musique ou des tracks +1"
+                              placeholder="Ecrivez quelque chose au sujet de ce track de musique ou sur ses +1"
                               name="message"></textarea>
                     <input type="submit" value="Envoyer" class="btn btn default">
                 </form>
@@ -151,509 +91,46 @@
             <div class="row m0 comments">
                 <h2>Commentaire(s) au sujet du track</h2>
 
-                <h5 class="comment_count">xx commentaires :</h5>
+                {#<h5 class="comment_count">xx commentaires :</h5> !!!???#}
                 <div class="media comment">
                     {# On affiche ici les messages en relation avec le track visualisé #}
                     {% for message in messages %}
 
                         {% if message.actif == 1 %}
                             {% if message.track.id  == track1.id %}
-                                <div class="media-body">
+                                <div class="message">   {#classe enlevée : media-body*/#}
                                     <div class="comment_header">
                                         <h5>
                                             <a href="#" class="author_name">{{ message.user.pseudo }}</a>
-                                            <span class="time_ago">{{ message.creationdate|date("d/m/Y") }}</span>
-                                            <a href="#" class="reply_link">Reply</a>
+                                            <span class="time_ago">{{ message.creationdate|date("d/m/Y - H:i") }}</span>
+                                            {#<a href="#" class="reply_link">Reply</a>#}
                                         </h5>
                                     </div>
-                                    <p>{{ message.corps }}</p>
-                                    <div class="media comment comment_reply">
-                                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
-                                                                                 class="img-circle"></a></div>
-                                        <div class="media-body">
-                                            <div class="comment_header">
-                                                <h5>
-                                                    <a href="#" class="author_name">Lisa Zing Lung Chung</a>
-                                                    <span class="time_ago">10 minutes ago</span>
-                                                    <a href="#" class="reply_link">Reply</a>
-                                                </h5>
-                                            </div>
-                                            <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem
-                                                accusantium
-                                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
-                                                inventore
-                                                veritatis et quasi architecto beatae vitae dicta sunt
-                                                explicabo. </p>
-                                        </div>
-                                    </div> <!--Comment Reply-->
+                                    <p {% if message.user.id == track1.user.id %} class="message_owner" {% endif %}>{{ message.corps }}</p>
+                                    {#<div class="media comment comment_reply">#}
+                                        {#<div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""#}
+                                                                                 {#class="img-circle"></a></div>#}
+                                        {#<div class="media-body">#}
+                                            {#<div class="comment_header">#}
+                                                {#<h5>#}
+                                                    {#<a href="#" class="author_name">Lisa Zing Lung Chung</a>#}
+                                                    {#<span class="time_ago">10 minutes ago</span>#}
+                                                    {#<a href="#" class="reply_link">Reply</a>#}
+                                                {#</h5>#}
+                                            {#</div>#}
+                                            {#<p>Sed ut perspiciat unde omnis iste natus error sit voluptatem#}
+                                                {#accusantium#}
+                                                {#doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo#}
+                                                {#inventore#}
+                                                {#veritatis et quasi architecto beatae vitae dicta sunt#}
+                                                {#explicabo. </p>#}
+                                        {#</div>#}
+                                    {#</div> <!--Comment Reply-->#}
 
                                 </div>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
-                </div>
-
-                <div class="row m0 comments">
-                    <h5 class="comment_count">37 Comments:</h5>
-                    <div class="media comment">
-                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
-                                                                 class="img-circle"></a></div>
-                        <div class="media-body">
-                            <div class="comment_header">
-                                <h5>
-                                    <a href="#" class="author_name">Lisa Zing Lung Chung</a>
-                                    <span class="time_ago">10 minutes ago</span>
-                                    <a href="#" class="reply_link">Reply</a>
-                                </h5>
-                            </div>
-                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                deserunt
-                                mollit anim id est laborum. Sed ut perspiciat unde omnis iste natus error sit
-                                voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
-                                ab
-                                illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                explicabo.</p>
-                            <div class="media comment comment_reply">
-                                <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
-                                                                         class="img-circle"></a></div>
-                                <div class="media-body">
-                                    <div class="comment_header">
-                                        <h5>
-                                            <a href="#" class="author_name">Lisa Zing Lung Chung</a>
-                                            <span class="time_ago">10 minutes ago</span>
-                                            <a href="#" class="reply_link">Reply</a>
-                                        </h5>
-                                    </div>
-                                    <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem accusantium
-                                        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
-                                        inventore
-                                        veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                </div>
-                            </div> <!--Comment Reply-->
-                        </div>
-                    </div> <!--Comment-->
-                    <div class="media comment">
-                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
-                                                                 class="img-circle"></a></div>
-                        <div class="media-body">
-                            <div class="comment_header">
-                                <h5>
-                                    <a href="#" class="author_name">Lisa Zing Lung Chung</a>
-                                    <span class="time_ago">10 minutes ago</span>
-                                    <a href="#" class="reply_link">Reply</a>
-                                </h5>
-                            </div>
-                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                deserunt
-                                mollit anim id est laborum. Sed ut perspiciat unde omnis iste natus error sit
-                                voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae
-                                ab
-                                illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                explicabo.</p>
-                            <div class="media comment comment_reply">
-                                <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
-                                                                         class="img-circle"></a></div>
-                                <div class="media-body">
-                                    <div class="comment_header">
-                                        <h5>
-                                            <a href="#" class="author_name">Lisa Zing Lung Chung</a>
-                                            <span class="time_ago">10 minutes ago</span>
-                                            <a href="#" class="reply_link">Reply</a>
-                                        </h5>
-                                    </div>
-                                    <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem accusantium
-                                        doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo
-                                        inventore
-                                        veritatis et quasi architecto beatae vitae dicta sunt explicabo. </p>
-                                </div>
-                            </div> <!--Comment Reply-->
-                        </div>
-                    </div> <!--Comment-->
-                </div>
-
-
-                <div class="row">
-                    <div class="col-sm-9 post_page_uploads">
-                        <div class="author_details post_details row m0">
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <iframe class="embed-responsive-item"
-                                        src="https://www.youtube.com/embed/WTAHzO1i6Mw"></iframe>
-                            </div>
-                            <div class="row post_title_n_view">
-                                <h2 class="col-sm-8 post_title">Duis aute irure dolor in adipsicing elit
-                                    perspiciatis
-                                    omnis</h2>
-                                <h2 class="col-sm-4 view_count">3,45,346
-                                    <small>View</small>
-                                </h2>
-                            </div>
-                            <div class="media bio_section">
-                                <div class="media-left about_social">
-                                    <div class="row m0 section_row author_section widget widget_recommended_to_follow">
-                                        <div class="media">
-                                            <div class="media-left"><a href="page-author.html"><img
-                                                            src="images/follow/1.jpg" alt="" class="circle"></a>
-                                            </div>
-                                            <div class="media-body media-middle">
-                                                <a href="page-author.html"><h5>Lisa Zing Lung</h5></a>
-                                                <div class="btn-group">
-                                                    <a href="#" class="btn follower_count">34,000</a>
-                                                    <a href="#" class="btn follow">follow</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row m0 social_section section_row">
-                                        <h5>Social Accounts</h5>
-                                        <ul class="list-inline">
-                                            <li><a href="#"><img src="images/icons/social/1.jpg" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="images/icons/social/2.jpg" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="images/icons/social/3.jpg" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="images/icons/social/4.jpg" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="images/icons/social/5.jpg" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="images/icons/social/6.jpg" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="images/icons/social/7.jpg" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="images/icons/social/8.jpg" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="images/icons/social/9.jpg" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="images/icons/social/10.jpg" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="images/icons/social/11.jpg" alt=""></a>
-                                            </li>
-                                            <li><a href="#"><img src="images/icons/social/12.jpg" alt=""></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="row m0 about_section section_row single_video_info">
-                                        <dl class="dl-horizontal">
-                                            <dt>Publish Date:</dt>
-                                            <dd>August 23, 2015</dd>
-
-                                            <dt>Category:</dt>
-                                            <dd>Science &amp; Technology</dd>
-
-                                            <dt>Video License</dt>
-                                            <dd>Standard License</dd>
-
-                                            <dt>Imported From:</dt>
-                                            <dd>Youtube</dd>
-                                        </dl>
-                                    </div>
-                                </div>
-                                <div class="media-body author_desc_by_author">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis
-                                        nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        Duis
-                                        aute
-                                        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                        fugiat
-                                        nulla
-                                        pariatur.</p>
-                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                        deserunt
-                                        mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus
-                                        error
-                                        sit
-                                        voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque
-                                        ipsa
-                                        quae
-                                        ab
-                                        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                        explicabo.</p>
-                                    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut
-                                        fugit,
-                                        sed
-                                        quia
-                                        consequuntur magni dolores eos qui ratione voluptatem sequi
-                                        nesciunt.</p>
-                                    <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet,
-                                        consectetur,
-                                        adipisci velit, sed quia non numquam eius modi tempora incidunt ut
-                                        labore et
-                                        dolore
-                                        magnam aliquam quaerat voluptatem.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row m0 comments">
-                            <h5 class="comment_count">37 Comments:</h5>
-                            <div class="media comment">
-                                <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
-                                                                         class="img-circle"></a></div>
-                                <div class="media-body">
-                                    <div class="comment_header">
-                                        <h5>
-                                            <a href="#" class="author_name">Lisa Zing Lung Chung</a>
-                                            <span class="time_ago">10 minutes ago</span>
-                                            <a href="#" class="reply_link">Reply</a>
-                                        </h5>
-                                    </div>
-                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                        deserunt
-                                        mollit anim id est laborum. Sed ut perspiciat unde omnis iste natus
-                                        error
-                                        sit
-                                        voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque
-                                        ipsa
-                                        quae
-                                        ab
-                                        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                        explicabo.</p>
-                                    <div class="media comment comment_reply">
-                                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg"
-                                                                                 alt=""
-                                                                                 class="img-circle"></a></div>
-                                        <div class="media-body">
-                                            <div class="comment_header">
-                                                <h5>
-                                                    <a href="#" class="author_name">Lisa Zing Lung Chung</a>
-                                                    <span class="time_ago">10 minutes ago</span>
-                                                    <a href="#" class="reply_link">Reply</a>
-                                                </h5>
-                                            </div>
-                                            <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem
-                                                accusantium
-                                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-                                                illo
-                                                inventore
-                                                veritatis et quasi architecto beatae vitae dicta sunt
-                                                explicabo. </p>
-                                        </div>
-                                    </div> <!--Comment Reply-->
-                                </div>
-                            </div> <!--Comment-->
-                            <div class="media comment">
-                                <div class="media-left"><a href="#"><img src="images/follow/4.jpg" alt=""
-                                                                         class="img-circle"></a></div>
-                                <div class="media-body">
-                                    <div class="comment_header">
-                                        <h5>
-                                            <a href="#" class="author_name">Lisa Zing Lung Chung</a>
-                                            <span class="time_ago">10 minutes ago</span>
-                                            <a href="#" class="reply_link">Reply</a>
-                                        </h5>
-                                    </div>
-                                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                                        deserunt
-                                        mollit anim id est laborum. Sed ut perspiciat unde omnis iste natus
-                                        error
-                                        sit
-                                        voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque
-                                        ipsa
-                                        quae
-                                        ab
-                                        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                        explicabo.</p>
-                                    <div class="media comment comment_reply">
-                                        <div class="media-left"><a href="#"><img src="images/follow/4.jpg"
-                                                                                 alt=""
-                                                                                 class="img-circle"></a></div>
-                                        <div class="media-body">
-                                            <div class="comment_header">
-                                                <h5>
-                                                    <a href="#" class="author_name">Lisa Zing Lung Chung</a>
-                                                    <span class="time_ago">10 minutes ago</span>
-                                                    <a href="#" class="reply_link">Reply</a>
-                                                </h5>
-                                            </div>
-                                            <p>Sed ut perspiciat unde omnis iste natus error sit voluptatem
-                                                accusantium
-                                                doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-                                                illo
-                                                inventore
-                                                veritatis et quasi architecto beatae vitae dicta sunt
-                                                explicabo. </p>
-                                        </div>
-                                    </div> <!--Comment Reply-->
-                                </div>
-                            </div> <!--Comment-->
-                        </div>
-                        <form action="#" class="row m0 comment_form">
-                            <h5>post your comment:</h5>
-                            <textarea class="form-control"></textarea>
-                            <input type="submit" value="submit now" class="btn btn default">
-                        </form>
-                    </div>
-                    <div class="col-sm-3 sidebar sidebar2">
-                        <div class="row m0 sidebar_row_inner">
-
-
-                            <!--Recommended for You-->
-                            <div class="row m0 widget widget_popular_videos">
-                                <h5 class="widget_title">Recommended for you</h5>
-                                <div class="row m0 inner">
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/1.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/2.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/3.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/4.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/1.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/2.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/3.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/4.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/1.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/2.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/3.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                    <div class="media">
-                                        <div class="media-left"><a href="single-video.html"><img
-                                                        src="images/popular/4.jpg"
-                                                        alt=""><span
-                                                        class="duration">17:30</span></a></div>
-                                        <div class="media-body">
-                                            <a href="single-video.html">
-                                                <h5>Lorem ipsum dolor si amet etur adipis</h5>
-                                            </a>
-                                            <div class="row m0 meta_info views">34,000 views</div>
-                                            <div class="row m0 meta_info posted">1 year ago</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

@@ -5,6 +5,24 @@
 {% endblock title %}
 
 {% block content %}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    <section class="row page_cover">
+        <div class="container">
+            <div class="row m0">
+                <h1>Réenvoie de mail pour confirmation</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li class="active">Réenvoie de mail pour confirmation</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
+
     <div class="container">
         <div class="row">
 
@@ -13,7 +31,7 @@
             <p>Cliquez sur le lien-ci dessous pour recevoir un nouveau mail de confirmation</p>
 
             <p>
-                <a href="{{ path('resendemailvalidation') }}" title=Lien de réenvoie de mail de validation">
+                <a href="{{ path('resendemailvalidation') }}" title="Lien de réenvoie de mail de validation">
                 <span>Activer le compte</span>
             <div>
                 <img src="http://pfe2019-v2.aurelia-web.fr/images/logoDieseBemol.png"

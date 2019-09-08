@@ -1,4 +1,5 @@
 <?php
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Track;
@@ -65,8 +66,11 @@ class UserController extends Controller
         $img_user_directory = $this->getParameter('img_user_directory');
         $track_directory = $this->getParameter('track_directory');
 
+        $tracks = $trackRepository->findAll();
+
         return $this->render('/User/user.html.twig', array(
             'user' => $user,
+            'tracks' => $tracks,
             'userInfoForm' => $userInfoForm->createView(),
             'pagination' => $pagination,
             'img_track_directory' => $img_track_directory,
@@ -78,11 +82,11 @@ class UserController extends Controller
     /**
      * Changer le mdp du membre
      * @Route("/password", name="userpassword")
-     * 
+     *
      * @param Request $request
-     * @param EntityManagerInterface $em     
+     * @param EntityManagerInterface $em
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * 
+     *
      * @return Response
      */
     public function userPasswordAction(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
@@ -127,6 +131,7 @@ class UserController extends Controller
         $user = $this->getUser();
         $changeEmailForm = $this->createForm(ChangeEmailType::class, $user, array());
         $changeEmailForm->handleRequest($request);
+
         if ($changeEmailForm->isSubmitted() && $changeEmailForm->isValid()) {
             // On génère un token unique
             $emailToken = md5(uniqid());
@@ -139,19 +144,52 @@ class UserController extends Controller
                 "warning", "Un email de validation vous a été envoyé"
             );
         }
-        
+
         return $this->render('/User/useremail.html.twig', array('changeEmailForm' => $changeEmailForm->createView(), 'nompage' => 'User:userEmail'));
     }
 
     /**
-     * @Route("/{id}", name="users_profil", requirements={"id" = "\d+"}, defaults={"id" = null})
+     * Modifie le fait que l'utilisateur/track/mot clef/message soit actifs ou non
+     * Pour les admins et aussi pour le membre connecté qui veut désactiver son compte
+     *
+     * @Route("/suppDatasUser", name="suppDatasUser")
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function suppDatasUser(EntityManagerInterface $em)
+    {
+        $user = $this->getUser();
+
+        $user->setEmail('#')
+            ->setActif(0)
+            ->setFirstName('#')
+            ->setLastName('#')
+            ->setPseudo('#')
+            ->setPassword('#')
+            ->setPhoto('#')
+            ->setRoles('#')
+//            ->setEmailToken('#')
+//            ->setLostPasswordToken('#')
+            ;
+
+
+        $em->persist($user);
+        $this->addFlash('success', 'Plus aucune donnée personnelle sur l\'utilisateur !');
+
+        $em->flush();
+
+        return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @Route("/userprofil/{id}", name="users_profil", requirements={"id" = "\d+"}, defaults={"id" = null})
      * @param User $user
      * @param EntityManagerInterface $em
      * @param Request $request
      *
      * @return Response
      */
-    public function profileAction(User $user = null, EntityManagerInterface $em, Request $request, PaginatorInterface $paginator)
+    public function profileAction(User $user, EntityManagerInterface $em, Request $request, PaginatorInterface $paginator)
     {
         if (!$user) {
             return $this->returnNotFound();
@@ -183,7 +221,8 @@ class UserController extends Controller
      *
      * @return Response
      */
-    private function returnNotFound() {  //string $from = null){
+    private function returnNotFound()
+    {  //string $from = null){
 
 //        return $this->json(array('status' => 'notFound'), JsonResponse::HTTP_NOT_FOUND);
 //        return $this->json(array('status' => 'notFound', 'from' => $from), Response::HTTP_NOT_FOUND);

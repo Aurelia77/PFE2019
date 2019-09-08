@@ -1,0 +1,62 @@
+{% extends "/layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} | Tutoriel
+{% endblock %}
+{% block content %}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    <section class="row page_cover">
+        <div class="container">
+            <div class="row m0">
+                <h1>Tutoriel</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li class="active">Tutoriel</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
+
+
+
+    <p>Qg on sup un track, les +1 restent !!</p>
+
+
+
+
+    <div class="container">
+        <div class="row">
+            <h2>FAQ</h2>
+            <h3>Comment télécharger un son ?</h3>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <h3>Comment ...</h3>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <h3>Comment ...</h3>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <h3>Comment ...</h3>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <p>Vous devez simplement.....</p>
+            <h3>Comment ...</h3>
+            <h3>Comment ...</h3>
+            <h3>Comment ...</h3>
+            <h3>Comment ...</h3>
+
+        </div>
+    </div>
+{% endblock content %}

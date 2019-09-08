@@ -1,4 +1,4 @@
-<div class="navbar collapse navbar-collapse w-75" id="middle-menu">
+<div class="menu2">
     <div class="container">
 
         <ul class="nav navbar-nav w-100">
@@ -14,14 +14,15 @@
                     Liste des tracks
                 </a>
             </li>
+            {#<li>#}
+            {#<a {% if app.request.get('_route') == 'adminlistmotsclefs' %}class="active"{% endif %}#}
+            {#href="{{ path('adminlistmotsclefs') }}">#}
+            {#Liste des mots clefs#}
+            {#</a>#}
+            {#</li>#}
             <li>
-                <a {% if app.request.get('_route') == 'adminlistmotsclefs' %}class="active"{% endif %}
-                   href="{{ path('adminlistmotsclefs') }}">
-                    Liste des mots clefs
-                </a>
-            </li>
-            <li>
-                <a {% if app.request.get('_route') == 'adminlistmessages' %}class="active"{% endif %} href="{{path('adminlistmessages')}}">
+                <a {% if app.request.get('_route') == 'adminlistmessages' %}class="active"{% endif %}
+                   href="{{ path('adminlistmessages') }}">
                     Liste des commentaires
                 </a>
             </li>

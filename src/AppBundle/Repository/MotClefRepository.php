@@ -25,19 +25,20 @@ class MotClefRepository extends \Doctrine\ORM\EntityRepository
 
         if ($actif == false) {
             $query =  $qb->update()
-                ->where('m.id = ?1')
+                ->where($qb->expr()->like('m.id', ':id'))
                 ->set('m.actif', ':actif')
                 ->setParameter('actif', true)
-                ->setParameter(1,$id)
+                ->setParameter('id',$id)
                 ->getQuery();
             $result = $query->execute();
 
         } else {
             $query =  $qb->update()
-                ->where('m.id = ?1')
+//                ->where('m.id = ?1')     Ok Mais on doit utiliser un chiffre pour la key (ici 1 et donc : ->setParameter(1, $id))
+                ->where($qb->expr()->like('m.id', ':id'))
                 ->set('m.actif', ':actif')
                 ->setParameter('actif', false)
-                ->setParameter(1, $id)
+                ->setParameter('id', $id)
                 ->getQuery();
             $result = $query->execute();
 
@@ -62,9 +63,7 @@ class MotClefRepository extends \Doctrine\ORM\EntityRepository
 
         $qb = $this->createQueryBuilder('m');
         $qb
-            ->where($qb->expr()->like('u.firstName', ':query'))
-            ->orWhere($qb->expr()->like('u.lastName', ':query'))
-            ->orWhere($qb->expr()->like('u.pseudo', ':query'))
+            ->where($qb->expr()->like('m.mot', ':query'))
             ->setParameter('query', '%'.$query.'%')             // Ajout des '%' obligatoire
             ->distinct()
         ;

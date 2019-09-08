@@ -1,35 +1,36 @@
-<section class="row">
-    <ul class="nav nav-justified ribbon">
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-    </ul>
-</section> <!--Ribbon-->
+{#Ruban#}
+<div class="mb-0">
+
+    {% include "Includes/ribbon.html.twig" %}
+</div>
 
 <footer class="row">
     <div class="container">
         <div class="row sidebar sidebar_footer">
             <div class="widget widget1 w_in_footer widget_about">
                 <h5 class="widget_title">A propos du site Entre Dièses et Bémols</h5>
-                <div class="row m0 inner">
+                <div class="row m0 inner col-sm-4">
                     <a {% if app.request.get('_route') == 'poldeconf' %} class="active mr-5" {% else %} class="mr-5"{% endif %}
                             href="{{ path('poldeconf') }}">
                         Politique de confidentialité
                     </a>
                 </div>
-                <div class="row m0 inner">
-                    <a {% if app.request.get('_route') == 'rgpd' %}class="active mr-5"{% else %} class="mr-5"{% endif %}
-                       href="{{ path('rgpd') }}">
-                        RGPD
-                    </a>
-                </div>
-                <div class="row m0 inner">
+                {#<div class="row m0 inner">#}
+                {#<a {% if app.request.get('_route') == 'rgpd' %}class="active mr-5"{% else %} class="mr-5"{% endif %}#}
+                {#href="{{ path('rgpd') }}">#}
+                {#RGPD#}
+                {#</a>#}
+                {#</div>#}
+                <div class="row m0 inner col-sm-4">
                     <a {% if app.request.get('_route') == 'mentionsleg' %}class="active mr-5"{% else %} class="mr-5"{% endif %}
                        href="{{ path('mentionsleg') }}">
                         Mentions légales
+                    </a>
+                </div>
+                <div class="row m0 inner col-sm-4">
+                    <a {% if app.request.get('_route') == 'contact' %}class="active"{% endif %}
+                       href="{{ path('contact') }}">
+                        Contact
                     </a>
                 </div>
             </div>

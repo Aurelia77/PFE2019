@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="{{ asset('css/theme-magnific-popup.css') }}">
 
     <link rel="stylesheet" href="{{ asset('theme/vendors/font-awesome/css/font-awesome.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('theme/vendors/bootstrap-select/css/bootstrap-select.min.css') }}" media="screen">
+    <link rel="stylesheet" type="text/css"
+          href="{{ asset('theme/vendors/bootstrap-select/css/bootstrap-select.min.css') }}" media="screen">
 
     <!--Fonts-->
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic'
@@ -21,6 +22,9 @@
     {#<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css" integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">#}
 
     {#<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">#}
+
+    {#Pour peronnaliser l'audioplayer (https://www.megaptery.com/2013/05/audio-player-lecteur-audio-html5-customise-jquery.html)#}
+    <link rel="stylesheet" href="{{ asset('css/audioplayer.css') }}">
 
     {# MA Feuille de Styles #}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}"/>
@@ -114,6 +118,36 @@
     <script src="{{ asset('theme/js/theme.js') }}"></script>
     {#FIN : Dans le Thème acheté#}
 
+    {#Pour peronnaliser l'audioplayer (https://www.megaptery.com/2013/05/audio-player-lecteur-audio-html5-customise-jquery.html)#}
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('js/audioplayer.js') }}"></script>
+    <script>
+        $( 'audio' ).audioPlayer({
+            classPrefix: 'audioplayer',
+            strPlay: 'Play',
+            strPause: 'Pause',
+            strVolume: 'Volume'
+        });
+        /*
+            VIEWPORT BUG FIX
+            iOS viewport scaling bug fix, by @mathias, @cheeaun and @jdalton
+        */
+        (function (doc) {
+            var addEvent = 'addEventListener', type = 'gesturestart', qsa = 'querySelectorAll', scales = [1, 1],
+                meta = qsa in doc ? doc[qsa]('meta[name=viewport]') : [];
+
+            function fix() {
+                meta.content = 'width=device-width,minimum-scale=' + scales[0] + ',maximum-scale=' + scales[1];
+                doc.removeEventListener(type, fix, true);
+            }
+
+            if ((meta = meta[meta.length - 1]) && addEvent in doc) {
+                fix();
+                scales = [.25, 1.6];
+                doc[addEvent](type, fix, true);
+            }
+        }(document));
+    </script>
 
     {# Temps total du track #}
     <script>

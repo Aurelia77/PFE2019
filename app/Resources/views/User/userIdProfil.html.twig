@@ -20,16 +20,8 @@
         </div>
     </section>
 
-    <section class="row">
-        <ul class="nav nav-justified ribbon">
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-        </ul>
-    </section>
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
 
     <div class="container">
         <div class="row">
@@ -91,9 +83,11 @@
                             {# on peut aussi ajouter la condition à l'intérieur : {% for track2 in tracks if track2.id1  == track.id%} mais on ne peut pas ut. loop.index ?? #}
 
                             <p>Track véifié : </p>
+                            {% if track.actif == 1 %}
 
-                            {% if track.user.id == user.id %}
-                                {% include "Includes/viewTrack2.html.twig" %}
+                                {% if track.user.id == user.id %}
+                                    {% include "Includes/viewTrack2.html.twig" %}
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                         <div class="navigation ml_30">

@@ -49,7 +49,7 @@ class User implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="pseudo", type="string", length=45, nullable=false)
-     * @Assert\Length(min=2)
+     * @Assert\Length(min=2, max=10)
      */
     private $pseudo;
 
@@ -140,6 +140,11 @@ class User implements UserInterface, \Serializable
     private $oldPassword;
 
     /**
+     * Non mapped field, used when registering !
+     */
+    private $rgpd;
+
+    /**
      * @var integer
      *
      * @ORM\Column(type="integer", options={"unsigned":true})
@@ -164,11 +169,13 @@ class User implements UserInterface, \Serializable
 
 
 
-    // CONSTRUCTEUR avec valeurs par défaut : champ roles (ROLE_USER) et date de création (date actuelle)
+    // CONSTRUCTEUR avec valeurs par défaut : champ actif (1), roles (ROLE_USER) et date de création (date actuelle)
     public function __construct()
     {
+        $this->setActif(1);
         $this->setRoles(['ROLE_USER']);
         $this->setCreationDate(new \DateTime());
+
     }
 
 
@@ -563,6 +570,31 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * Get rgpd
+     *
+     * @return string
+     */
+    public function getRgpd()
+    {
+
+        return $this->rgpd;
+    }
+
+    /**
+     * Set rgpd
+     *
+     * @param string $rgpd
+     *
+     * @return User
+     */
+    public function setRgpd($rgpd)
+    {
+        $this->rgpd = $rgpd;
+
+        return $this;
+    }
+
+    /**
      * Get oldPassword
      *
      * @return string
@@ -572,6 +604,9 @@ class User implements UserInterface, \Serializable
 
         return $this->oldPassword;
     }
+
+
+
 
     /**
      * Get id

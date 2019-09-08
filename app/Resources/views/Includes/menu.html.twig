@@ -1,9 +1,10 @@
 <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header w-25">
+        <div class="navbar-header w-10">
             <a class="navbar-brand" href="{{ path('home') }}"><img src="{{ asset('images/logoDieseBemol.png') }}"
-                                                                   alt=""></a>
+                                                                   alt=""
+                                                                    class="logo"></a>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#middle-menu"
                     aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
@@ -14,7 +15,7 @@
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse w-75" id="middle-menu">
+        <div class="collapse navbar-collapse w-90" id="middle-menu">
             <ul class="nav navbar-nav w-100">
                 {#-------------------------------------------------------------------------------------------------#}
                 {# Vu par tout le monde (connecté ou non#}
@@ -24,10 +25,21 @@
                         FAQ
                     </a>
                 </li>
+
                 <li>
-                    <a {% if app.request.get('_route') == 'contact' %}class="active"{% endif %}
-                       href="{{ path('contact') }}">
-                        Contact
+                    <a {% if app.request.get('_route') == 'tuto' %}class="active"{% endif %}
+                       href="{{ path('tuto') }}">
+                        Tutoriel
+                    </a>
+                </li>
+
+                <li class="titre_menu">
+                    <a href="{{ path('home') }}">
+                        ♫&nbsp;<span class="petit"> ♫ </span>
+                        &nbsp;Entre&nbsp;<span class="petit"> ♯ </span>
+                        Dièses&nbsp;<span class="petit">♯</span>
+                        et <span class="petit">♭</span>
+                        &nbsp;Bémols&nbsp;<span class="petit">♭</span>&nbsp;♫
                     </a>
                 </li>
 
@@ -44,7 +56,7 @@
                         or (app.request.get('_route') == 'adminlisttracks')
                         or (app.request.get('_route') == 'adminlistmotsclefs') %} class="active" {% endif %}
                             href="{{ path('admin') }}">
-                        Administration
+                        Admin
                     </a>
                     <ul class="dropdown-menu">
                         <li>
@@ -59,12 +71,12 @@
                                 Liste des tracks
                             </a>
                         </li>
-                        <li>
-                            <a {% if app.request.get('_route') == 'adminlistmotsclefs' %}class="active"{% endif %}
-                               href="{{ path('adminlistmotsclefs') }}">
-                                Liste des mots clefs
-                            </a>
-                        </li>
+                        {#<li>#}
+                            {#<a {% if app.request.get('_route') == 'adminlistmotsclefs' %}class="active"{% endif %}#}
+                               {#href="{{ path('adminlistmotsclefs') }}">#}
+                                {#Liste des mots clefs#}
+                            {#</a>#}
+                        {#</li>#}
                         <li>
                             <a {% if app.request.get('_route') == 'adminlistmessages' %}class="active"{% endif %}
                                href="{{ path('adminlistmessages') }}">
@@ -74,31 +86,10 @@
                     </ul>
                 </li>
 
-                {#-------------------------------------------------------------------------------------------------#}
-                {# PSEUDO du membre connecté #}
-                {#-------------------------------------------------------------------------------------------------#}
-                {#<b class="ml-10">#}
-                {#<li class="pr_3em">#}
-                <li id="pseudo_menu">
-                    <a {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden" {% elseif app.request.get('_route') == 'user' %} class="active color2" {% else %} class="color2"  {% endif %}
-                            href="{{ path('user') }} ">
-                        {#You only have this if you’ve actually logged in during this session. If you’re logged in because of a remember me cookie, you won’t have this :#}
-                        {# On affiche le pseudo du membre #}
-                        {% if app.user.pseudo is defined %}
-                            {{ app.user.pseudo }} -
-                            {% if app.user.roles[0] is defined %}{{ app.user.roles[0] }} {% endif %}
-                            {% if app.user.roles[1] is defined %}{{ app.user.roles[1] }} {% endif %}
-                        {% endif %}
-                    </a>
-                </li>
-                {#</li>#}
-                {#</b>#}
-
-                {#-------------------------------------------------------------------------------------------------#}
-                {#Si non connecté#}
-                {#-------------------------------------------------------------------------------------------------#}
-                <ul class="nav navbar-nav navbar-right login_drop">
-                    {# Non Connecté #}
+                <ul class="nav navbar-nav navbar-right">    {# supp : login_drop#}
+                    {#-------------------------------------------------------------------------------------------------#}
+                    {#Si non connecté#}
+                    {#-------------------------------------------------------------------------------------------------#}
                     <li {% if is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden" {% else %} class="disp_inlineblock" {% endif %} >
                         <a {% if app.request.get('_route') == 'register' %} class="active float_left"{% endif %}
                                 href="{{ path('register') }}">
@@ -125,7 +116,8 @@
                         <a {% if (app.request.get('_route') == 'user') or (app.request.get('_route') == 'userpassword')
                             or (app.request.get('_route') == 'useremail') %} class="active" {% endif %}
                                 href="{{ path('user') }}">
-                            Mon Compte
+                            {#Mon Compte#}
+                            <b class="big">♪ ♯ ♪ </b> <b id="pseudo_menu" class="rock">{% if is_granted('IS_AUTHENTICATED_FULLY') %}{{ app.user.pseudo }}{% endif %}</b> <b class="big"> ♪ ♭ ♪</b>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
@@ -151,162 +143,12 @@
 
                     <li {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="hidden" {% else %} class="disp_inlineblock" {% endif %} >
                         <a href="{{ path('logout') }}">
-                            Se déconnecter
+                            Déconnexion
                         </a>
                     </li>
                 </ul>
-
-
-                {#<li class="dropdown mega-drop">#}
-                {#<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">#}
-                {#<span class="video_menu_icon"></span>Video Menu#}
-                {#</a>#}
-                {#<ul class="dropdown-menu mega-menu">#}
-                {#<li class="row_title">Staf Picked</li>#}
-                {#<li class="videos">#}
-                {#<div class="container">#}
-                {#<div class="col-sm-3">#}
-                {#<div class="row inner m0">#}
-                {#<div class="preview_img">#}
-                {#<img src="{{ asset('theme/images/menu/1.jpg') }}" alt="" class="preview">#}
-                {#<a href="{{ asset('theme/single-video.html') }}" class="play-btn"></a>#}
-                {#</div>#}
-                {#<div class="title_row row m0"><a href="{{ asset('theme/single-video.html') }}">Duis aute irure dolor in adipsicing elit</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#<div class="col-sm-3">#}
-                {#<div class="row inner m0">#}
-                {#<div class="preview_img">#}
-                {#<img src="{{ asset('theme/images/menu/2.jpg') }}" alt="" class="preview">#}
-                {#<a href="{{ asset('theme/single-video.html') }}" class="play-btn"></a>#}
-                {#</div>#}
-                {#<div class="title_row row m0"><a href="{{ asset('theme/single-video.html') }}">Duis aute irure dolor in adipsicing elit</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#<div class="col-sm-3">#}
-                {#<div class="row inner m0">#}
-                {#<div class="preview_img">#}
-                {#<img src="{{ asset('theme/images/menu/3.jpg') }}" alt="" class="preview">#}
-                {#<a href="{{ asset('theme/single-video.html') }}" class="play-btn"></a>#}
-                {#</div>#}
-                {#<div class="title_row row m0"><a href="{{ asset('theme/single-video.html') }}">Duis aute irure dolor in adipsicing elit</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#<div class="col-sm-3">#}
-                {#<div class="row inner m0">#}
-                {#<div class="preview_img">#}
-                {#<img src="{{ asset('theme/images/menu/4.jpg') }}" alt="" class="preview">#}
-                {#<a href="{{ asset('theme/single-video.html') }}" class="play-btn"></a>#}
-                {#</div>#}
-                {#<div class="title_row row m0"><a href="{{ asset('theme/single-video.html') }}">Duis aute irure dolor in adipsicing elit</a></div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</div>#}
-                {#</li>#}
-                {#</ul>#}
-                {#</li>#}
-                {#<li class="dropdown">#}
-                {#<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">#}
-                {#<span class="extra_pages_icon"></span>Extra pages#}
-                {#</a>#}
-                {#<ul class="dropdown-menu">#}
-                {#<li><a href="{{ asset('theme/login.html') }}">Login</a></li>#}
-                {#<li><a href="{{ asset('theme/signup-popup.html') }}">Sign Up</a></li>#}
-                {#<li><a href="{{ asset('theme/single-video.html') }}">Single Video</a></li>#}
-                {#<li><a href="{{ asset('theme/page-author.html') }}">Auther Profile</a></li>#}
-                {#<li><a href="{{ asset('theme/category.html') }}">Category Page</a></li>#}
-                {#</ul>#}
-                {#</li>#}
             </ul>
-        </div><!-- /.navbar-collapse -->
-        {#<ul class="nav navbar-nav navbar-right login_drop">#}
-        {#<li class="dropdown">#}
-        {#<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">#}
-        {#<span class="login_icon"></span> My Account#}
-        {#</a>#}
-        {#<ul class="dropdown-menu">#}
-        {#<li><a href="{{ asset('theme/login.html') }}">Login</a></li>#}
-        {#<li><a href="{{ asset('theme/signup-popup.html') }}">Sign Up</a></li>#}
-        {#<li><a href="{{ asset('theme/page-author.html') }}">Auther Profile</a></li>#}
-        {#</ul>#}
-        {#</li>#}
-        {#</ul>#}
-    </div><!-- /.container-fluid -->
+        </div>
+
+    </div>
 </nav>
-
-{#AVANT Le Thème#}
-{#<nav>#}
-    {#<a {% if app.request.get('_route') == 'home' %} class="active"{% endif %} href="{{ path('home') }}">#}
-        {#<img src="../images/logoDieseBemol.png" alt="Logo Entre Dièses et Bémol" height="50px" class="border_img">#}
-    {#</a>#}
-    {#<a {% if app.request.get('_route') == 'faq' %}class="active"{% endif %} href="{{ path('faq') }}">#}
-        {#FAQ#}
-    {#</a>#}
-    {#<a {% if app.request.get('_route') == 'administrination' %}class="active"{% endif %} href="{{ path('administration') }}">#}
-        {#Administration#}
-    {#</a>#}
-    {#<a {% if app.request.get('_route') == 'dashboard' %}class="active"{% endif %} href="{{ path('dashboard') }}">#}
-        {#Dashboard#}
-    {#</a>#}
-
-    {# Prénom du membre connecté (pas besoin de mettre des chose ds le controleur !!!) #}
-    {#<b class="ml-10">#}
-        {#You only have this if you’ve actually logged in during this session. If you’re logged in because of a remember me cookie, you won’t have this :#}
-        {#{% if is_granted('IS_AUTHENTICATED_FULLY') %}#}
-
-            {# On affiche le nom et le prénom de l'utilisateur dans la base de données, si ils existent #}
-            {#{% if app.user.lastName is defined %}#}
-            {#{{ app.user.lastName }}#}
-            {#{% endif %}#}
-            {#{% if app.user.firstName is defined %}#}
-                {#{{ app.user.firstName }}#}
-            {#{% endif %}#}
-        {#{% endif %}#}
-    {#</b>#}
-
-    {#<li class="float-right">#}
-        {#<ul class="">#}
-            {# Non Connecté #}
-            {#<a {% if is_granted('IS_AUTHENTICATED_FULLY') %} class="cache"{% endif %} {% if app.request.get('_route') == 'register' %} class="active"{% endif %}#}
-                    {#href="{{ path('register') }}">#}
-                {#M'inscrire#}
-            {#</a>#}
-            {#<a {% if is_granted('IS_AUTHENTICATED_FULLY') %} class="cache"{% endif %} {% if app.request.get('_route') == 'login' %} class="active"{% endif %}#}
-                    {#href="{{ path('login') }}">#}
-                {#Me connecter#}
-            {#</a>#}
-            {##}
-            {# Connecté #}
-            {#<a {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="cache"{% endif %} {% if app.request.get('_route') == 'user' %} class="active"{% endif %}#}
-                    {#href="{{ path('user') }}">#}
-                {#Mon Compte#}
-            {#</a>#}
-            {#<a {% if not is_granted('IS_AUTHENTICATED_FULLY') %} class="cache"{% endif %} href="{{ path('logout') }}">#}
-                {#Se déconnecter#}
-            {#</a>#}
-        {#</ul>#}
-    {#</li>#}
-{#</nav>#}
-
-
-
-
-    {#<a {% if app.request.get('_route') == 'faq' %}class="active"{% endif %} href="{{ path('faq') }}">#}
-        {#Droits d'auteurs#}
-    {#</a>#}
-
-
-    {#<a {% if app.request.get('_route') == 'musique' %} class="active"{% endif %} href="{{ path('musique') }}">#}
-    {#Musique#}
-    {#</a>#}
-    {#<a {% if app.request.get('_route') == 'partager' %} class="active"{% endif %} href="{{ path('partager') }}">#}
-    {#Partager#}
-    {#</a>#}
-    {#<a {% if app.request.get('_route') == 'membres' %} class="active"{% endif %} href="{{ path('membres') }}">#}
-    {#Membres#}
-    {#</a>#}
-
-
-
-{#<a {% if app.request.get('_route') == 'users_register' %}class="active"{% endif %} href="{{ path('users_register') }}">Inscription</a>#}
-{#<a {% if app.request.get('_route') == 'users_list' %}class="active"{% endif %}  href="{{ path('users_list') }}">Liste d'utilisateurs</a>#}

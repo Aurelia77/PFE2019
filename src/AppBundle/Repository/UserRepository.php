@@ -54,21 +54,21 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
      * @param int $id
      * @return \Doctrine\ORM\Query
      */
-    public function switchActifUserActionQuery(bool $actif,int $id)
+    public function switchActifUserActionQuery(bool $actif, int $id)
     {
         $qb = $this->createQueryBuilder('u');   // On est dans le UserRepository donc u = user
 
         if ($actif == false) {
-          $query =  $qb->update()
+            $query = $qb->update()
                 ->where('u.id = ?1')
                 ->set('u.actif', ':actif')
                 ->setParameter('actif', true)
-                 ->setParameter(1,$id)
+                ->setParameter(1, $id)
                 ->getQuery();
             $result = $query->execute();
 
         } else {
-            $query =  $qb->update()
+            $query = $qb->update()
                 ->where('u.id = ?1')
                 ->set('u.actif', ':actif')
                 ->setParameter('actif', false)
@@ -79,6 +79,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         }
         return $result;
     }
+
 
     /**
      * @param $query

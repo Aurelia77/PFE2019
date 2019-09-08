@@ -5,18 +5,36 @@
 {% endblock %}
 
 {% block content %}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    <section class="row page_cover">
+        <div class="container">
+            <div class="row m0">
+                <h1>Se connecter</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li class="active">Se connecter</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
+
     <div class="container">
         <div class="row">
 
-            <h1 class="mt-5 mb-5 text-center">Connexion Entre Dièses et Bémols</h1>
+            <h2 class="mt-5 mb-5 text-center">Connexion Entre Dièses et Bémols</h2>
 
-            <form class="container-fluid login_form auth_form" action="{{ path('login') }}" method="post" role="form">
-                <div class="form-inner row">
+            <form class="container-fluid login_form auth_form h_400" action="{{ path('login') }}" method="post" role="form">
+                <div class="form-inner row mb-5">
                     <div class="login_options row m0">
                         <div class="options_header row m0">
-                            <a href="{{ path('home') }}"><img src="../images/logoDieseBemol.png" alt=""></a>
-                            <h4><a href="{{ path('register') }}">Créer un compte</a></h4>
-                            <h4><a href="{{ path('lostpassword') }}">Mot de passe oublié</a></h4>
+                            <a href="{{ path('home') }}"><img src="{{ asset('images/logoDieseBemol.png') }}"
+                                                              alt="logo du site Entre Dièses et Bémols"
+                                                              class="mb-5"></a>
                         </div>
                     </div>
                     {% if error %}
@@ -33,36 +51,20 @@
                 </div>
             </form>
 
+            <div class="w-50 m-auto">
+                <div class="col-md-6 text-center">
+                    <a href="{{ path('register') }}">
+                        <button class="btn btn-primary mb-5 h_50">Créer un compte</button>
+                    </a>
+                </div>
+                <div class="col-md-6 text-center">
+                    <a href="{{ path('lostpassword') }}">
+                        <button class="btn btn-warning mb-5 h_50">Mot de passe oublié</button>
+                    </a>
+                </div>
+            </div>
+
         </div>
     </div>
-
-    {#<form class="container-fluid login_form auth_form" action="#" method="post" role="form">#}
-    {#<div class="form-inner row">#}
-    {#<div class="login_options row m0">#}
-    {#<div class="options_header row m0">#}
-    {#<a href="index.html"><img src="images/logo.png" alt=""></a>#}
-    {#<h4>Sign in to Meta Video using social profiles of <a href="signup.html">create an account</a></h4>#}
-    {#</div>#}
-    {#<div class="row m0 login_with_social_media">#}
-    {#<a href="#"><img src="images/btn/twitter-login.png" alt=""></a>#}
-    {#<a href="#"><img src="images/btn/facebook-login.png" alt=""></a>#}
-    {#<a href="#"><img src="images/btn/gmail-login.png" alt=""></a>#}
-    {#</div>#}
-    {#</div>#}
-    {#<div class="form-header row m0">#}
-    {#<h4>or Sign in using email address</h4>#}
-    {#</div>#}
-    {#<div class="form-body row m0">#}
-    {#<input type="text" class="form-control" placeholder="Full Name">#}
-    {#<input type="email" class="form-control" placeholder="Email Address">#}
-    {#<input type="password" class="form-control" placeholder="Password">#}
-    {#<input type="submit" value="Sign In" class="btn btn-default form-control">#}
-    {#</div>#}
-    {#<div class="form-footer row m0">#}
-    {#<button title="Close (Esc)" type="button" class="mfp-close"></button>#}
-    {#</div>#}
-    {#</div>#}
-    {#</form>#}
-
 
 {% endblock content %}

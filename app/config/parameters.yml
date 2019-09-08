@@ -1,5 +1,10 @@
 # This file is auto-generated during the composer install
 parameters:
+#    database_host: db5000117944.hosting-data.io
+#    database_port: 3306
+#    database_name: dbs112515
+#    database_user: dbu202489
+#    database_password: Pfe2019*
     database_host: 127.0.0.1
     database_port: null
     database_name: pfe2019

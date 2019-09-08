@@ -19,6 +19,7 @@ class Track
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=45, nullable=false)
+     * @Assert\Length(max=10)
      *
      */
     private $title;
@@ -69,14 +70,26 @@ class Track
      */
     private $trackMessages;
 
-    // Tableau d'OBJET !!! Relation MANY to MANY
-    // (on décide que MotClef est l'entité propriétaire donc Track est l'entité inverse donc on ajoute : mappedBy="tracks")
-    // Un track peut être relié à plusieurs mots clefs et inversement : Relation ManyToMany bidirectionnelle
-    // Si on veut personnaliser le nom de la table de jointure/relationnelle     (@ORM\JoinTable(name="participations")
+
+    // track est le propriétaire du mot clef. C'est un OBJET !!! -  Track est l'entité propriétaire.
+    // !!! Bien mettre nullable=false sinon par défaut à true (alors que normalement c'est l'inverse !!!)
+    // Plusieurs tracks peuvent être liées à Un même mot clef : Relation ManyToOne bidirectionnelle
     /**
-     * @ORM\ManyToMany(targetEntity="MotClef", mappedBy="tracks", cascade={"persist","remove"})
+     * @var MotClef
+     *
+     * @ORM\ManyToOne(targetEntity="MotClef", inversedBy="motclefTracks", cascade={"persist"})
+     * @ORM\JoinColumn(name="motclef_id", referencedColumnName="id", nullable=true)
      */
-    private $motsclefs;
+    private $trackMotclef;
+
+//    // Tableau d'OBJET !!! Relation MANY to MANY
+//    // (on décide que MotClef est l'entité propriétaire donc Track est l'entité inverse donc on ajoute : mappedBy="tracks")
+//    // Un track peut être relié à plusieurs mots clefs et inversement : Relation ManyToMany bidirectionnelle
+//    // Si on veut personnaliser le nom de la table de jointure/relationnelle     (@ORM\JoinTable(name="participations")
+//    /**
+//     * @ORM\ManyToMany(targetEntity="MotClef", mappedBy="tracks", cascade={"persist","remove"})
+//     */
+//    private $motsclefs;
 
     /**
      * @var integer
@@ -127,9 +140,10 @@ class Track
         $this->setActif(1);
 
         // Ne pas oublier ces tableaux de collection pour pouvoir utiliser removeElement
-        // Realation ManyToMany avec MotClef
-        $this->motsclefs = new ArrayCollection();
-        // Realation OneToMany avec Message
+
+        // $this->motsclefs = new ArrayCollection();             // Si Relation ManyToMany avec MotClef ?
+
+        // Relation OneToMany avec Message
         $this->trackMessages = new ArrayCollection();
 
     }
@@ -376,38 +390,29 @@ class Track
     }
 
 
-    // Pour la relation ManyToMany avec MotClef : Add, Remove, Get (pas de setter car se fait avec MotClef = entité propriétaire (selon ce qu'on a décidé))
+    // Pour la relation ManyToOne avec MotClef (champ $trackMotclef plus haut) : 1 getter et 1 setter
 
     /**
-     * Add motsclef
+     * Set trackMotclef
      *
-     * @param MotClef $motclef
+     * @param MotClef $trackMotclef
+     *
      * @return Track
      */
-    public function addMotsclef(MotClef $motclef)
+    public function setTrackMotclef(MotClef $trackMotclef)
     {
-        $this->motsclefs[] = $motclef;
+        $this->user = $trackMotclef;
 
         return $this;
     }
 
     /**
-     * Remove motsclef
+     * Get trackMotclef
      *
-     * @param MotClef $motclef
+     * @return MotClef
      */
-    public function removeMotsclef(MotClef $motclef)
+    public function getTrackMotclef()
     {
-        $this->motsclefs->removeElement($motclef);
-    }
-
-    /**
-     * Get motsclefs
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getMotsclefs()
-    {
-        return $this->motsclefs;
+        return $this->trackMotclef;
     }
 }

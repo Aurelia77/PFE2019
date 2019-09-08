@@ -7,6 +7,8 @@ use AppBundle\Entity\Message;
 use AppBundle\Entity\MotClef;
 
 use AppBundle\Form\NewTrackType;
+use AppBundle\Repository\MotClefRepository;
+use AppBundle\Repository\TrackRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -33,8 +35,9 @@ class TrackController extends Controller
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function seeTrackAction(Track $track = null, Request $request, EntityManagerInterface $em)
+    public function seeTrackAction(Track $track, Request $request, EntityManagerInterface $em)
     {
+        // Il sait quel track on veut voir ????!!!! va chercher tout seul avec l'id ???
         if (!$track) {
             throw $this->createNotFoundException("Cette piste de musique n'existe pas");
         }
@@ -52,12 +55,6 @@ class TrackController extends Controller
         $img_user_directory = $this->getParameter('img_user_directory');
         $track_directory = $this->getParameter('track_directory');
 
-//        if ($newTrackForm->isSubmitted() && $newTrackForm->isValid()) {
-//
-//            $trackDatas = $newTrackForm->getData();
-//
-
-
         // Si ajout d'un message (commentaire) :
         $userMessage = $request->get('message');
 
@@ -70,6 +67,7 @@ class TrackController extends Controller
             $message->setUser($this->getUser());
             // 3-Le track visualisé
             $trackid = $request->get('id');
+            /* @var $trackRepository TrackRepository */   // ??? Pas besoin ???
             $trackRepository = $this->getDoctrine()->getRepository(Track::class);
             $track = $trackRepository->find($trackid);
             $message->setTrack($track);
@@ -112,8 +110,26 @@ class TrackController extends Controller
         // $newTrackForm = $this->get('form.factory')->create(NewTrackType::class, $track);      // Ok mais mieux avec le helper ci-dessous :
         $newTrackForm = $this->createForm(NewTrackType::class, $track);
 
-        // 2) Hydrater l'objet Track (avec ce qui est rentré dans le formulaire et le reste ci-dessous)
+//        if ($newTrackForm->get('image')->getData() == '') {
+//            // On met une image par défaut si aucune image sélectionné (sinon va l'écraser ci-dessous)
+//            $track->setImage('logoDieseBemol.png');
+//        }
+
+
+        // 2) Hydrater l'objet Track (avec ce qui est rentré dans le formulaire, le reste ci-dessous)
         $newTrackForm->handleRequest($request);
+
+//        'motclefchoisi' => $motclefchoisi
+
+//        $motclefchoisi = $newTrackForm->get('trackMotclef')->getData();
+//
+//        /* @var $motclefRepository MotClefRepository */   // ??? Pas besoin ???
+//        $motclefRepository = $this->getDoctrine()->getRepository(MotClef::class);
+//        $motclef = $motclefRepository->findOneBy( array ( 'mot' => 'cordes' ));
+//        $track->setTrackMotclef($motclef);
+
+//        $article->setCategorie($form->get('categorie")->getData();
+
 
 //        $track->setActif(1); Déjà dans le constructeur !!
         // On ajoute le User qui est authentifié
@@ -168,41 +184,6 @@ class TrackController extends Controller
             }
 
 
-            // Pour mettre l'image dans la taille voulue
-//            if(isset($_POST["go"])){
-//                //Si le form contient plusieurs champs
-//                //On ventile
-//                $autorisations = array(
-//                    "image/jpeg",
-//                    "image/png"
-//                );
-//                $fichier	= $_FILES["nomfile"]["tmp_name"];
-//                $nom		= $_FILES["nomfile"]["name"];
-//                $type		= $_FILES["nomfile"]["type"];
-//                $poids		= $_FILES["nomfile"]["size"];
-//                $codeError	= $_FILES["nomfile"]["error"];
-//
-//                //On vérifie
-//                $error1		= verifFilesError($codeError,$poids);
-//                if(!isset($error1)) $error2 = verifTypeUpload($type,$autorisations);
-//
-//                //Si pas d'erreur
-//                if(getOk()){
-//                    //NETTOYAGE
-//                    $nomOK = fctNettoyage($nom,true);
-//                    $destination = "ressources/".$nomOK;
-//
-//                    $code = upSizingJpg($fichier,$destination,150);
-//                    $feedback = retourUpSizingJpg($code,"fr");
-//
-//                    if($code > 1) {
-//                        //INSERTION EN table du nom de fichier pour pouvoir aller rechercher pls tard cette valeur
-//                        //et afficher l'image dans une balise img par ex.
-//                    }
-//                }
-//            }
-//
-
             // FICHIER IMAGE : fileImg contient l'image uploadée (stockée de manière temporaire)
             // @var Symfony\Component\HttpFoundation\File\UploadedFile $fileImg
             $fileImg = $trackDatas->getImage();
@@ -235,12 +216,25 @@ class TrackController extends Controller
             // Sauvegarder le track ds la BDD
             $em->persist($track);
             $em->flush();
-            $this->addFlash('success', 'Votre piste de musique a bien été ajoutée !');
+            $this->addFlash('success', 'Votre piste de musique a bien été ajoutée ! Vous pouvez laisser un commentaire en dessous et suivre les commentaires des autres.');
 
 //            if (app.request.get('_route') == 'seetrack'){
 //
 //            }
 //            return $this->redirectToRoute('seetrack/...');
+
+
+//            return $this->render(
+//                '/Track/seetrack.html.twig', array(
+//                    'track1' => $track,
+//                )
+//
+//            );
+//
+//            return $this->redirectToRoute('seetrack', array(
+//                'id' => $track.getId(),
+//            ));
+
             return $this->redirectToRoute('home');
         }
 
@@ -248,6 +242,7 @@ class TrackController extends Controller
         return $this->render(
             '/Track/newtrack.html.twig', array('newTrackForm' => $newTrackForm->createView(),
                 'request' => $request,
+//                'motclefchoisi' => $motclefchoisi
             )
         );
 
@@ -278,7 +273,6 @@ class TrackController extends Controller
      */
     public function downloadAction(Track $track = null)
     {
-        // !!! A VOIR !!!
         if (!$track) {
             throw $this->createNotFoundException("Cet piste de musique n'existe pas");
         }
@@ -301,5 +295,32 @@ class TrackController extends Controller
 //            'pdfPath' => $pdfPath,
 //        ]);
     }
+
+
+    /**
+     * Quand un membre veut supprimer un track
+     * Seulement si aucun membre n'a uploadé de track+1 sur celui-ci
+     *
+     * @Route("/inactiverTrack/{id}", name="inactiverTrack"), requirements={"id" = "\d+"}, defaults={"id" = null})
+     * @param Track|null $track
+     * @param EntityManagerInterface $em
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function inactiverTrack(Track $track = null, EntityManagerInterface $em)
+    {
+        if (!$track) {
+            throw $this->createNotFoundException("Cet piste de musique n'existe pas");
+        }
+
+        $track->setActif(0);
+
+        // Sauvegarder le track mis à jour ds la BDD
+        $em->persist($track);
+        $em->flush();
+        $this->addFlash('success', 'Le track a été supprimé (cela a été possible car aucun membre n\'a uploader de track +1 sur celui-ci.');
+
+        return $this->redirectToRoute('user');
+    }
+
 
 }

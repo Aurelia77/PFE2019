@@ -5,19 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="row mt-5">
-        {#  Si l'utilisateur n'a pas validé son email  #}
-        {% if is_granted('ROLE_USER_PENDING') %}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    <section class="row page_cover">
+        <div class="container">
+            <div class="row m0">
+                <h1>Accès reffusé</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li class="active">Accès reffusé</li>
+                </ol>
+            </div>
+        </div>
+    </section>
 
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
 
-            Merci de bien vouloir valider votre email avant de pouvoir accéder à ce contenu<br>
-            Vous n'avez pas reçu d'email de validation ?
-            <a href="{{ path('accessdenied', {'resendEmailValidation': 1}) }}">Envoyer à nouveau</a>
-        {% elseif not is_granted('ROLE_ADMIN') %}
-            Vous n'avez pas les droits nécessaires pour accéder à ce contenu.
-        {% endif %}
+    <div class="container">
+        <div class="row mt-5">
+            <h2 class="mt-5">Accès à une page du site Entre Dièses et Bémol refusé</h2>
+            {#  Si l'utilisateur n'a pas validé son email  #}
+            {% if is_granted('ROLE_USER_PENDING') %}
+                <h4 class="my-5 pb-5 alert-warning text-center py-5">Merci de bien vouloir valider votre email avant de
+                    pouvoir accéder à ce contenu<br>
+                    Vous n'avez pas reçu d'email de validation ?</h4>
+
+                <a href="{{ path('accessdenied', {'resendEmailValidation': 1}) }}">
+                    <button class="btn btn-info mb-5 h_50">Envoyer à nouveau</button>
+                </a>
+
+            {% elseif not is_granted('ROLE_ADMIN') %}
+                <h4 class="mt-5 text-center py-5 alert-warning">Vous n'avez pas les droits nécessaires pour accéder à ce
+                    contenu.</h4>
+            {% endif %}
+        </div>
     </div>
-</div>
 {% endblock content %}
 

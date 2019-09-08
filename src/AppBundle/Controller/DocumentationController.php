@@ -23,6 +23,16 @@ class DocumentationController extends Controller
     }
 
     /**
+     * @Route("/tuto", name="tuto")
+     *
+     * @return Response
+     */
+    public function tutoAction()
+    {
+        return $this->render('/Documentation/tuto.html.twig');
+    }
+
+    /**
      * @Route("/contact", name="contact")
      *
      * @return Response
@@ -30,17 +40,6 @@ class DocumentationController extends Controller
     public function contactAction()
     {
         return $this->render('/Documentation/contact.html.twig');
-    }
-
-
-    /**
-     * @Route("/rgpd", name="rgpd")
-     *
-     * @return Response
-     */
-    public function rgpdAction()
-    {
-        return $this->render('/Documentation/rgpd.html.twig');
     }
 
     /**

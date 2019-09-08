@@ -21,6 +21,9 @@
         </div>
     </section>
 
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
+
     <div class="container">
         <div class="row">
             {% include "Includes/adminusersmenu.html.twig" %}
@@ -52,7 +55,6 @@
                             <tr>
                                 {#<th scope="col">#</th>#}
                                 <th scope="col">Mot</th>
-                                <th scope="col">Modifier le mot clef</th>
                                 <th scope="col">Actif ? (cliquez pour modifier)</th>
                             </tr>
                             </thead>
@@ -61,7 +63,6 @@
                             {% for motclef in pagination %}
                                 <tr {% if loop.index is odd %} class="color" {% endif %}> {# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
                                     <td>{{ motclef.mot }}</td>
-                                    <td>Modifier le mot clef</td>
                                     <td>
                                         {% if motclef.actif == 0 %}
                                             <a href="{{ path('switchActif', {'entity' : 'motclef', 'id' : motclef.id, 'actif' : 0}) }}">

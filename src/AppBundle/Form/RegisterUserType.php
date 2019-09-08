@@ -29,36 +29,50 @@ class RegisterUserType extends AbstractType
             ->add('email', EmailType::class)
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe doivent être identiques.',
-                'first_options'  => array('label' => 'Mot de passe'),
+                'invalid_message' => 'Les mots de passe doivent être identiques',
+                'first_options'  => array('label' => 'Mot de passe (6 caractères minimum)'),
                 'second_options' => array('label' => 'Je répète le mot de passe'),
                 'constraints' => array(
                     new NotBlank(),
                     new Length(array('max' => 15,'min' => 6))
                 ),                
             ))
-            ->add('pseudo', TextType::class)
+            ->add('pseudo', TextType::class, array('label' => 'Entre 2 et 10 caractères'))
             ->add('firstName', TextType::class, ['required' => false])
             ->add('lastName', TextType::class, ['required' => false])
-            ->add('sexe', ChoiceType::class, [
+            // Ok mais pas de gestion du sexe
+//            ->add('sexe', ChoiceType::class, [
+//                'choices' => [
+//                        'Féminin' => 'stock_2',
+//                        'Masculin' => 'stock_1',
+//                        'Autre' => 'stock_0',
+//                ],
+//                // On veut des boutons radio :
+//                // pas dans un SELECT mais des boutons
+//                'expanded' => true,
+//                // une seule possibilité :
+//                'required' => false,
+//
+//                // On ne veut pas de bouton "none" :
+//                'placeholder' => false
+//            ])
+            ->add('photo', FileType::class, ['label' => 'Image/photo du compte (taille max : 2048 KiB)','required' => false])
+
+            // J'ai été obligé d'ajouter un champs dans User et de mettre un seul choix ici avec required = true !!!???
+            ->add('rgpd', ChoiceType::class, [
+//                'label' => 'En m\'inscrivant j\'accepte la politique de confidentialité du site Entre Dièses et Bémols',
                 'choices' => [
-                        'Féminin' => 'stock_2',
-                        'Masculin' => 'stock_1',
-                        'Autre' => 'stock_0',
+                        'En m\'inscrivant j\'accepte la Politique de Confidentialité du site Entre Dièses et Bémols (voir lien dans pied de page)' => 'rgpdOk',
                 ],
-                // On veut des boutons radio :
+
                 // pas dans un SELECT mais des boutons
                 'expanded' => true,
                 // une seule possibilité :
-                'required' => false,
+                'required' => true,
 
                 // On ne veut pas de bouton "none" :
                 'placeholder' => false
             ])
-
-
-            ->add('photo', FileType::class, ['label' => 'Image/photo du compte (taille max : 2048 KiB)','required' => false])
-
 
 //            ->add('rgpd', CheckboxType::class, [
 //                'label'    => 'Show this entry publicly?',

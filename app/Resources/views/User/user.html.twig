@@ -19,6 +19,9 @@
         </div>
     </section>
 
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
+
     <div class="container">
         <div class="row">
 
@@ -52,13 +55,13 @@
                                 {#<img src="{{ asset(img_user_directory/app.user.photo) }}.jpg" alt="Photo/image de profil"#}
                                 <img src="{{ asset(img_user_directory) }}/{{ app.user.photo }}.jpg"
                                      alt="Photo/image de profil"
-                                     class="cast img-responsive img_profil">
-                            {% elseif app.user.sexe == 2 %}
-                                <img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"
-                                     class="cast img-responsive img_profil">
-                            {% elseif app.user.sexe == 1 %}
-                                <img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"
-                                     class="cast img-responsive img_profil">
+                                     class="cast img-responsive img_profil_user">
+                                {#{% elseif app.user.sexe == 2 %}#}
+                                {#<img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"#}
+                                {#class="cast img-responsive img_profil">#}
+                                {#{% elseif app.user.sexe == 1 %}#}
+                                {#<img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"#}
+                                {#class="cast img-responsive img_profil">#}
                             {% else %}
                                 <img src="{{ asset('images/sexe_unknowed.png') }}"
                                      alt="Photo/image de profil (sexe non connu)"
@@ -70,6 +73,13 @@
                     </div>
                 </div>
                 {{ form_end(userInfoForm) }}
+
+                <a href="{{ path('switchActif', {'entity' : 'user', 'id' : app.user.id, 'actif' : 1}) }}">    {#Ou juste user.id : fonctionne aussi !#}
+                    <button class="btn btn-warning mb-5">Inactiver mon compte (Je ne pourrai plus me connecter !)</button>
+                </a>
+                <a href="{{ path('suppDatasUser') }}">    {#Ou juste user.id : fonctionne aussi !#}
+                    <button class="btn btn-danger mb-5">Supprimer mes données personnelles<br>(Je ne pourrai plus me connecter et<br>mes données personnelles seront effacées)</button>
+                </a>
             </div>
 
 
@@ -80,14 +90,16 @@
                 <div class="w_50 float-left">
 
                     {% if pagination.getTotalitemCount > 0 %}
-                        <h3>{{ pagination.getTotalitemCount }} compos (en tout !!!!!) et tracks avec des sons en plus à écouter !</h3>
+                        {#<h3>{{ pagination.getTotalitemCount }} compos (en tout !!!!!) et tracks avec des sons en plus à#}
+                            {#écouter !</h3>#}
                         {% for track in pagination %}
                             {# on peut aussi ajouter la condition à l'intérieur : {% for track2 in tracks if track2.id1  == track.id%} mais on ne peut pas ut. loop.index ?? #}
                             {#<p>{{ user.id }}</p>#}
 
-                            <p>Track véifié : </p>
-                            {% if track.user.id == user.id %}
-                                {% include "Includes/viewTrack2.html.twig" %}
+                            {% if track.actif == 1 %}
+                                {% if track.user.id == user.id %}
+                                    {% include "Includes/viewTrack2.html.twig" %}
+                                {% endif %}
                             {% endif %}
                         {% endfor %}
                         <div class="navigation ml_30">
@@ -104,7 +116,8 @@
                                 <h4>Choisissez votre compo à partager !</h4>
                                 {#<h5>or drag &amp; drop files</h5>#}
                             </div>
-                        </a>                    {% endif %}
+                        </a>
+                    {% endif %}
 
                 </div>
             </div>

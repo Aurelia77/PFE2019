@@ -21,6 +21,9 @@
         </div>
     </section>
 
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
+
     <div class="container">
         <div class="row">
             {% include "Includes/adminusersmenu.html.twig" %}
@@ -55,12 +58,12 @@
                             <th scope="col">Modifier les Roles</th>
                             <th scope="col">Actif ? (cliquez pour modifier)</th>
                             <th scope="col">Date de création</th>
+                            <th scope="col">Voir le membre sur la page du Front</th>
                         </tr>
                         </thead>
 
                         <tbody>
-                        {% if app.user.roles[0] is defined %}{{ app.user.roles[0] }} {% endif %}
-                        {% if app.user.roles[1] is defined %}{{ app.user.roles[1] }} {% endif %}
+
 
                         {% for user in pagination %}
                             <tr {% if loop.index is odd %} class="color" {% endif %}> {# on teste si l'index est pair ou impair pour changer la classe : une ligne sur 2 sera de couleur #}
@@ -104,23 +107,23 @@
                                         {#Si Admin#}
                                         {% if user.roles[1] is defined %}
                                             {% if user.roles[1] == 'ROLE_ADMIN' %}
-                                    <p>
+                                                <p>
 
-                                    <a href="{{ path('modifRolesUser', {'id' : user.id, 'role' : 1 }) }}">
-                                                    <img src="{{ asset('images/actif.png') }}"
-                                                         alt="Mettre rôle utilisateur : Membre">
-                                                    Enlever admin
-                                                </a>
-                                    </p>
+                                                    <a href="{{ path('modifRolesUser', {'id' : user.id, 'role' : 1 }) }}">
+                                                        <img src="{{ asset('images/actif.png') }}"
+                                                             alt="Mettre rôle utilisateur : Membre">
+                                                        Enlever admin
+                                                    </a>
+                                                </p>
                                             {% endif %}
                                             {#Sinon : si non admin#}
                                         {% else %}
                                             <p>
-                                            <a href="{{ path('modifRolesUser', {'id' : user.id, 'role' : 2 }) }}">
-                                                <img src="{{ asset('images/admin.jpg') }}"
-                                                     alt="Mettre rôle utilisateur : Admin">
-                                                Mettre en admin
-                                            </a>
+                                                <a href="{{ path('modifRolesUser', {'id' : user.id, 'role' : 2 }) }}">
+                                                    <img src="{{ asset('images/admin.png') }}"
+                                                         alt="Mettre rôle utilisateur : Admin">
+                                                    Mettre en admin
+                                                </a>
                                             </p>
                                         {% endif %}
                                     {% endif %}
@@ -143,11 +146,15 @@
                                             <img src="{{ asset('images/actif.png') }}"
                                                  alt="Utilisateur actif, l'inactiver">
                                         </a>
-
                                     {% endif %}
-
                                 </td>
                                 <td>{{ user.creationDate|date("d/m/Y - H:i") }}</td>
+                                <td>
+                                    <a href="{{ path('users_profil', {'id' : user.id}) }}">
+                                        <img src="{{ asset('images/eye.png') }}"
+                                             alt="Voir profil dans page du front">
+                                    </a>
+                                </td>
                                 {#<td>Email : <a href="{{ baseUrlToSendMail }}/{{ user.email }}">{{ user.email }}</a></td>#}
                                 {#<td><a href="{{ path('users_profile', {'id' : student.id}) }}">Voir le profil</a></td>#}
                             </tr>

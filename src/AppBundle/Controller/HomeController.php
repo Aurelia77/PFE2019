@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Track;
+use AppBundle\Repository\TrackRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
@@ -40,7 +41,7 @@ class HomeController extends Controller
 
     /**
      * Page d'accueil avec liste des tracks mis par les membres
-     * Accessible à tout le monde
+     * Accessible à tout le monde - Possibilité de faire une recherche par titre de track
      * @Route("/", name="home")
      * @param Request $request
      * @param PaginatorInterface $paginator
@@ -57,14 +58,23 @@ class HomeController extends Controller
 
                 return $this->redirectToRoute('logout');
             }
-
         }
 
+        /* @var $trackRepository TrackRepository */
         //$userRepository = $em->getRepository(User::class);        OK (en ajoutant $em ds les param) mais on peut faire sans !!! :
         $trackRepository = $this->getDoctrine()->getRepository(Track::class);
 
+        $name = $request->query->get('query');
+
+        if (isset($name) && $name !== "") {
+            $tracks = $trackRepository->findByTitle($name);
+        } else {
+            $tracks = $trackRepository->findBy(array(), array('creationdate' => 'DESC'));
+        }
+
+
         $pagination = $paginator->paginate(
-            $trackRepository->findBy(array(), array('creationdate' => 'DESC')),   // La query que l'on veut paginer
+            $tracks,   // La query que l'on veut paginer
             $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
             6                                             // Nombre d'éléments affichés par page
         );
@@ -75,6 +85,7 @@ class HomeController extends Controller
 
         return $this->render('/Home/home.html.twig', [
             'pagination' => $pagination,
+            'recherche' => $name,
             'img_track_directory' => $img_track_directory,
             'img_user_directory' => $img_user_directory,
             'track_directory' => $track_directory,

@@ -16,9 +16,14 @@
         </div>
     </section>
 
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
+
     <div class="container">
         <div class="row">
-            <h2>Télécharger votre musique</h2>
+            <h2 class="text-center">Télécharger votre musique</h2>
+
+            {% if motclefchoisi is defined %}{{ motclefchoisi }}{% endif %}
 
             {{ form_start(newTrackForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
             <div class="form-inner row">
@@ -33,19 +38,27 @@
                     {# form_row : Affiche le lable et le champ #}
                     {{ form_row(newTrackForm.track, {'attr': {'class': 'form-control mb-5'}}) }}
                     {{ form_row(newTrackForm.image, {'attr': {'class': 'form-control mb-5'}}) }}
-                    {{ form_row(newTrackForm.motsclefs, {'attr': {'class': 'form-control mb-5'}}) }}
+
+                    {#{{ form_row(newTrackForm.trackMotclef, {'attr': {'class': 'form-control mb-5'}}) }}#}
 
 
- {#Personnaliser le bouton PARCOURIR#}
+                    {#<span class="btn btn-success fileinput-button">#}
+                        {#<i class="glyphicon glyphicon-plus"></i>#}
+                        {#<span>Choisir un fichier#}
+                        {#{{ form_widget(newTrackForm.track, {'attr': {'class': 'form-control mb-5',#}
+                            {#'id': 'fileupload', 'type':'file', 'name':'files[]'}}) }}#}
+                        {#</span>#}
+                        {#<input id="fileupload" type="file" name="files[]" multiple="">#}
+                    {#</span>#}
+
+                    {#Personnaliser le bouton PARCOURIR#}
                     {#<span class="btn btn-success fileinput-button">#}
                         {#<i class="glyphicon glyphicon-plus"></i>#}
                         {#<span>Select files...</span>#}
                         {#<input id="fileupload" type="file" name="files[]" multiple="">#}
                     {#</span>#}
 
-
                     <input type="submit" value="Ajouter" class="btn btn-default form-control">
-                    {#<button type="submit" class="btn btn-info">S'enregistrer !</button>#}
                 </div>
             </div>
             {{ form_end(newTrackForm) }}

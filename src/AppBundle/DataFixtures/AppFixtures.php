@@ -128,39 +128,39 @@ class AppFixtures extends Fixture
 
 //--------------------------------------------------------TRACKS--------------------------------------------------------
 
-        // Track1 (compo de base)
-        $track1 = new Track();
-        $track1->setTitle('Piano')
-            ->setTrack('piano.mp3')
-            ->setImage('endormi.jpg')
-            ->setUser($userA)
-            ->setNum(0)
-            ->setActif(1);
-        $manager->persist($track1);
-
-        // Track2 (compo de base)
-        $track2 = new Track();
-        $track2->setTitle('Révalité')
-            ->setTrack('revalite.mp3')
-            ->setImage('cd.jpg')
-            ->setUser($userAdmin)
-            ->setNum(0)
-            ->setActif(1);
-        $manager->persist($track2);
-
-        // Track3 (+1)
-        $track3 = new Track();
-        $track3->setTitle('Révalité')
-            ->setTrack('revalite2.mp3')
-            ->setImage('forme.png')
-            ->setUser($userAdmin)
-            ->setNum(1)
-            ->setId1($track1)
-            ->setActif(1);
-        $manager->persist($track3);
-
-        // On effectue les requêtes (sauvegarder les instances créées ci-dessus)
-        $manager->flush();
+//        // Track1 (compo de base)
+//        $track1 = new Track();
+//        $track1->setTitle('Piano')
+//            ->setTrack('piano.mp3')
+//            ->setImage('endormi.jpg')
+//            ->setUser($userA)
+//            ->setNum(0)
+//            ->setActif(1);
+//        $manager->persist($track1);
+//
+//        // Track2 (compo de base)
+//        $track2 = new Track();
+//        $track2->setTitle('Révalité')
+//            ->setTrack('revalite.mp3')
+//            ->setImage('cd.jpg')
+//            ->setUser($userAdmin)
+//            ->setNum(0)
+//            ->setActif(1);
+//        $manager->persist($track2);
+//
+//        // Track3 (+1)
+//        $track3 = new Track();
+//        $track3->setTitle('Révalité')
+//            ->setTrack('revalite2.mp3')
+//            ->setImage('forme.png')
+//            ->setUser($userAdmin)
+//            ->setNum(1)
+//            ->setId1($track1)
+//            ->setActif(1);
+//        $manager->persist($track3);
+//
+//        // On effectue les requêtes (sauvegarder les instances créées ci-dessus)
+//        $manager->flush();
 
 
 //        // Création de 3 users valides & 3 non valides

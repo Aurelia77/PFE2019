@@ -23,18 +23,41 @@ class MotClef
      */
     private $mot;
 
-    // Tableau d'OBJET !!! Relation MANY to MANY
-    // (on décide que MotClef est l'entité propriétaire donc on ajoute : inversedBy="motsclefs")
-    // donc Track est l'entité inverse
-    // Un mot clef peut être relié à plusieurs tracks et inversement : Relation ManyToMany bidirectionnelle
+//    // Tableau d'OBJET !!! Relation MANY to MANY
+//    // (on décide que MotClef est l'entité propriétaire donc on ajoute : inversedBy="motsclefs")
+//    // donc Track est l'entité inverse
+//    // Un mot clef peut être relié à plusieurs tracks et inversement : Relation ManyToMany bidirectionnelle
+//    /**
+//     * @ORM\ManyToMany(targetEntity="Track", inversedBy="motsclefs", cascade={"persist","remove"})
+//     * @ORM\OrderBy({"creationdate" = "DESC"})
+//     * @ORM\JoinTable(name="mot_clef_track",
+//     *     joinColumns={@ORM\JoinColumn(name="motclef_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")},
+//     *     inverseJoinColumns={@ORM\JoinColumn(name="track_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")})
+//     */
+//    private $tracks;
+
+    // Un motclef est lié à 0, 1, ou plusieurs Track(s) : Relation OneToMany bidirectionnelle
     /**
-     * @ORM\ManyToMany(targetEntity="Track", inversedBy="motsclefs", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="Track", mappedBy="trackMotclef", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"creationdate" = "DESC"})
-     * @ORM\JoinTable(name="mot_clef_track",
-     *     joinColumns={@ORM\JoinColumn(name="motclef_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="track_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")})
      */
-    private $tracks;
+    private $motclefTracks;
+
+//    // Tableau d'OBJET !!! Relation MANY to MANY
+//    // (on décide que MotClef est l'entité propriétaire donc on ajoute : inversedBy="motsclefs")
+//    // donc Track est l'entité inverse
+//    // Un mot clef peut être relié à plusieurs tracks et inversement : Relation ManyToMany bidirectionnelle
+//    /**
+//     * @ORM\ManyToMany(targetEntity="Track", inversedBy="motsclefs", cascade={"persist","remove"})
+//     * @ORM\OrderBy({"creationdate" = "DESC"})
+//     * @ORM\JoinTable(name="mot_clef_track",
+//     *     joinColumns={@ORM\JoinColumn(name="motclef_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")},
+//     *     inverseJoinColumns={@ORM\JoinColumn(name="track_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")})
+//     */
+//    private $motclefTracks;
+
+
+
 
     /**
      * @var boolean
@@ -59,6 +82,8 @@ class MotClef
     {
         $this->tracks = new ArrayCollection();
         $this->setActif(1);
+        // Realation OneToMany avec Track
+        $this->motclefTracks = new ArrayCollection();
     }
 
     /**
@@ -152,5 +177,42 @@ class MotClef
     public function getTracks()
     {
         return $this->tracks;
+    }
+
+
+    // Pour la relation OneToMany avec Track : Add, Remove, Get (pas de setter car se fait dans Track = entité propriétaire)
+
+    /**
+     * Add motclefTrack
+     *
+     * @param MotClef $motclefTrack
+     *
+     * @return MotClef
+     */
+    public function addMotclefTrack(MotClef $motclefTrack)
+    {
+        $this->motclefTracks[] = $motclefTrack;
+
+        return $this;
+    }
+
+    /**
+     * Remove motclefTrack
+     *
+     * @param MotClef $motclefTrack
+     */
+    public function removeMotclefTrack(MotClef $motclefTrack)
+    {
+        $this->motclefTracks->removeElement($motclefTrack);
+    }
+
+    /**
+     * Get motclefTracks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMotclefTracks()
+    {
+        return $this->motclefTracks;
     }
 }

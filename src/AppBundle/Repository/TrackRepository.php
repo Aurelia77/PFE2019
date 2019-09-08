@@ -14,12 +14,12 @@ use Doctrine\ORM\Query;
 class TrackRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
-     * Pour les admin : Rechercher un track avec partie du titre OU pseudo/prénom user
+     * Pour les admin + pour page Accueil : Rechercher un track avec partie du titre
      *
      * @param $query
      * @return \Doctrine\ORM\Query
      */
-    public function findByTitleOrName($query)
+    public function findByTitle($query)
     {
 //        /** Requête SQL
 //         * SELECT *
