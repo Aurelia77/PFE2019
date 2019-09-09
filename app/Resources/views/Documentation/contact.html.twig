@@ -3,6 +3,7 @@
 {% block title %}
     {{ parent() }} | FAQ
 {% endblock %}
+
 {% block content %}
     {#-------------------------------------------------------------------------------------------------------------------------------------#}
     {# Header : titre + fil d'ariane #}
@@ -24,31 +25,24 @@
 
     <div class="container">
         <div class="row">
-            <h2>Contact</h2>
-            <h3>Comment télécharger un son ?</h3>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <h3>Comment ...</h3>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <h3>Comment ...</h3>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <h3>Comment ...</h3>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <h3>Comment ...</h3>
-            <h3>Comment ...</h3>
-            <h3>Comment ...</h3>
-            <h3>Comment ...</h3>
+
+            <h2 class="mt-5 mb-5 text-center">Contact Entre Dièses et Bémols</h2>
+
+            <form action="{{ path('contact') }}" method="post"
+                  class="container-fluid login_form auth_form h_400 comment_form">
+                <div class="form-inner row">
+
+                    <div class="form-body row m0 mb-5">
+                        <input type="email" class="form-control" placeholder="Votre Email" name="email"/>
+
+                        <textarea class="form-control"
+                                  placeholder="Votre message"
+                                  name="message"></textarea>
+                        <input type="submit" value="Envoyer" class="btn btn-default form-control">
+                    </div>
+                </div>
+            </form>
+
 
         </div>
     </div>

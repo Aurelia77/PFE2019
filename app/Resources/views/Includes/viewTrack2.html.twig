@@ -1,6 +1,6 @@
 {# Pour les tracks en relation avec un autre (+1) (seeTrack.html.twig) + ceux mis en ligne par un membre (user.html.twig + iserIdProfil.html.twig) #}
 {# Avec possibilité de visualisé le track dans une nouvelle page, au clic #}
-<div class="inner row m0 audio-player mb-5">
+<div class="inner row m0 audio-player audio-player2 mb-5">
     {# Image #}
     <div class="col-sm-6">
         <a href="{{ path('seetrack', {'id' : track.id}) }}" title="Voir le track dans un onglet">
@@ -15,7 +15,7 @@
 
     {# Titre du track (avec nombre de sons en plus) + Pseudo membre qui a posté le track + date + soundtrack à écouter + lien pour télécharger #}
     <div class="m0 post_data col-sm-6">
-        <h3 class="titre_track mt-1 ml-1 mr-1">
+        <h3 class="titre_track mt-1 mb-4 mx-1">
             {{ track.title }}
             <span class="num_son fright">
                 {% if track.num > 0 %}
@@ -24,90 +24,103 @@
                     {#<b class="original">♫ Original</b>#}
                 {% endif %}
             </span>
+            {#Date#}
+            <p class="date mt-2">{{ track.creationdate|date("d/m/Y") }}</p>
         </h3>
         {#Si on est sur la page Voir un track#}
         {% if app.request.get('_route') == 'seetrack' %}
 
-        {#Si membre du track actif : Lien vers son profil avec son pseudo et sa photo#}
-        {% if track1.user.actif == 1 %}
+            {#Si membre du track actif : Lien vers son profil avec son pseudo et sa photo#}
+            {% if track1.user.actif == 1 %}
 
-        {# Lien vers le membre (OU si c'est lui même, va aller sur Mon Compte)#}
-        {% if is_granted('IS_AUTHENTICATED_FULLY') and track.user.id == app.user.id %}
-        <a href="{{ path('user') }}">
+                <div class="row mb_30">
+                    <div class="col-sm-6">
+                        {# Lien vers le membre (OU si c'est lui même, va aller sur Mon Compte)#}
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') and track.user.id == app.user.id %}
+                        <a href="{{ path('user') }}" title="Voir Mon Compte">
 
-            {% else %}
-            <a href="{{ path('users_profil', {'id' : track.user.id}) }}">
+                            {% else %}
+                            <a href="{{ path('users_profil', {'id' : track.user.id}) }}" title="Voir le Membre">
 
-                {% endif %}
+                                {% endif %}
 
-                {#Pseudo User#}
-                <div class="fleft">
-                    <h4 class="pseudo fleft">{{ track.user.pseudo }}</h4>
-                    {#Date#}
-                    <div class="date">{{ track.creationdate|date("d/m/Y") }}</div>
+                                {#Pseudo User#}
+                                <div class="fleft">
+                                    <img src="{{ asset('images/membre.png') }}" alt="Icone membre" class="icon_membre">
+
+                                    <h4 class="pseudo">{{ track.user.pseudo }}</h4>
+                                </div>
+                            </a>
+                    </div>
+                    <div class="col-sm-6">
+
+                        <a href="{{ path('download', {'id' : track.id}) }}" title="Télécharger le track de musique">
+                            <img src="{{ asset('images/download.png') }}"
+                                 class="btn_telech2"
+                                 alt="Lien Télécharger track de musique">
+                        </a>
+
+                    </div>
                 </div>
-            </a>
-            <p class="fright">
+
+                {#<p class="fright">#}
                 {# Photo/image actuelle #}
                 {#Si pas de photo ou si données supprimer (#): image par défaut#}
-                {% if track1.user.photo == NULL or track1.user.photo == '#' %}
-                    <img src="{{ asset('images/sexe_unknowed.png') }}"
-                         alt="Photo/image de profil (sexe non connu)"
-                         class="cast img-responsive img_profil">
+                {#{% if track1.user.photo == NULL or track1.user.photo == '#' %}#}
+                {#<img src="{{ asset('images/sexe_unknowed.png') }}"#}
+                {#alt="Photo/image de profil (sexe non connu)"#}
+                {#class="cast img-responsive img_profil">#}
 
-                    {#Si gestion du Sexe du membre#}
-                    {#{% elseif track1.user.sexe == 2 %}#}
-                    {#<img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"#}
-                    {#class="cast img-responsive img_profil">#}
-                    {#{% elseif track1.user.sexe == 1 %}#}
-                    {#<img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"#}
-                    {#class="cast img-responsive img_profil">#}
-                    {#Sinon : sa photo/image#}
-                {% else %}
-                    <img src="{{ asset(img_user_directory) }}/{{ track.user.photo }}.jpg"
-                         alt="Photo/image de profil"
-                         class="cast img-responsive img_profil">
-                {% endif %}
+                {#Si gestion du Sexe du membre#}
+                {#{% elseif track1.user.sexe == 2 %}#}
+                {#<img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"#}
+                {#class="cast img-responsive img_profil">#}
+                {#{% elseif track1.user.sexe == 1 %}#}
+                {#<img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"#}
+                {#class="cast img-responsive img_profil">#}
+                {#Sinon : sa photo/image#}
+                {#{% else %}#}
+                {#<img src="{{ asset(img_user_directory) }}/{{ track.user.photo }}.jpg"#}
+                {#alt="Photo/image de profil"#}
+                {#class="cast img-responsive img_profil">#}
                 {#{% endif %}#}
-            </p>
+                {#{% endif %}#}
+                {#</p>#}
             {% else %}
                 <h4>Membre inactif</h4>
             {% endif %}
-            {% endif %}
+        {% endif %}
 
 
-            <div class="clear_both">
-                <audio controls>
-                    Votre navigateur ne supporte pas l'élément <code>audio</code>
-                    <source src="{{ asset(track_directory) }}/{{ track.track }}"/>
-                    <source src="{{ asset('audio/BlueDucks_FourFlossFiveSix.mp3') }}">
-                </audio>
-            </div>
+        <div class="clear_both">
+            <audio controls>
+                Votre navigateur ne supporte pas l'élément <code>audio</code>
+                <source src="{{ asset(track_directory ~ '/' ~ track.track) }}">
+                {#OBLIGE de mettre l'extension sinon le nouveau audioplayer se met en petit !!!???#}
+                <source src="{{ asset('audio/vide.mp3') }}">
+                {#<source src="{{ asset(track_directory) }}/{{ track.track }}"/>#}
+                <source src="{{ asset('audio/BlueDucks_FourFlossFiveSix.mp3') }}">
+            </audio>
+        </div>
 
-            <div class="mt-5">
-                <a href="{{ path('download', {'id' : track.id}) }}" title="télécharger le track de musique">
-                    <img src="{{ asset('images/download.png') }}"
-                         class="btn_telech2"
-                         alt="Lien télécharger track de musique">
+        <div class="mt-5">
+            {# Page Mon Compte, le membre peut supprimer ses tracks s'ils n'ont pas été complétés #}
+            {% if app.request.get('_route') == 'user' %}
+                {#{% for trackPlus in tracks %}#}
+                {# Qu'un fois !!! #}
+                {#{% if trackPlus.id1.id is defined and trackPlus.id1.id == track.id %}#}
+                {#<p>Impossible de supprimer le track car au moins 1 +1</p>#}
+                {#{% else %}#}
+                <a href="{{ path('inactiverTrack', {'id' : track.id}) }}" title="Inactiver le track">
+                    <img src="{{ asset('images/inactif.png') }}"
+                         alt="Supprimer">
                 </a>
 
-                {# Page Mon Compte, le membre peut supprimer ses tracks s'ils n'ont pas été complétés #}
-                {% if app.request.get('_route') == 'user' %}
-                    {#{% for trackPlus in tracks %}#}
-                    {# Qu'un fois !!! #}
-                    {#{% if trackPlus.id1.id is defined and trackPlus.id1.id == track.id %}#}
-                    {#<p>Impossible de supprimer le track car au moins 1 +1</p>#}
-                    {#{% else %}#}
-                    <a href="{{ path('inactiverTrack', {'id' : track.id}) }}" title="Inactiver le track">
-                        <img src="{{ asset('images/inactif.png') }}"
-                             alt="Supprimer">
-                    </a>
 
-
-                    {#{% endif %}#}
-                    {#{% endfor %}#}
-                {% endif %}
-            </div>
+                {#{% endif %}#}
+                {#{% endfor %}#}
+            {% endif %}
+        </div>
 
     </div>
 </div>

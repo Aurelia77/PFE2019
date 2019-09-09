@@ -38,11 +38,11 @@
     {% endblock menu %}
 
     {# Le header, vide ici, sera remplacer dans les différentes pages #}
-    <header>
-        {% block header %}
+    {#<header>#}
+        {#{% block header %}#}
             {#{% include "Includes/header.html.twig" %}#}
-        {% endblock header %}
-    </header>
+        {#{% endblock header %}#}
+    {#</header>#}
 
     {# Contient les messages d'alertes et le contenu de la page #}
     {% block container %}
@@ -89,19 +89,19 @@
 
 
     {#Dans le DM du Prof#}
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"
-            integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"
-            crossorigin="anonymous"></script>
+    {#<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>#}
+    {#<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"#}
+            {#integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"#}
+            {#crossorigin="anonymous"></script>#}
+    {#<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"#}
+            {#integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"#}
+            {#crossorigin="anonymous"></script>#}
 
     {#DEBUT : Dans le Thème acheté :#}
     {#https://themeforest.net/item/meta-video-photovideoaudio-uploading-social-html-template/20826346?_ga=2.180277540.1274598869.1565082986-1699288305.1565031820#}
     <!--[if lt IE 9]>
-    <script src="{{ asset('theme/js/html5shiv.min.js') }}"></script>
-    <script src="{{ asset('theme/js/respond.min.js') }}"></script>
+    {#<!--<script src="{{ asset('theme/js/html5shiv.min.js') }}"></script>-->#}
+    {#<!--<script src="{{ asset('theme/js/respond.min.js') }}"></script>-->#}
     <![endif]-->
     <!--jQuery, Bootstrap and other vendor JS-->
     <!--jQuery-->
@@ -166,6 +166,21 @@
             return min + ':' + ((sec < 10) ? ('0' + sec) : sec);
         }
     </script>
+
+    {#Fenêtre COOKIES#}
+    {#<script type="text/javascript">#}
+        {#window.cookieconsent_options = {"message":"Ce site utilise les cookies pour vous assurer la meilleure expérience utilisateur. Continuer la navigation sur ce site implique votre acceptation.","dismiss":"Got it!","learnMore":"More info","link":"http://www.novacteur.com/politique-de-confidentialite/","theme":"light-floating"};#}
+
+        {#var monImage = new Image();#}
+        {#// quand le chargement est terminé#}
+        {#monImage.onload = function()#}
+        {#{#}
+            {#//alert("Chargement fini !");#}
+            {#//document.getElementById("uneImage").src = image.src;#}
+        {#}#}
+        {#monImage.src = "https://img-3.journaldesfemmes.fr/yWGwX9NZacClqzNE1Ng5Xh32mBk=/750x/smart/image-icu/10027543_1217914170.jpg";#}
+
+    {#</script>#}
 
     {#<script src="{{ asset('js/app.js') }}"></script>      Ne fonctionne pas !!!??? #}
 

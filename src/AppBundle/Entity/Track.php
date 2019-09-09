@@ -133,11 +133,13 @@ class Track
     private $id;
 
 
-    // CONSTRUCTEUR avec valeur par défaut : la date de création = date + heure du jour
+    // CONSTRUCTEUR avec valeurs par défaut : actif = 1, date de création = date + heure du jour, photo = img_defaut
     public function __construct()
     {
         $this->setCreationDate(new \DateTime());
         $this->setActif(1);
+
+
 
         // Ne pas oublier ces tableaux de collection pour pouvoir utiliser removeElement
 

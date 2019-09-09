@@ -6,27 +6,58 @@
 
 
 @font-face {
-    font-family: 'Rocks Personal Use';
-    src: url("../fonts/Rocks_Personal_Use.ttf");
-    font-family: 'Gomarice rocks';
-    src: url("../fonts/gomarice_rocks.ttf");
+    font-family: 'PatrickHand';
+    src: url("../fonts/PatrickHand-Regular.ttf");
+    /*font-family: 'RocksSalt';*/
+    /*src: url("../fonts/RockSalt-Regular.ttf");*/
+    /*font-family: 'Rocks Personal Use';*/
+    /*src: url("../fonts/Rocks_Personal_Use.ttf");*/
+    /*font-family: 'Gomarice rocks';*/
+    /*src: url("../fonts/gomarice_rocks.ttf");*/
 }
 
+/*Pour le pseudo*/
 .rock {
-    font-family: 'Gomarice rocks';
-    font-size: 50px;
+    font-family: 'PatrickHand', monospace;           /* Monospace : generic reference to any font installed on the user's system that's monospaced */
+
+    /*font-family: 'Gomarice rocks';*/
+    font-size: 33px;
     text-transform: capitalize;
 }
 
-/*------------------------------------------MENU------------------------------------*/
-
-.titre_menu a {
-    text-transform: capitalize !important;
-    color: #040044 !important;
-    font-family: 'Gomarice rocks' !important;
-    font-size: 50px;
+h2 {
+    font-family: 'PatrickHand', monospace !important;
 }
 
+.typo_normal {
+    font-family: 'Open Sans', sans-serif;
+}
+
+#logo_home {
+    -webkit-filter: drop-shadow(2px 2px 7px #ccc);
+
+}
+
+.footer {
+    background-color: #040044 !important;
+    color: white;
+}
+
+.footer a {
+    color: white;
+}
+/*------------------------------------------MENU------------------------------------*/
+
+
+.tuto a, .h1_home {
+    text-transform: capitalize !important;
+    color: #040044 !important;
+    font-family: 'PatrickHand', monospace !important;
+    font-size: 25px;
+}
+.h1_home {
+    color: #fff !important;
+}
 /* Si onglet actif */
 .active {
     color: #2aabd2 !important;
@@ -37,8 +68,8 @@
 /*}*/
 
 /* PSEUDO */
-#pseudo_menu {
-    color: #040044;
+.bleu {
+    color: #040044 !important;
 }
 
 .logo {
@@ -57,6 +88,14 @@
 }
 /*-------------------------------AFFICHER TRACK-----------------------------------------------*/
 
+.icon_membre {
+    max-width: 50px;
+    max-height: 50px;
+}
+.date {
+    font-size: 14px;
+    color: #43494e;
+}
 .titre_track {
     color: #040044;
 }
@@ -129,6 +168,7 @@
 .pseudo {
     color:#040044;
     font-weight: bold;
+    display: inline;
 }
 
 .message {
@@ -141,6 +181,11 @@
     font-weight: bold;
 }
 /*---------------------------------Autres classes qui peuvent servir plusieurs fois---------------------------------------------*/
+
+
+/*.text_indent p {*/
+    /*text-indent: 2%;*/
+/*}*/
 
 #titre_accueil {
     position: relative;
@@ -186,6 +231,10 @@ h2 {
     margin-bottom: 400px;
 }
 
+.mb_30 {
+    margin-bottom: 30px;
+}
+
 /*.m_auto {*/
     /*margin: 0 auto;*/
 /*}*/
@@ -221,6 +270,9 @@ form label {
 
 }
 
+.form_user {
+    height: 500px;
+}
 
 /* Checkbox (https://www.creativejuiz.fr/blog/tutoriels/personnaliser-aspect-boutons-radio-checkbox-css) */
 /* Cachons la case à cocher */
@@ -360,6 +412,10 @@ table img {
 
 .h_400 {
     height: 400px;
+}
+
+.h_273 {
+    height: 273px;
 }
 
 .w-10 {

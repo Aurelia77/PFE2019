@@ -28,37 +28,49 @@
             {#<h2 class="mt-5 mb-5 text-center">Profil d'un membre</h2>#}
 
             {#Infos sur le membre (pseudo + photo#}
-            <div class="col-sm-5 video_post text-center">                      {# classe enlevée : post_page_uploads #}
+            <div class="col-sm-5 video_post text-center mt-5">                      {# classe enlevée : post_page_uploads #}
 
-                <h2>{{ user.pseudo }}</h2>
-
-                <p>
-                    {# Photo/image actuelle #}
-                    {% if user.photo is defined %}
-                        {% if user.photo != NULL %}
-                            {#<img src="{{ asset(img_user_directory/app.user.photo) }}.jpg" alt="Photo/image de profil"#}
-                            <img src="{{ asset(img_user_directory) }}/{{ user.photo }}.jpg"
-                                 alt="Photo/image de profil"
-                                 class="cast img-responsive img_profil">
-                        {% elseif user.sexe == 2 %}
-                            <img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"
-                                 class="cast img-responsive img_profil">
-                        {% elseif user.sexe == 1 %}
-                            <img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"
-                                 class="cast img-responsive img_profil">
-                        {% else %}
-                            <img src="{{ asset('images/sexe_unknowed.png') }}"
-                                 alt="Photo/image de profil (sexe non connu)"
-                                 class="cast img-responsive img_profil">
-                        {% endif %}
-                    {% endif %}
-                </p>
+                <div class="w-90">
+                    <div>
+                        <h2 class="fleft">Pseudo : </h2>
+                        <h2 class="fright bleu">{{ user.pseudo }}</h2>
+                    </div>
+                    <div class="clear_both">
+                        <h2 class="fleft">Prénom :</h2>
+                        <h2 class="fright bleu">{{ user.firstname }}</h2>
+                    </div>
+                    <div class="clear_both">
+                        <h2 class="fleft">Nombre de tracks :</h2>
+                        <h2 class="fright bleu">{{ pagination.getTotalitemCount }}</h2>
+                    </div>
+                </div>
+                {#<p>#}
+                {# Photo/image actuelle #}
+                {#{% if user.photo is defined %}#}
+                {#{% if user.photo != NULL %}#}
+                {#<img src="{{ asset(img_user_directory/app.user.photo) }}.jpg" alt="Photo/image de profil"#}
+                {#<img src="{{ asset(img_user_directory) }}/{{ user.photo }}.jpg"#}
+                {#alt="Photo/image de profil"#}
+                {#class="cast img-responsive img_profil">#}
+                {#{% elseif user.sexe == 2 %}#}
+                {#<img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"#}
+                {#class="cast img-responsive img_profil">#}
+                {#{% elseif user.sexe == 1 %}#}
+                {#<img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"#}
+                {#class="cast img-responsive img_profil">#}
+                {#{% else %}#}
+                {#<img src="{{ asset('images/sexe_unknowed.png') }}"#}
+                {#alt="Photo/image de profil (sexe non connu)"#}
+                {#class="cast img-responsive img_profil">#}
+                {#{% endif %}#}
+                {#{% endif %}#}
+                {#</p>#}
             </div>
 
             {#Tracks mis en ligne par le membre#}
             <div class="col-sm-7 sidebar video_post">              {# classe enlevée : sidebar2 #}
 
-                <h2 class="text-center">Tracks mis en ligne par le membre</h2>
+                <h2 class="text-center mb-5">Tracks mis en ligne par le membre</h2>
 
                 <div class="w_50 float-left">
                     {% if pagination.getTotalitemCount == 0 %}
@@ -72,23 +84,18 @@
                                 {#<h5>or drag &amp; drop files</h5>#}
                             </div>
                         </a>
-
-                    {% else %}
-                        <h3>{{ pagination.getTotalitemCount }} compos (en tout !!!!!) et tracks avec des sons en plus à
-                            écouter !</h3>
                     {% endif %}
 
                     {% if pagination.getTotalitemCount > 0 %}
                         {% for track in pagination %}
                             {# on peut aussi ajouter la condition à l'intérieur : {% for track2 in tracks if track2.id1  == track.id%} mais on ne peut pas ut. loop.index ?? #}
 
-                            <p>Track véifié : </p>
-                            {% if track.actif == 1 %}
+                            {#{% if track.actif == 1 %}     Fait dans le CONTROLLER !! Sinon on ne peut pas savoir le total  #}
 
-                                {% if track.user.id == user.id %}
-                                    {% include "Includes/viewTrack2.html.twig" %}
-                                {% endif %}
-                            {% endif %}
+                            {#{% if track.user.id == user.id %}             Fait dans le CONTROLLER !! Sinon on ne peut pas savoir le total  #}
+                            {% include "Includes/viewTrack2.html.twig" %}
+                            {#{% endif %}#}
+                            {#{% endif %}#}
                         {% endfor %}
                         <div class="navigation ml_30">
                             {{ knp_pagination_render(pagination, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}

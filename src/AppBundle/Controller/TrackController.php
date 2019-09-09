@@ -35,11 +35,14 @@ class TrackController extends Controller
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function seeTrackAction(Track $track, Request $request, EntityManagerInterface $em)
+    public function seeTrackAction(Track $track = null, Request $request, EntityManagerInterface $em)
     {
         // Il sait quel track on veut voir ????!!!! va chercher tout seul avec l'id ???
+
+        // Track $track : pour que si l'id du Track n'existe pas, ->returnNotFound(); qui est gérer en bas (page 404)
         if (!$track) {
-            throw $this->createNotFoundException("Cette piste de musique n'existe pas");
+//            throw $this->createNotFoundException("Cet piste de musique n'existe pas");
+            return $this->returnNotFound();
         }
 
         // On va passer en paramètres tous les tracks pour pouvoir afficher ceux relié au track visualisé
@@ -200,6 +203,8 @@ class TrackController extends Controller
                 );
                 // Mettre à jour l'attribut fileName de l'entité Track avec le nouveau nom du fichier
                 $trackDatas->setImage($fileName);
+            }else{
+                $trackDatas->setImage('img_track_defaut.png');
             }
 
 
@@ -269,12 +274,14 @@ class TrackController extends Controller
      * Accessible aux membres connectés
      * @Route("/download/{id}", name="download"), requirements={"id" = "\d+"}, defaults={"id" = null})
      * @param Track|null $track
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     * @return Response
      */
     public function downloadAction(Track $track = null)
     {
+        // Track $track : pour que si l'id du Track n'existe pas, ->returnNotFound(); qui est gérer en bas (page 404)
         if (!$track) {
-            throw $this->createNotFoundException("Cet piste de musique n'existe pas");
+//            throw $this->createNotFoundException("Cet piste de musique n'existe pas");
+            return $this->returnNotFound();
         }
 
 
@@ -304,12 +311,14 @@ class TrackController extends Controller
      * @Route("/inactiverTrack/{id}", name="inactiverTrack"), requirements={"id" = "\d+"}, defaults={"id" = null})
      * @param Track|null $track
      * @param EntityManagerInterface $em
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      */
     public function inactiverTrack(Track $track = null, EntityManagerInterface $em)
     {
+        // Track $track : pour que si l'id du Track n'existe pas, ->returnNotFound(); qui est gérer en bas (page 404)
         if (!$track) {
-            throw $this->createNotFoundException("Cet piste de musique n'existe pas");
+//            throw $this->createNotFoundException("Cet piste de musique n'existe pas");
+            return $this->returnNotFound();
         }
 
         $track->setActif(0);
@@ -322,5 +331,17 @@ class TrackController extends Controller
         return $this->redirectToRoute('user');
     }
 
+    /**
+     * Retourne une page 404
+     *
+     * @return Response
+     */
+    private function returnNotFound()
+    {  //string $from = null){
+
+//        return $this->json(array('status' => 'notFound'), JsonResponse::HTTP_NOT_FOUND);
+//        return $this->json(array('status' => 'notFound', 'from' => $from), Response::HTTP_NOT_FOUND);
+        return $this->render('404.html.twig');
+    }
 
 }

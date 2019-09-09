@@ -69,14 +69,14 @@ class HomeController extends Controller
         if (isset($name) && $name !== "") {
             $tracks = $trackRepository->findByTitle($name);
         } else {
-            $tracks = $trackRepository->findBy(array(), array('creationdate' => 'DESC'));
+            $tracks = $trackRepository->findBy(array('actif' => 1), array('creationdate' => 'DESC'));
         }
 
 
         $pagination = $paginator->paginate(
             $tracks,   // La query que l'on veut paginer
             $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
-            6                                             // Nombre d'éléments affichés par page
+            8                                             // Nombre d'éléments affichés par page
         );
 
         $img_track_directory = $this->getParameter('img_track_directory');

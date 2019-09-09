@@ -53,10 +53,10 @@
                     {{ form_widget(registerForm.email, {'attr': {'class': 'form-control', 'placeholder':'Email'}}) }}
 
                     <p>{{ form_errors(registerForm.pseudo) }}</p>
-                    {{ form_widget(registerForm.pseudo, {'attr': {'class': 'form-control', 'placeholder':'Pseudo'}}) }}
+                    {{ form_widget(registerForm.pseudo, {'attr': {'class': 'form-control', 'placeholder':'Pseudo (2 à 10 caractères)'}}) }}
 
-                    <p>{{ form_errors(registerForm.photo) }}</p>
-                    {{ form_row(registerForm.photo, {'attr': {'class': 'form-control'}}) }}
+                    {#<p>{{ form_errors(registerForm.photo) }}</p>#}
+                    {#{{ form_row(registerForm.photo, {'attr': {'class': 'form-control'}}) }}#}
 
                     <p>{{ form_errors(registerForm.firstName) }}</p>
                     {{ form_widget(registerForm.firstName, {'attr': {'class': 'form-control', 'placeholder':'Prénom'}}) }}
@@ -68,13 +68,13 @@
                     {#{{ form_widget(registerForm.sexe, {'attr': {'class': 'form-control', 'placeholder':'Sexe'}}) }}#}
 
                     <p>{{ form_errors(registerForm.plainPassword.first) }}</p>
-                    {{ form_widget(registerForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder':'Mot de passe'}}) }}
+                    {{ form_widget(registerForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder':'Mot de passe (6 caractères min)'}}) }}
 
                     <p>{{ form_errors(registerForm.plainPassword.second) }}</p>
                     {{ form_widget(registerForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder':'Répétez le mot de passe'}}) }}
 
                     <p>{{ form_errors(registerForm.rgpd) }}</p>
-                    {{ form_widget(registerForm.rgpd, {'attr': {'class': 'form-control mb-5', 'placeholder':'Répétez le mot de passe'}}) }}
+                    {{ form_widget(registerForm.rgpd, {'attr': {'class': 'form-control my-5'}}) }}
 
                     {#{{ form_row(registerForm._token) }} !!!???  = CSRF : Symfony utilise entre autre le paramètre secret: ThisTokenIsNotSoSecretChangeIt de
                   votre fichier parameters.yml pour générer le CSRF.#}

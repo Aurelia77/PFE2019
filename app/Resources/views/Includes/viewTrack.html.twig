@@ -7,7 +7,7 @@
             <div class="play_btn"></div>
             {#<div class="media-length total-time">00:00</div>#}
         </div>
-        <h3 class="titre_track mt-1 ml-1 mr-1">
+        <h3 class="titre_track mt-1 mx-1">
             {{ track1.title }}
             <span class="num_son fright">
                 {% if track1.num > 0 %}
@@ -16,16 +16,24 @@
                     <b class="original">♫ Original</b>
                 {% endif %}
             </span>
+            {#Date#}
+            <p class="date">
+                {{ track1.creationDate|date("d/m/Y") }}
+            </p>
         </h3>
     </a>
 
     {#L'audioplayer#}
     <div class="row m0">
         <div id="wrapper">
-            <audio preload="auto" controls>
+            <audio controls>       {#preload="auto" #}
                 Votre navigateur ne supporte pas l'élément <code>audio</code>
                 <source src="{{ asset(track_directory ~ '/' ~ track1.track) }}">
-                <source src="{{ asset('audio/BlueDucks_FourFlossFiveSix.mp3') }}">
+                {#OBLIGE de mettre l'extension sinon le nouveau audioplayer se met en petit !!!???#}
+                <source src="{{ asset('audio/vide.mp3') }}">
+
+                {#<source src="{{ asset(track_directory ~ '/' ~ track1.track) }}">#}
+                {#<source src="{{ asset('audio/BlueDucks_FourFlossFiveSix.mp3') }}">#}
                 {#???#}
                 {#<source src="{{ asset('audio/BlueDucks_FourFlossFiveSix.ogg') }}">#}
                 {#<source src="{{ asset('audio/BlueDucks_FourFlossFiveSix.wav') }}">#}
@@ -42,50 +50,46 @@
 
         {# Lien vers le membre (OU si c'est lui même, va aller sur Mon Compte)#}
         {% if is_granted('IS_AUTHENTICATED_FULLY') and track1.user.id == app.user.id %}
-        <a href="{{ path('user') }}">
+        <a href="{{ path('user') }}" title="Voir Mon Compte">
 
-        {% else %}
-         <a href="{{ path('users_profil', {'id' : track1.user.id}) }}">
+            {% else %}
+            <a href="{{ path('users_profil', {'id' : track1.user.id}) }}" title="Voir le Membre">
 
-        {% endif %}
+                {% endif %}
 
                 <div class="userinfo_track">
                     {#Pseudo User#}
                     <div class="fleft">
+                        <img src="{{ asset('images/membre.png') }}" alt="Icone membre" class="icon_membre">
                         <h4 class="pseudo">
                             {{ track1.user.pseudo }}
                         </h4>
-
-                        {#Date#}
-                        <div class="date">
-                            {{ track1.creationDate|date("d/m/Y") }}
-                        </div>
                     </div>
 
                     {#Photo user#}
-                    <p class="fright">
-                        {# Photo/image actuelle #}
-                        {#Si pas de photo ou si données supprimer (#): image par défaut#}
-                        {% if track1.user.photo == NULL or track1.user.photo == '#' %}
-                            <img src="{{ asset('images/sexe_unknowed.png') }}"
-                                 alt="Photo/image de profil (sexe non connu)"
-                                 class="cast img-responsive img_profil">
+                    {#<p class="fright">#}
+                    {# Photo/image actuelle #}
+                    {#Si pas de photo ou si données supprimer (#): image par défaut#}
+                    {#{% if track1.user.photo == NULL or track1.user.photo == '#' %}#}
+                    {#<img src="{{ asset('images/sexe_unknowed.png') }}"#}
+                    {#alt="Photo/image de profil (sexe non connu)"#}
+                    {#class="cast img-responsive img_profil">#}
 
-                            {#Si gestion du Sexe du membre#}
-                            {#{% elseif track1.user.sexe == 2 %}#}
-                            {#<img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"#}
-                            {#class="cast img-responsive img_profil">#}
-                            {#{% elseif track1.user.sexe == 1 %}#}
-                            {#<img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"#}
-                            {#class="cast img-responsive img_profil">#}
-                            {#Sinon : sa photo/image#}
-                        {% else %}
-                            <img src="{{ asset(img_user_directory) }}/{{ track1.user.photo }}.jpg"
-                                 alt="Photo/image de profil"
-                                 class="cast img-responsive img_profil">
-                        {% endif %}
-                        {#{% endif %}#}
-                    </p>
+                    {#Si gestion du Sexe du membre#}
+                    {#{% elseif track1.user.sexe == 2 %}#}
+                    {#<img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"#}
+                    {#class="cast img-responsive img_profil">#}
+                    {#{% elseif track1.user.sexe == 1 %}#}
+                    {#<img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"#}
+                    {#class="cast img-responsive img_profil">#}
+                    {#Sinon : sa photo/image#}
+                    {#{% else %}#}
+                    {#<img src="{{ asset(img_user_directory) }}/{{ track1.user.photo }}.jpg"#}
+                    {#alt="Photo/image de profil"#}
+                    {#class="cast img-responsive img_profil">#}
+                    {#{% endif %}#}
+                    {#{% endif %}#}
+                    {#</p>#}
 
 
                 </div>
@@ -96,18 +100,19 @@
                 <h4>
                     Membre inactif
                 </h4>
-                <p>
-                    <img src="{{ asset('images/sexe_unknowed.png') }}"
-                         alt="Photo/image de profil (sexe non connu)"
-                         class="cast img-responsive img_profil">
-                </p>
+                {#<p>#}
+                {#<img src="{{ asset('images/sexe_unknowed.png') }}"#}
+                {#alt="Photo/image de profil (sexe non connu)"#}
+                {#class="cast img-responsive img_profil">#}
+                {#</p>#}
             {% endif %}
 
             <div class="overhidden">
-                <a href="{{ path('download', {'id' : track1.id}) }}" class="fleft" title="télécharger le track de musique">
+                <a href="{{ path('download', {'id' : track1.id}) }}" class="fleft"
+                   title="Télécharger le track de musique">
                     <img src="{{ asset('images/download.png') }}"
                          class=""
-                         alt="Lien télécharger track de musique">
+                         alt="Lien Télécharger track de musique">
                 </a>
                 {% if track1.num > 0 %}
                     <div class="fright">
@@ -119,5 +124,4 @@
                 {% endif %}
             </div>
     </div>
-
 </div>

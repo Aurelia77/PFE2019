@@ -56,7 +56,8 @@ class RegisterUserType extends AbstractType
 //                // On ne veut pas de bouton "none" :
 //                'placeholder' => false
 //            ])
-            ->add('photo', FileType::class, ['label' => 'Image/photo du compte (taille max : 2048 KiB)','required' => false])
+
+//            ->add('photo', FileType::class, ['label' => 'Image/photo du compte (taille max : 2048 KiB)','required' => false])
 
             // J'ai été obligé d'ajouter un champs dans User et de mettre un seul choix ici avec required = true !!!???
             ->add('rgpd', ChoiceType::class, [

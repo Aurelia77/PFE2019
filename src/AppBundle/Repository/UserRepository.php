@@ -104,19 +104,4 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
 
         return $qb->getQuery();
     }
-
-    // Ce que j'ai fait (OK aussi mais un mieux avec LIKE
-//    public function findByFirstNameOrLastName(string $name)
-//    {
-//        $qb = $this->createQueryBuilder('u');
-//
-//        return $qb  ->where($qb->expr()->eq('u.firstName', ':name'))
-//
-//                    ->orWhere($qb->expr()->eq('u.lastName', ':name'))
-//                    ->setParameter('name', $name)
-//                    ->getQuery()
-//                    ->getResult();
-//    }
-
-
 }

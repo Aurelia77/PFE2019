@@ -12,29 +12,47 @@
     <section class="row upload_media">
         <div class="container">
             <div class="row">
-                <h1 class="text_shadow" id="titre_accueil">
+                <h1 class="text_shadow h1_home" id="titre_accueil">
                     ♫&nbsp;<span class="petit"> ♫ </span>
                     &nbsp;Entre&nbsp;<span class="petit"> ♯ </span>
                     Dièses&nbsp;<span class="petit">♯</span>
                     et <span class="petit">♭</span>
                     &nbsp;Bémols&nbsp;<span class="petit">♭</span>&nbsp;♫
                 </h1>
-                <h2>Et les sons s' <b class="rock">EMPILENT</b><br><br>Un par un, ajoutez-les pour donner des mixages (instruments, voix, genre...)</h2>
+                <h2 class="typo_normal">Et les sons s' <b class="rock">EMPILENT</b><br><br>Un par un, ajoutez-les pour
+                    donner des mixages (instruments, voix, genres...)</h2>
 
                 {#<h2>Partager vos créations !</h2>#}
 
-                <div class="upload_media_row">
-
-                    <div id="upload_media_2">
-                        {# Num = 0 (car compo de départ avec un seul son) - Id1 = 0 (car pas de track avec un son en moins) #}
-                        <a href="{{ path('newtrack', {'num' : 0, 'id1' : 0}) }}">
-                            <div class="inner row m0">
-                                <img src="{{ asset('images/upload.png') }}" alt="Lien uploader une musique">
-                                <h4>Je partage ma compo de départ<br>(avec un seul son ou 2 max!)</h4>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="upload_media_row">
+                            <div id="upload_media_2" class="h_273">
+                                <a href="{{ path('tuto') }}">
+                                    <div class="inner row m0">
+                                        <img src="{{ asset('images/logoDieseBemol.png') }}"
+                                             alt="Lien uploader une musique" id="logo_home" class="">
+                                        <h4>Voir le tutoriel !<br>Explications pas à pas...</h4>
+                                    </div>
+                                </a>
                             </div>
-                        </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="upload_media_row">
+                            <div id="upload_media_2" class="h_273">
+                                {# Num = 0 (car compo de départ avec un seul son) - Id1 = 0 (car pas de track avec un son en moins) #}
+                                <a href="{{ path('newtrack', {'num' : 0, 'id1' : 0}) }}">
+                                    <div class="inner row m0">
+                                        <img src="{{ asset('images/upload.png') }}" alt="Lien uploader une musique">
+                                        <h4>Je partage ma compo de départ<br>(avec un seul son ou 2 max!)</h4>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -51,7 +69,7 @@
             <h2>Dernières pistes de musique partagées</h2>
             <div class="row title_row">
 
-                {# Formulaire de Recherche par rapport aux mots clefs ou titre du track #}
+                {# Formulaire de Recherche par rapport aux titres des tracks #}
                 <form action="{{ path('home') }}#last_upload" method="GET" role="search"
                       class="search_form row m0 widget widget_search">
                     <div class="input-group">
@@ -68,39 +86,42 @@
                 {% if recherche != NULL %}
                     <p>Résultat(s) de la recherche dans le nom, prénom ou pseudo avec = "<b>{{ recherche }}</b>"</p>
                 {% endif %}
-
             </div>
 
             <div class="row media-grid content_video_posts">
                 {# Avec PAGINATION #}
                 {% if pagination.getTotalitemCount > 0 %}
-                    <h3>{{ pagination.getTotalitemCount }} compos et tracks avec sons en plus à écouter !</h3>
+                <h3>{{ pagination.getTotalitemCount }} compos et tracks avec sons en plus à écouter !</h3>
 
-                    {# On affiche les tracks par ordre antéchronologique (indiqué dans le HomeController sur la creationDate) #}
-                    {% for track1 in pagination %}
-                        {% if track1.actif == 1 %}
-                            <article class="col-sm-3 video_post postType3">
-                                {% include "Includes/viewTrack.html.twig" %}
-                            </article>
+                {# On affiche les tracks par ordre antéchronologique (indiqué dans le HomeController sur la creationDate) #}
+                {% for track1 in pagination %}
+                {#{% if track1.actif == 1 %}#}
+                {% if pagination.getTotalitemCount <= 4 %}
+                <article class="col-sm-6 video_post postType3">
+                    {% else %}
+                    <article class="col-sm-3 video_post postType3">
                         {% endif %}
+                        {% include "Includes/viewTrack.html.twig" %}
+                    </article>
+                    {#{% endif %}#}
                     {% endfor %}
 
-                    <div class="navigation ml_30">
+                    <div class="navigation ml_30 text-center">
                         {{ knp_pagination_render(pagination, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
                     </div>
 
-                {% else %}
-                    <h3 class="mb-5">Aucune composition musicale pour le moment, importez la votre : </h3>
-                    <a href="{{ path('newtrack', {'num' : 0, 'id1' : 0}) }}">
-                        <div class="inner row m0 text-center">
-                            {#<h2>Upload From PC</h2>#}
-                            {#<h6>Via Frontend Uploader</h6>#}
-                            <img src="{{ asset('theme/images/btn/upload-1.png') }}" alt="Lien uploader une musique">
-                            <h4>Choisissez votre compo à partager !</h4>
-                            {#<h5>or drag &amp; drop files</h5>#}
-                        </div>
-                    </a>
-                {% endif %}
+                    {% else %}
+                        <h3 class="mb-5">Aucune composition musicale pour le moment, importez la votre : </h3>
+                        <a href="{{ path('newtrack', {'num' : 0, 'id1' : 0}) }}">
+                            <div class="inner row m0 text-center">
+                                {#<h2>Upload From PC</h2>#}
+                                {#<h6>Via Frontend Uploader</h6>#}
+                                <img src="{{ asset('theme/images/btn/upload-1.png') }}" alt="Lien uploader une musique">
+                                <h4>Choisissez votre compo à partager !</h4>
+                                {#<h5>or drag &amp; drop files</h5>#}
+                            </div>
+                        </a>
+                    {% endif %}
 
             </div>
         </div>

@@ -1764,7 +1764,7 @@ footer.row {
 }
 .comment_form textarea {
   resize: none;
-  height: 100px;
+  height: 100px !important;
   border-color: #e8ebec;
 }
 .comment_form .btn {

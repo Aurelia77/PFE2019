@@ -22,7 +22,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class SecurityController extends Controller
 {
     const LOST_PASSWORD_VALIDITY_TIME = 1; // en heures
-    const VALIDATE_EMAIL_VALIDITY_TIME = 0.5;
+//    const VALIDATE_EMAIL_VALIDITY_TIME = 0.5;
 
     /**
      * Use this function to authenticate a User "manually"
@@ -82,21 +82,21 @@ class SecurityController extends Controller
 
             // FICHIER IMAGE : fileImg contient l'image uploadée (stockée de manière temporaire)
             // @var Symfony\Component\HttpFoundation\File\UploadedFile $fileImg
-            $fileImg = $userDatas->getPhoto();
+//            $fileImg = $userDatas->getPhoto();
 
             // Tester si $file est une instance de UploadedFile permet de savoir s'il s'agit d'un fichier qui vient d'être uploadé,
             // ou si il s'agit d'un fichier déjà stocké auparavant, qu'il ne faut donc pas modifier (si modif de user)
-            if ($fileImg && $fileImg instanceof UploadedFile) {
-                $fileName = md5(uniqid());
-
-                // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de profile
-                $fileImg->move(
-//                    'audio/'.$fileName
-                    $this->getParameter('img_user_directory'), $fileName . '.jpg'
-                );
-                // Mettre à jour l'attribut fileName de l'entité User avec le nouveau nom du fichier
-                $userDatas->setPhoto($fileName);
-            }
+//            if ($fileImg && $fileImg instanceof UploadedFile) {
+//                $fileName = md5(uniqid());
+//
+//                // Déplacer le fichier temporaire dans le dossier prévu au stockage des images de profile
+//                $fileImg->move(
+////                    'audio/'.$fileName
+//                    $this->getParameter('img_user_directory'), $fileName . '.jpg'
+//                );
+//                // Mettre à jour l'attribut fileName de l'entité User avec le nouveau nom du fichier
+////                $userDatas->setPhoto($fileName);
+//            }
 
             // 5) Sauvegarder l'utilisateur
             $em->persist($user);
@@ -122,7 +122,6 @@ class SecurityController extends Controller
      * @param User $user
      *
      * @return Response
-     * @throws \Exception
      */
     public function validateEmailAction(EntityManagerInterface $em, User $user = null)
     {
@@ -132,11 +131,11 @@ class SecurityController extends Controller
         //if ($user->getCreationDate()->modify("+$validity hour") >= new \DateTime()) {
         if ($user) {
             $user
-//                ->setEmail($user->getEmailTemp())             // Déjà fait
+                ->setEmail($user->getEmailTemp())             // Si modif d'adresse mail
                 ->setEmailToken(null)
                 ->setEmailTemp(null)
-                ->addRole('ROLE_USER')
-                ->removeRole('ROLE_USER_PENDING');
+                ->removeRole('ROLE_USER_PENDING')
+                ->addRole('ROLE_USER');
             $em->flush();
 
             // On authentifie l'utilisateur au cas où ce ne soit pas déjà fait
@@ -256,6 +255,8 @@ class SecurityController extends Controller
 
             /* @var $user User */
             $user = $userRepository->findOneByEmail($userMail);
+//            $user = $userRepository->findOneBy('email' => $userMail);
+
 
             if ($user) {
                 $resetToken = md5(uniqid());
@@ -329,7 +330,7 @@ class SecurityController extends Controller
                 $this->addFlash(
                     "success", "Mot de passe changé avec succès"
                 );
-                return $this->redirectToRoute('dashboard');
+                return $this->redirectToRoute('home');
             }
             // Afficher le formulaire
             $validity = self::LOST_PASSWORD_VALIDITY_TIME;

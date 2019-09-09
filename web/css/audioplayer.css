@@ -20,7 +20,7 @@
 	-moz-border-radius: 2px;
 	border-radius: 2px;
 }
-	.audioplayer-mini
+	.audioplayer-mini0
 	{
 		width: 2.5em; /* 40 */
 		margin: 0 auto;
@@ -40,12 +40,12 @@
 		top: 0;
 		left: 0;
 	}
-		.audioplayer:not(.audioplayer-mini) .audioplayer-playpause
+		.audioplayer:not(.audioplayer-mini0) .audioplayer-playpause
 		{
 			border-right: 1px solid #555;
 			border-right-color: rgba( 255, 255, 255, .1 );
 		}
-		.audioplayer-mini .audioplayer-playpause
+		.audioplayer-mini0 .audioplayer-playpause
 		{
 			width: 100%;
 		}

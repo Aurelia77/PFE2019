@@ -1,6 +1,8 @@
 {% extends "/layout.html.twig" %}
 
-{% block title %}AppBundle:User:user{% endblock title %}
+{% block title %}
+    {{ parent() }} | Mon Compte
+{% endblock %}
 
 {% block content %}
     {#-------------------------------------------------------------------------------------------------------------------------------------#}
@@ -31,43 +33,43 @@
 
             <div class="col-sm-5 video_post text-center">                      {# classe enlevée : post_page_uploads #}
 
-                <h3>Mes informations peronnelles</h3>
+                <h3>Mes info personnelles<br>que je peux modifier</h3>
 
-                {{ form_start(userInfoForm, {'attr': {'class': 'container-fluid login_form auth_form'}}) }}
+                {{ form_start(userInfoForm, {'attr': {'class': 'container-fluid login_form auth_form form_user'}}) }}
 
                 <div class="form-inner row">
                     <div class="form-body row m0 mb-5">
 
-                        <p>{{ form_errors(userInfoForm.pseudo) }}</p>
+                        {#<p>{{ form_errors(userInfoForm.pseudo) }}</p>#}
                         {{ form_row(userInfoForm.pseudo, {'attr': {'class': 'form-control'}}) }}
 
-                        <p>{{ form_errors(userInfoForm.firstName) }}</p>
+                        {#<p>{{ form_errors(userInfoForm.firstName) }}</p>#}
                         {{ form_row(userInfoForm.firstName, {'attr': {'class': 'form-control'}}) }}
 
-                        <p>{{ form_errors(userInfoForm.lastName) }}</p>
+                        {#<p>{{ form_errors(userInfoForm.lastName) }}</p>#}
                         {{ form_row(userInfoForm.lastName, {'attr': {'class': 'form-control'}}) }}
 
                         {#<p>{{ form_errors(userInfoForm.photo) }}</p>#}
                         {#{{ form_row(userInfoForm.photo, {'attr': {'class': 'form-control'}}) }}#}
 
-                        <p>
-                            {% if app.user.photo != NULL %}
+                        {#<p>#}
+                            {#{% if app.user.photo != NULL %}#}
                                 {#<img src="{{ asset(img_user_directory/app.user.photo) }}.jpg" alt="Photo/image de profil"#}
-                                <img src="{{ asset(img_user_directory) }}/{{ app.user.photo }}.jpg"
-                                     alt="Photo/image de profil"
-                                     class="cast img-responsive img_profil_user">
+                                {#<img src="{{ asset(img_user_directory) }}/{{ app.user.photo }}.jpg"#}
+                                     {#alt="Photo/image de profil"#}
+                                     {#class="cast img-responsive img_profil_user">#}
                                 {#{% elseif app.user.sexe == 2 %}#}
                                 {#<img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"#}
                                 {#class="cast img-responsive img_profil">#}
                                 {#{% elseif app.user.sexe == 1 %}#}
                                 {#<img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"#}
                                 {#class="cast img-responsive img_profil">#}
-                            {% else %}
-                                <img src="{{ asset('images/sexe_unknowed.png') }}"
-                                     alt="Photo/image de profil (sexe non connu)"
-                                     class="cast img-responsive img_profil">
-                            {% endif %}
-                        </p>
+                            {#{% else %}#}
+                                {#<img src="{{ asset('images/sexe_unknowed.png') }}"#}
+                                     {#alt="Photo/image de profil (sexe non connu)"#}
+                                     {#class="cast img-responsive img_profil">#}
+                            {#{% endif %}#}
+                        {#</p>#}
 
                         <input type="submit" value="Enregistrer" class="btn btn-default form-control">
                     </div>
@@ -78,18 +80,18 @@
                     <button class="btn btn-warning mb-5">Inactiver mon compte (Je ne pourrai plus me connecter !)</button>
                 </a>
                 <a href="{{ path('suppDatasUser') }}">    {#Ou juste user.id : fonctionne aussi !#}
-                    <button class="btn btn-danger mb-5">Supprimer mes données personnelles<br>(Je ne pourrai plus me connecter et<br>mes données personnelles seront effacées)</button>
+                    <button class="btn btn-danger mb-5">Supprimer mes données personnelles<br>(Je ne pourrai plus me connecter et<br>mes données personnelles
+                        seront effacées)</button>
+                    {#et messages laissés sur le site #}
                 </a>
             </div>
 
-
             <div class="col-sm-7 sidebar video_post">              {# classe enlevée : sidebar2 #}
-
-                <h3 class="text-center">Mes tracks mis en ligne</h3>
-
                 <div class="w_50 float-left">
 
                     {% if pagination.getTotalitemCount > 0 %}
+                        <h3 class="text-center mb-5">{{ pagination.getTotalitemCount }} track(s) mis en ligne</h3>
+
                         {#<h3>{{ pagination.getTotalitemCount }} compos (en tout !!!!!) et tracks avec des sons en plus à#}
                             {#écouter !</h3>#}
                         {% for track in pagination %}
@@ -102,7 +104,7 @@
                                 {% endif %}
                             {% endif %}
                         {% endfor %}
-                        <div class="navigation ml_30">
+                        <div class="navigation ml_30 text-center">
                             {{ knp_pagination_render(pagination, '@KnpPaginator/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
                         </div>
 
@@ -112,7 +114,7 @@
                             <div class="inner row m0 text-center">
                                 {#<h2>Upload From PC</h2>#}
                                 {#<h6>Via Frontend Uploader</h6>#}
-                                <img src="{{ asset('theme/images/btn/upload-1.png') }}" alt="Lien uploader une musique">
+                                <img src="{{ asset('images/upload.png') }}" alt="Lien uploader une musique">
                                 <h4>Choisissez votre compo à partager !</h4>
                                 {#<h5>or drag &amp; drop files</h5>#}
                             </div>

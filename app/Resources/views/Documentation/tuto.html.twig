@@ -22,41 +22,97 @@
     {#Ruban#}
     {% include "Includes/ribbon.html.twig" %}
 
-
-
-    <p>Qg on sup un track, les +1 restent !!</p>
-
-
-
-
     <div class="container">
-        <div class="row">
-            <h2>FAQ</h2>
-            <h3>Comment télécharger un son ?</h3>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <h3>Comment ...</h3>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <h3>Comment ...</h3>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <h3>Comment ...</h3>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <p>Vous devez simplement.....</p>
-            <h3>Comment ...</h3>
-            <h3>Comment ...</h3>
-            <h3>Comment ...</h3>
-            <h3>Comment ...</h3>
+        <div class="row text_indent">
+            <h2>Tutoriel Entre Dièses et Bémols</h2>
 
+            <h2 class="text-center">Résumé</h2>
+            <br>
+            <p>Entre Dièses et Bémols est un <b class="bleu">site de partage et mixage d'instruments / voix / genres de
+                    musique.</b></p>
+
+            <p>Les but est d'ajouter, d'<b class="bleu text-uppercase">empiler</b> des sons un par un.</p>
+
+            <p>Un membre connecté poste sa création musicale sur le site et les autres vont ajouter des sons en plus, un
+                par un. Il est possible de laisser des commentaires et de voir les pistes de musiques postées par un
+                membre.</p>
+            <br>
+
+
+            <h2 class="text-center">Explications</h2>
+            <br>
+            <p>Après s'être inscrit et connecté, le membre ajoute / téléverse / upload une première composition musicale
+                : <b class="bleu text-uppercase">la compo originale</b>, sur laquelle sont enregistrés un ou 2 (max)
+                sons différents (ex : des
+                accords de guitare et voix ; seulement des percussions ; des notes de piano...
+            </p>
+            <p>Il peut ajouter un commentaire pour indiquer ce qu'il aimerait entendre en plus sur sa compo, pour
+                expliquer d'où elle lui est venue, dans quel contexte il l'a composée...</p>
+
+            <p>Ensuite, d'autres membres (ou même la personne ayant diffusée la compo de départ) pourront télécharger
+                cette compo, puis téléversée son <b class="bleu text-uppercase">track+1</b> sur le site mais <b
+                        class="bleu">avec un (seul) son en plus</b>
+                créé par eux-même.</p>
+            <br>
+
+            <h2 class="text-center">Exemple</h2>
+            <br>
+            <p>Joy joue de la guitare, elle aimerait entendre une voix sur ses accords. Elle va téléverser une de ses
+                compositions sur le site, mettre quelques explications dans les commentaires et attendre qu'un membre
+                diffuse un <b class="bleu text-uppercase">track+1</b>.</p>
+
+            <p>Il peut y avoir autant de track+1 que l'on veut.</p>
+
+            <p>Tout membre peut laisser des commentaires.</p>
+
+            <p>Il est ensuite possible d'ajouter un track+1 sur ce dernier track, ce qui créera un <b
+                        class="bleu text-uppercase">track+2</b> et ainsi de suite...</p>
+            <p>On pourra ainsi avoir un compo de départ, plusieurs track+1, dont un ou plusieurs auront des track +2,
+                +3 etc...</p>
+            <br>
+
+            <h2 class="text-center">Comment faire ?</h2>
+            <br>
+            <p>En arrivant sur le site, vous pouvez <b class="bleu">ajouter / téléverser / uploader</b> votre <b
+                        class="bleu text-uppercase">la compo originale</b>.</p>
+            <br>
+            <p>De plus, en dessous, sont affichées les pistes de musique (<b class="bleu">compo original et tracks+1,
+                    +2...</b>) qui ont
+                été téléversées / uploadées par les membres sur le site Entre Dièses et Bémols, classées par ordre
+                antéchronologique.</p>
+            <br>
+
+            <p>Vous pouvez :</p>
+            <p>- Les écouter en cliquant sur le bouton play ▶ du lecteur audio.</p>
+            <p>- Les télécharger sur votre ordinateur/téléphone... en appuyant sur le bouton <img
+                        src="{{ asset('images/download.png') }}" alt="Image télécharger">.</p>
+            <p>- Les voir dans une nouvelle page en cliquant sur
+                <img src="{{ asset('images/agrandir_hover.png') }}" alt="Voir le track">
+                où vous pourrez voir ses <b class="bleu">track +1</b> et laisser des commentaires en dessous.<br>
+            </p>
+            <p>C'est aussi ici que vous pourrez poster votre propre <b class="bleu">track +1</b> qui s'ajoutera ensuite
+                à la liste.</p>
+            <p>- Voir le profil du membre qui l'a mis en ligne, ainsi que ses autres tracks si il y en a, en cliquant
+                sur son pseudo ou sur l'icone
+                <img src="{{ asset('images/membre.png') }}" alt="Icone membre" class="icon_membre" .></p>
+
+
+            <h2 class="text-center">Ajouter son track+1</h2>
+            <br>
+            <p>Après avoir télécharger une <b class="bleu text-uppercase">compo de base</b>, vous pouvez utiliser un
+                logiciel qui va
+                jouer cette piste de musique et en même temps enregistrer votre <b class="bleu">son en plus</b>, ce qui
+                donnera le <b class="bleu text-uppercase">track+1</b>.
+            </p>
+            <p>Nous vous conseillons <a href="https://www.audacityteam.org/download/"
+                                        title="Page de téléchargement logiciel Audacity">Audacity</a>, gratuit ou <a
+                        href="https://www.ableton.com/">Ableton live</a>, qui comporte une version d'essai.</p>
+
+            <p>Les formats qui peuvent être lus sont .mp3, .mpeg4, .mpga et .ogg.</p>
+            <p><b class="bleu">Attention !</b> La taille maximale du fichier audio doit être de 2048 KiB soit à peine plus de 2Mo.</p>
+            <p>Par exemple certains fichiers MP3 de 4 minutes peuvent convenir.</p>
+            <br>
+            <p><b class="bleu text-uppercase">Lancez-vous !!!</b></p>
         </div>
     </div>
 {% endblock content %}

@@ -45,10 +45,13 @@ class UserController extends Controller
     {
         $trackRepository = $this->getDoctrine()->getRepository(Track::class);
 
+        $user = $this->getUser();
+
         $pagination = $paginator->paginate(
-            $trackRepository->findBy(array(), array('creationdate' => 'DESC')),   // La query que l'on veut paginer
+// On rechercher les track qui ont été mis en ligne par l'utilisateur connecté, qui sont actifs et par ordre antéchronologique
+            $trackRepository->findBy(array('actif' => 1, 'user' => $user), array('creationdate' => 'DESC')),   // La query que l'on veut paginer
             $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
-            3                                            // Nombre d'éléments affichés par page
+            3                                             // Nombre d'éléments affichés par page
         );
 
         $user = $this->getUser();
@@ -132,7 +135,21 @@ class UserController extends Controller
         $changeEmailForm = $this->createForm(ChangeEmailType::class, $user, array());
         $changeEmailForm->handleRequest($request);
 
+
         if ($changeEmailForm->isSubmitted() && $changeEmailForm->isValid()) {
+//
+            $userExists = $this->getDoctrine()->getRepository(User::class)->findOneBy(array('email' => $changeEmailForm->getData()->getEmailTemp()));
+
+//            var_dump($request->request->get('emailTemp'));
+            if($userExists == null){
+
+//
+//            $userRepository->findBy(array('email' => 1, 'user' => $user), array('creationdate' => 'DESC')),   // La query que l'on veut paginer
+//
+
+//            if ($userRepository->findOneByEmail($userMail);
+
+
             // On génère un token unique
             $emailToken = md5(uniqid());
             $user->setEmailToken($emailToken);
@@ -141,15 +158,21 @@ class UserController extends Controller
             // On lui envoie un email de validation
             $userEmailService->sendValidationEmail($user);
             $this->addFlash(
-                "warning", "Un email de validation vous a été envoyé"
+                "success", "Un email de validation vous a été envoyé"
             );
+
+            }else{
+                $this->addFlash(
+                    "warning", "Cet email est déjà utilisé."
+                );
+            }
         }
 
-        return $this->render('/User/useremail.html.twig', array('changeEmailForm' => $changeEmailForm->createView(), 'nompage' => 'User:userEmail'));
+        return $this->render('/User/useremail.html.twig', array('changeEmailForm' => $changeEmailForm->createView()));
     }
 
     /**
-     * Modifie le fait que l'utilisateur/track/mot clef/message soit actifs ou non
+     * Supprime les données personnelles d'un membre (mail, pseudo, nom, prénom, password) et ses commentaires laissés sur le site
      * Pour les admins et aussi pour le membre connecté qui veut désactiver son compte
      *
      * @Route("/suppDatasUser", name="suppDatasUser")
@@ -166,11 +189,19 @@ class UserController extends Controller
             ->setLastName('#')
             ->setPseudo('#')
             ->setPassword('#')
-            ->setPhoto('#')
+//            ->setPhoto('#')
             ->setRoles('#')
 //            ->setEmailToken('#')
 //            ->setLostPasswordToken('#')
-            ;
+        ;
+
+        // On va chercher tous les messages pour pouvoir désactiver ceux de l'utilisateur connecté
+//        $messageRepository = $this->getDoctrine()->getRepository(Message::class);
+//        $messages = $messageRepository->findBy(array('user' => $user));
+//
+//        for ($message in $messages) {
+//
+//        }
 
 
         $em->persist($user);
@@ -184,13 +215,14 @@ class UserController extends Controller
     /**
      * @Route("/userprofil/{id}", name="users_profil", requirements={"id" = "\d+"}, defaults={"id" = null})
      * @param User $user
-     * @param EntityManagerInterface $em
      * @param Request $request
      *
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function profileAction(User $user, EntityManagerInterface $em, Request $request, PaginatorInterface $paginator)
+    public function profileAction(User $user = null, Request $request, PaginatorInterface $paginator)
     {
+        // User $user = null : pour que si l'id du User n'existe pas, ->returnNotFound(); qui est gérer ci-desous (page 404)
         if (!$user) {
             return $this->returnNotFound();
         }
@@ -198,7 +230,8 @@ class UserController extends Controller
         $trackRepository = $this->getDoctrine()->getRepository(Track::class);
 
         $pagination = $paginator->paginate(
-            $trackRepository->findBy(array(), array('creationdate' => 'DESC')),   // La query que l'on veut paginer
+// On rechercher les track qui ont été mis en ligne par l'utilisateur visualisé, qui sont actifs et par ordre antéchronologique
+            $trackRepository->findBy(array('actif' => 1, 'user' => $user), array('creationdate' => 'DESC')),   // La query que l'on veut paginer
             $request->query->getInt('page', 1),    // On récupère le numéro de la page et on le défini à 1 par défaut
             3                                             // Nombre d'éléments affichés par page
         );
@@ -207,7 +240,7 @@ class UserController extends Controller
         $img_user_directory = $this->getParameter('img_user_directory');
         $track_directory = $this->getParameter('track_directory');
 
-        return $this->render('user/userIdProfil.html.twig', array(
+        return $this->render('/User/userIdProfil.html.twig', array(
             'user' => $user,
             'pagination' => $pagination,
             'img_track_directory' => $img_track_directory,

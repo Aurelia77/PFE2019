@@ -1,17 +1,22 @@
 {% extends "/layout.html.twig" %}
 
 {% block title %}
-    {{ parent() }} | FAQ
+    {{ parent() }} | 404
 {% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
 
-            <h1>Page inexistante !</h1>
+            <h1 class="text-center">Page inexistante !</h1>
 
-            <p>Ce lien est introuvable. Veuillez vérifier l'URL !</p>
+            <p class="my-5 text-center">Ce lien est introuvable. Veuillez vérifier l'URL !</p>
 
-            <a href="{{ path('home') }}">Retourner à l'Accueil du site Entre Dièses et Bémols</a>.
+            <div class="text-center">
+                <a href="{{ path('home') }}">
+                    <button class="btn btn-primary mb-5 h_50">Retourner à l'Accueil du site Entre Dièses et Bémols</button>
+                </a>
+            </div>
+
 
         </div>
     </div>

@@ -13,16 +13,6 @@ use AppBundle\Entity\User;
 class DocumentationController extends Controller
 {
     /**
-     * @Route("/faq", name="faq")
-     *
-     * @return Response
-     */
-    public function faqAction()
-    {
-        return $this->render('/Documentation/faq.html.twig');
-    }
-
-    /**
      * @Route("/tuto", name="tuto")
      *
      * @return Response
@@ -30,16 +20,6 @@ class DocumentationController extends Controller
     public function tutoAction()
     {
         return $this->render('/Documentation/tuto.html.twig');
-    }
-
-    /**
-     * @Route("/contact", name="contact")
-     *
-     * @return Response
-     */
-    public function contactAction()
-    {
-        return $this->render('/Documentation/contact.html.twig');
     }
 
     /**
@@ -61,4 +41,50 @@ class DocumentationController extends Controller
     {
         return $this->render('/Documentation/mentionsleg.html.twig');
     }
+
+
+    /**
+     * Dans pied de page : pour contacter le propriétaire du site
+     * @Route("/contact", name="contact")
+     *
+     * @param Request $request
+     * @param \Swift_Mailer $mailer
+     *
+     * @return Response
+     */
+    public function contactAction(Request $request, \Swift_Mailer $mailer)
+    {
+        $userMail = $request->get('email');
+        $userMessage = $request->get('message');
+
+
+        if ($userMail) {
+
+                $message = (new \Swift_Message('Message utilisateur Entre Dièse et Bémols'))
+                    ->setFrom($userMail)
+                    ->setTo("aurelia.h+d&b@hotmail.fr")
+                    ->setBody(
+                        $this->renderView(
+                            '/Documentation/contact-email.html.twig',
+                            array(
+//                                'userMail' =>$userMail,
+                                'userMessage' =>$userMessage,
+                                )
+                        ), 'text/html'
+                    );
+
+                if ($mailer->send($message)) {
+                    $this->addFlash(
+                        "success", "Votre message a été envoyé."
+                    );
+                } else {
+                    $this->addFlash(
+                        "danger", "Une erreur est survenue, merci d'essayer à nouveau."
+                    );
+                }
+        }
+        return $this->render('/Documentation/contact.html.twig' );
+
+    }
+
 }

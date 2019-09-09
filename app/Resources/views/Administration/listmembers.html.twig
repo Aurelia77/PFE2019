@@ -53,7 +53,7 @@
                             <th scope="col">Pseudo</th>
                             <th scope="col">Prénom</th>
                             <th scope="col">Nom</th>
-                            <th scope="col">Photo</th>
+                            {#<th scope="col">Photo</th>#}
                             <th scope="col">Roles</th>
                             <th scope="col">Modifier les Roles</th>
                             <th scope="col">Actif ? (cliquez pour modifier)</th>
@@ -71,8 +71,8 @@
                                 <td>{{ user.pseudo }}</td>
                                 <td>{{ user.firstName }}</td>
                                 <td>{{ user.lastName }}</td>
-                                <td>{{ user.photo }}</td>
-
+                                {#<td>{{ user.photo }}</td>#}
+                                {#ROLES#}
                                 <td>
                                     {% if user.roles[0] is defined %}
                                         {% if user.roles[0] == 'ROLE_USER_PENDING' %}
@@ -100,31 +100,43 @@
                                         {% endif %}
                                     {% endif %}
                                 </td>
-
+                                {#Modif Roles#}
                                 <td>
-                                    {#Si Membre (non pending) on peut le passer Admin ou l'enlever#}
-                                    {% if user.roles[0] == 'ROLE_USER' %}
-                                        {#Si Admin#}
-                                        {% if user.roles[1] is defined %}
-                                            {% if user.roles[1] == 'ROLE_ADMIN' %}
-                                                <p>
 
-                                                    <a href="{{ path('modifRolesUser', {'id' : user.id, 'role' : 1 }) }}">
-                                                        <img src="{{ asset('images/actif.png') }}"
-                                                             alt="Mettre rôle utilisateur : Membre">
-                                                        Enlever admin
+                                    {#SI LE ROLE_USER est dans roles[1] !!!??? ce qui arrive qd validation mail !!! #}
+                                    {#{% if user.roles[1] is defined %}#}
+                                        {#{% if user.roles[1] == 'ROLE_USER' %}#}
+                                            {#On enlève le rôle et on le rajoute (se mettre dans roles[0]#}
+                                        {##}
+                                        {#{% endif %}#}
+                                    {#{% endif %}#}
+
+
+                                    {#Si Membre (non pending) on peut le passer Admin ou l'enlever#}
+                                    {% if user.roles[0] is defined %}
+                                        {% if user.roles[0] == 'ROLE_USER' %}
+                                            {#Si Admin#}
+                                            {% if user.roles[1] is defined %}
+                                                {% if user.roles[1] == 'ROLE_ADMIN' %}
+                                                    <p>
+
+                                                        <a href="{{ path('modifRolesUser', {'id' : user.id, 'role' : 1 }) }}">
+                                                            <img src="{{ asset('images/actif.png') }}"
+                                                                 alt="Mettre rôle utilisateur : Membre">
+                                                            Enlever admin
+                                                        </a>
+                                                    </p>
+                                                {% endif %}
+                                                {#Sinon : si non admin#}
+                                            {% else %}
+                                                <p>
+                                                    <a href="{{ path('modifRolesUser', {'id' : user.id, 'role' : 2 }) }}">
+                                                        <img src="{{ asset('images/admin.png') }}"
+                                                             alt="Mettre rôle utilisateur : Admin">
+                                                        Mettre en admin
                                                     </a>
                                                 </p>
                                             {% endif %}
-                                            {#Sinon : si non admin#}
-                                        {% else %}
-                                            <p>
-                                                <a href="{{ path('modifRolesUser', {'id' : user.id, 'role' : 2 }) }}">
-                                                    <img src="{{ asset('images/admin.png') }}"
-                                                         alt="Mettre rôle utilisateur : Admin">
-                                                    Mettre en admin
-                                                </a>
-                                            </p>
                                         {% endif %}
                                     {% endif %}
 
@@ -133,7 +145,7 @@
                                     {#alt="Utilisateur inactif, l'activer">#}
                                     {#</a>#}
                                 </td>
-
+                                {#Actif#}
                                 <td>
                                     {% if user.actif == 0 %}
                                         <a href="{{ path('switchActif', {'entity' : 'user', 'id' : user.id, 'actif' : 0}) }}">
@@ -148,7 +160,9 @@
                                         </a>
                                     {% endif %}
                                 </td>
+                                {#Date#}
                                 <td>{{ user.creationDate|date("d/m/Y - H:i") }}</td>
+                                {#Voir#}
                                 <td>
                                     <a href="{{ path('users_profil', {'id' : user.id}) }}">
                                         <img src="{{ asset('images/eye.png') }}"

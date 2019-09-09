@@ -23,7 +23,7 @@ class NewTrackType extends AbstractType
             // Type : FilType pour
             ->add('track', FileType::class, ['label' => 'Votre création (taille max : 2048 KiB)'])
             ->add('image', FileType::class, ['label' => 'Choisissez une image (se trouvera dans un cercle, on ne verra que le centre)',
-                                                            'required' => true]);
+                                                            'required' => false]);
             // Des checkboxes avec les mots clefs (choix simples pour l'instant)
 //            ->add('trackMotclef', EntityType::class, [
 //                'label' => 'Choisissez un mot clef',

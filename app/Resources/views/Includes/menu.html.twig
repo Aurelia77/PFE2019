@@ -14,34 +14,43 @@
             </button>
         </div>
 
+        {#{% if app.user.roles[0] is defined %}#}
+            {#<p>{{ app.user.roles[0] }}</p>#}
+        {#{% endif %}#}
+
+        {#{% if app.user.roles[1] is defined %}#}
+            {#<p>{{ app.user.roles[1] }}</p>#}
+
+        {#{% endif %}#}
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse w-90" id="middle-menu">
             <ul class="nav navbar-nav w-100">
                 {#-------------------------------------------------------------------------------------------------#}
                 {# Vu par tout le monde (connecté ou non#}
                 {#-------------------------------------------------------------------------------------------------#}
-                <li>
-                    <a {% if app.request.get('_route') == 'faq' %}class="active"{% endif %} href="{{ path('faq') }}">
-                        FAQ
-                    </a>
-                </li>
+                {#<li>#}
+                    {#<a {% if app.request.get('_route') == 'faq' %}class="active"{% endif %} href="{{ path('faq') }}">#}
+                        {#FAQ#}
+                    {#</a>#}
+                {#</li>#}
 
-                <li>
+                <li class="tuto">
                     <a {% if app.request.get('_route') == 'tuto' %}class="active"{% endif %}
                        href="{{ path('tuto') }}">
                         Tutoriel
                     </a>
                 </li>
 
-                <li class="titre_menu">
-                    <a href="{{ path('home') }}">
-                        ♫&nbsp;<span class="petit"> ♫ </span>
-                        &nbsp;Entre&nbsp;<span class="petit"> ♯ </span>
-                        Dièses&nbsp;<span class="petit">♯</span>
-                        et <span class="petit">♭</span>
-                        &nbsp;Bémols&nbsp;<span class="petit">♭</span>&nbsp;♫
-                    </a>
-                </li>
+                {#<li class="titre_menu">#}
+                    {#<a href="{{ path('home') }}">#}
+                        {#♫&nbsp;<span class="petit"> ♫ </span>#}
+                        {#&nbsp;Entre&nbsp;<span class="petit"> ♯ </span>#}
+                        {#Dièses&nbsp;<span class="petit">♯</span>#}
+                        {#et <span class="petit">♭</span>#}
+                        {#&nbsp;Bémols&nbsp;<span class="petit">♭</span>&nbsp;♫#}
+                    {#</a>#}
+                {#</li>#}
 
                 {#-------------------------------------------------------------------------------------------------#}
                 {# Pour les admin
@@ -117,7 +126,7 @@
                             or (app.request.get('_route') == 'useremail') %} class="active" {% endif %}
                                 href="{{ path('user') }}">
                             {#Mon Compte#}
-                            <b class="big">♪ ♯ ♪ </b> <b id="pseudo_menu" class="rock">{% if is_granted('IS_AUTHENTICATED_FULLY') %}{{ app.user.pseudo }}{% endif %}</b> <b class="big"> ♪ ♭ ♪</b>
+                            <b class="big">♪ ♯ ♪ </b> <b id="pseudo_menu" class="rock bleu">{% if is_granted('IS_AUTHENTICATED_FULLY') %}{{ app.user.pseudo }}{% endif %}</b> <b class="big"> ♪ ♭ ♪</b>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
