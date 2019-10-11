@@ -42,13 +42,33 @@ class Track
      * @var string
      *
      * @ORM\Column(name="track", type="string", length=255, nullable=false)
+     *
+     * @Assert\File(
+     *      mimeTypes ={"audio/mpeg"},
+     *      mimeTypesMessage = "Merci d'uploader un fichier Mp3 !"
+     * )
+     *
      */
     private $track;
 
+//    Ex de contraintes :
+//* @Assert\File(
+//*      maxSize = "1024k",
+//*      maxSizeMessage = "Votre fichier est trop volumineux, max 1 MO !",
+//*      mimeTypes ={"image/jpeg","image/png","image/gif"},
+//*      mimeTypesMessage = "Merci d'uploader un fichier de type image !"
+//    * )
     /**
      * @var string
      *
      * @ORM\Column(name="image", type="string", length=255, nullable=false)
+     *
+     * @Assert\File(
+     *      mimeTypes ={"image/jpeg","image/png","image/gif"},
+     *      mimeTypesMessage = "Merci d'uploader un fichier de type image !"
+     * )
+     *
+     *
      */
     private $image;
 

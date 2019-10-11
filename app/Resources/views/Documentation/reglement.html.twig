@@ -1,0 +1,59 @@
+{% extends "/layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }} | Réglement
+{% endblock %}
+
+{% block content %}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    {# Header : titre + fil d'ariane #}
+    {#-------------------------------------------------------------------------------------------------------------------------------------#}
+    <section class="row page_cover">
+        <div class="container">
+            <div class="row m0">
+                <h1>Réglement Entre Dièses et Bémols</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('home') }}">Accueil</a></li>
+                    <li class="active">Réglement</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    {#Ruban#}
+    {% include "Includes/ribbon.html.twig" %}
+
+    <div class="container">
+        <div class="row">
+
+            <h2>Réglement Entre Dièses et Bémols</h2>
+<br>
+            <p>En navigant sur le site <b class="bleu">Entre Dièses et Bémols (https://musique.aurelia-web.fr)</b>, vous
+                acceptez d’être légalement responsable des
+                conditions suivantes. Si vous n’acceptez pas, alors n’accédez pas et/ou n’utilisez pas ce site.</p>
+
+            <p>Nous pouvons modifier ce réglement à n’importe quel moment et, dans ce cas, nous vous en tiendrons
+                informés. Vous pouvez aussi le vérifier régulièrement.</p>
+
+            <p>Vous acceptez de ne pas publier de contenu abusif, obscène, vulgaire, diffamatoire, choquant, menaçant,
+                à caractère sexuel ou autre qui peut transgresser les lois de votre pays, et du pays où <b class="bleu">Entre
+                    Dièses et Bémols (https://musique.aurelia-web.fr)</b> est hébergé (si ce n'est pas le même). Le
+                faire peut vous mener à un
+                bannissement immédiat et permanent, avec une notification à votre fournisseur d’accès à internet si nous
+                le jugeons nécessaire. L’adresse IP de tous les messages est enregistrée pour aider au renforcement de
+                ces conditions. Vous acceptez que <b class="bleu">Entre Dièses et Bémols
+                    (https://musique.aurelia-web.fr)</b> supprime ou inactive n’importe quel sujet lorsque nous estimons
+                que cela est nécessaire. Toutes pièces Mp3, PDF, Jpeg, gif ou autre téléversé en salle d'écoute
+                peuvent êtres supprimé par le jugement de l'administrateur.</p>
+
+            <p>Lorsque vous téléversez un fichier sur ce site, </p>
+
+            <p>Lorsque vous téléchargez un fichier sur le site, vous acceptez que celui-ci soit la propriété du premier
+                créateur. Vous participez librement sur cette création sans aucune attente financière.</p>
+
+            <p><b class="bleu">Entre Dièses et Bémols (https://musique.aurelia-web.fr)</b> se dégage de toute poursuite.
+               </p>
+
+        </div>
+    </div>
+{% endblock content %}

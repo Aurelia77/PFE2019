@@ -3,6 +3,11 @@
 {% block title %}
     {{ parent() }} | Tutoriel
 {% endblock %}
+
+{% block meta %}
+    <meta name="description" content="instruments voix" />
+{% endblock %}
+
 {% block content %}
     {#-------------------------------------------------------------------------------------------------------------------------------------#}
     {# Header : titre + fil d'ariane #}
@@ -10,7 +15,7 @@
     <section class="row page_cover">
         <div class="container">
             <div class="row m0">
-                <h1>Tutoriel</h1>
+                <h1>Tutoriel Entre Dièses et Bémols</h1>
                 <ol class="breadcrumb">
                     <li><a href="{{ path('home') }}">Accueil</a></li>
                     <li class="active">Tutoriel</li>
@@ -33,7 +38,8 @@
 
             <p>Les but est d'ajouter, d'<b class="bleu text-uppercase">empiler</b> des sons un par un.</p>
 
-            <p>Un membre connecté poste sa création musicale sur le site et les autres vont ajouter des sons en plus, un
+            <p>Un membre connecté poste sa création musicale sur le site et lui-même ou d'autres membres vont ajouter
+                des sons en plus, un
                 par un. Il est possible de laisser des commentaires et de voir les pistes de musiques postées par un
                 membre.</p>
             <br>
@@ -50,7 +56,7 @@
                 expliquer d'où elle lui est venue, dans quel contexte il l'a composée...</p>
 
             <p>Ensuite, d'autres membres (ou même la personne ayant diffusée la compo de départ) pourront télécharger
-                cette compo, puis téléversée son <b class="bleu text-uppercase">track+1</b> sur le site mais <b
+                cette compo, puis téléverser leur <b class="bleu text-uppercase">track+1</b> sur le site mais <b
                         class="bleu">avec un (seul) son en plus</b>
                 créé par eux-même.</p>
             <br>
@@ -74,11 +80,12 @@
             <h2 class="text-center">Comment faire ?</h2>
             <br>
             <p>En arrivant sur le site, vous pouvez <b class="bleu">ajouter / téléverser / uploader</b> votre <b
-                        class="bleu text-uppercase">la compo originale</b>.</p>
+                        class="bleu text-uppercase">compo originale</b>.</p>
             <br>
-            <p>De plus, en dessous, sont affichées les pistes de musique (<b class="bleu">compo original et tracks+1,
+            <p>De plus, en dessous, sont affichées les pistes de musique (qu'on appelle les <b
+                        class="bleu text-uppercase">tracks</b> (<b class="bleu">compo originale et tracks+1,
                     +2...</b>) qui ont
-                été téléversées / uploadées par les membres sur le site Entre Dièses et Bémols, classées par ordre
+                été téléversés / uploadés par les membres sur le site Entre Dièses et Bémols, classées par ordre
                 antéchronologique.</p>
             <br>
 
@@ -96,10 +103,14 @@
                 sur son pseudo ou sur l'icone
                 <img src="{{ asset('images/membre.png') }}" alt="Icone membre" class="icon_membre" .></p>
 
+            <p>- Si ce track est un track+(1, 2...) (donc a été créé à partir d'un autre track), vous pouvez cliquez sur
+                le
+                bouton <b class="bleu">Voir le track-1</b><br>
+            </p>
 
             <h2 class="text-center">Ajouter son track+1</h2>
             <br>
-            <p>Après avoir télécharger une <b class="bleu text-uppercase">compo de base</b>, vous pouvez utiliser un
+            <p>Après avoir télécharger une <b class="bleu text-uppercase">compo originale</b>, vous pouvez utiliser un
                 logiciel qui va
                 jouer cette piste de musique et en même temps enregistrer votre <b class="bleu">son en plus</b>, ce qui
                 donnera le <b class="bleu text-uppercase">track+1</b>.
@@ -109,10 +120,23 @@
                         href="https://www.ableton.com/">Ableton live</a>, qui comporte une version d'essai.</p>
 
             <p>Les formats qui peuvent être lus sont .mp3, .mpeg4, .mpga et .ogg.</p>
-            <p><b class="bleu">Attention !</b> La taille maximale du fichier audio doit être de 2048 KiB soit à peine plus de 2Mo.</p>
-            <p>Par exemple certains fichiers MP3 de 4 minutes peuvent convenir.</p>
+            <p><b class="bleu">Attention !</b> La taille maximale du fichier audio doit être de 2048 KiB soit à peine
+                plus de 2Mo.</p>
+            <p>Par exemple certains fichiers MP3 de 4 minutes ou plus peuvent convenir.</p>
+            <p>Si votre fichier audio est trop grand, vous pouvez le convertir via les logiciels cités ci-dessus ou des
+                sites web comme
+                <a href="https://online-audio-converter.com/fr/" title="Logiciel Online Audio Converteur">Online Audio
+                    Converteur</a> ou
+                <a href="https://www.ezyzip.com/" title="Logiciel Ezyzip">Ezyzip</a>.</p>
             <br>
-            <p><b class="bleu text-uppercase">Lancez-vous !!!</b></p>
+
+            <h2>Licence de téléchargement</h2>
+
+            <p>Après avoir téléchargé ce fichier, vous acceptez que celui-ci soit la propriété du premier créateur. Vous
+                participez librement
+                sur cette création sans aucune attente financière. Seul le premier créateur est libre de publier cette
+                pièce lucrativement.</p>
+            <p><a href="{{ path('home') }}"><b class="bleu text-uppercase">Lancez-vous !!!</b></a></p>
         </div>
     </div>
 {% endblock content %}

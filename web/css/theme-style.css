@@ -42,6 +42,7 @@ body {
 }
 body * {
   font-family: 'Open Sans', sans-serif;
+  /*font-family: 'Lato', cursive;*/
 }
 body .fleft {
   float: left;

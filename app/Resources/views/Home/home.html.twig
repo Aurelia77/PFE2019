@@ -4,6 +4,10 @@
     {{ parent() }} | Accueil
 {% endblock %}
 
+{% block meta %}
+    <meta name="description" content="partage musical" />
+{% endblock %}
+
 {% block content %}
 
     {#-------------------------------------------------------------------------------------------------------------------------------------#}
@@ -25,7 +29,7 @@
                 {#<h2>Partager vos créations !</h2>#}
 
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-6 mb-3">
                         <div class="upload_media_row">
                             <div id="upload_media_2" class="h_273">
                                 <a href="{{ path('tuto') }}">

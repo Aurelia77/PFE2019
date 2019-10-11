@@ -45,83 +45,88 @@
     <div class="row m0 post_data pb-0">
         {#On va chercher dans la table Track le user (qui est un objet) ds lequel on va chercher les autre attributs#}
 
-        {#Si membre du track actif : Lien vers son profil avec son pseudo et sa photo#}
-        {% if track1.user.actif == 1 %}
+        <div class="h_50">
+            {#Si membre du track actif : Lien vers son profil avec son pseudo et sa photo#}
+            {% if track1.user.actif == 1 %}
 
-        {# Lien vers le membre (OU si c'est lui même, va aller sur Mon Compte)#}
-        {% if is_granted('IS_AUTHENTICATED_FULLY') and track1.user.id == app.user.id %}
-        <a href="{{ path('user') }}" title="Voir Mon Compte">
 
-            {% else %}
-            <a href="{{ path('users_profil', {'id' : track1.user.id}) }}" title="Voir le Membre">
+            {# Lien vers le membre (OU si c'est lui même, va aller sur Mon Compte)#}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') and track1.user.id == app.user.id %}
+            <a href="{{ path('user') }}" title="Voir Mon Compte">
 
-                {% endif %}
+                {% else %}
+                <a href="{{ path('users_profil', {'id' : track1.user.id}) }}" title="Voir le Membre">
 
-                <div class="userinfo_track">
-                    {#Pseudo User#}
-                    <div class="fleft">
-                        <img src="{{ asset('images/membre.png') }}" alt="Icone membre" class="icon_membre">
-                        <h4 class="pseudo">
-                            {{ track1.user.pseudo }}
-                        </h4>
+                    {% endif %}
+
+                    <div class="userinfo_track">
+                        {#Pseudo User#}
+                        <div class="fleft">
+                            <img src="{{ asset('images/membre.png') }}" alt="Icone membre" class="icon_membre">
+                            <h4 class="pseudo">
+                                {{ track1.user.pseudo }}
+                            </h4>
+                        </div>
+
+                        {#Photo user#}
+                        {#<p class="fright">#}
+                        {# Photo/image actuelle #}
+                        {#Si pas de photo ou si données supprimer (#): image par défaut#}
+                        {#{% if track1.user.photo == NULL or track1.user.photo == '#' %}#}
+                        {#<img src="{{ asset('images/sexe_unknowed.png') }}"#}
+                        {#alt="Photo/image de profil (sexe non connu)"#}
+                        {#class="cast img-responsive img_profil">#}
+
+                        {#Si gestion du Sexe du membre#}
+                        {#{% elseif track1.user.sexe == 2 %}#}
+                        {#<img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"#}
+                        {#class="cast img-responsive img_profil">#}
+                        {#{% elseif track1.user.sexe == 1 %}#}
+                        {#<img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"#}
+                        {#class="cast img-responsive img_profil">#}
+                        {#Sinon : sa photo/image#}
+                        {#{% else %}#}
+                        {#<img src="{{ asset(img_user_directory) }}/{{ track1.user.photo }}.jpg"#}
+                        {#alt="Photo/image de profil"#}
+                        {#class="cast img-responsive img_profil">#}
+                        {#{% endif %}#}
+                        {#{% endif %}#}
+                        {#</p>#}
+
+
                     </div>
+                </a>
+                {# Si inactif : pas de lien vers son profil, pas de pseudo et photo par défaut#}
 
-                    {#Photo user#}
-                    {#<p class="fright">#}
-                    {# Photo/image actuelle #}
-                    {#Si pas de photo ou si données supprimer (#): image par défaut#}
-                    {#{% if track1.user.photo == NULL or track1.user.photo == '#' %}#}
+                {% else %}
+                    <h4>
+                        Membre inactif
+                    </h4>
+                    {#<p>#}
                     {#<img src="{{ asset('images/sexe_unknowed.png') }}"#}
                     {#alt="Photo/image de profil (sexe non connu)"#}
                     {#class="cast img-responsive img_profil">#}
-
-                    {#Si gestion du Sexe du membre#}
-                    {#{% elseif track1.user.sexe == 2 %}#}
-                    {#<img src="{{ asset('images/femme.png') }}" alt="Photo/image de profil (femme)"#}
-                    {#class="cast img-responsive img_profil">#}
-                    {#{% elseif track1.user.sexe == 1 %}#}
-                    {#<img src="{{ asset('images/homme.png') }}" alt="Photo/image de profil (homme)"#}
-                    {#class="cast img-responsive img_profil">#}
-                    {#Sinon : sa photo/image#}
-                    {#{% else %}#}
-                    {#<img src="{{ asset(img_user_directory) }}/{{ track1.user.photo }}.jpg"#}
-                    {#alt="Photo/image de profil"#}
-                    {#class="cast img-responsive img_profil">#}
-                    {#{% endif %}#}
-                    {#{% endif %}#}
                     {#</p>#}
-
-
-                </div>
-            </a>
-            {# Si inactif : pas de lien vers son profil, pas de pseudo et photo par défaut#}
-
-            {% else %}
-                <h4>
-                    Membre inactif
-                </h4>
-                {#<p>#}
-                {#<img src="{{ asset('images/sexe_unknowed.png') }}"#}
-                {#alt="Photo/image de profil (sexe non connu)"#}
-                {#class="cast img-responsive img_profil">#}
-                {#</p>#}
-            {% endif %}
-
-            <div class="overhidden">
-                <a href="{{ path('download', {'id' : track1.id}) }}" class="fleft"
-                   title="Télécharger le track de musique">
-                    <img src="{{ asset('images/download.png') }}"
-                         class=""
-                         alt="Lien Télécharger track de musique">
-                </a>
-                {% if track1.num > 0 %}
-                    <div class="fright">
-                        <a href="{{ path('seetrack', {'id' : track1.id1.id }) }}"
-                           title="Voir le track de musique sans le dernier son">
-                            <button class="btn btn-primary mb-5 fright">Voir le -1 ♪</button>
-                        </a>
-                    </div>
                 {% endif %}
-            </div>
+
+        </div>
+
+
+        <div class="overhidden">
+            <a href="{{ path('download', {'id' : track1.id}) }}" class="fleft"
+               title="Télécharger le track de musique">
+                <img src="{{ asset('images/download.png') }}"
+                     class=""
+                     alt="Lien Télécharger track de musique">
+            </a>
+            {% if track1.num > 0 %}
+                <div class="fright">
+                    <a href="{{ path('seetrack', {'id' : track1.id1.id }) }}"
+                       title="Voir le track de musique sans le dernier son">
+                        <button class="btn btn-primary fright">Voir le track-1 ♪</button>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
     </div>
 </div>

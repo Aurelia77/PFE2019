@@ -23,6 +23,16 @@ class DocumentationController extends Controller
     }
 
     /**
+     * @Route("/reglement", name="reglement")
+     *
+     * @return Response
+     */
+    public function reglementAction()
+    {
+        return $this->render('/Documentation/reglement.html.twig');
+    }
+
+    /**
      * @Route("/poldeconf", name="poldeconf")
      *
      * @return Response
